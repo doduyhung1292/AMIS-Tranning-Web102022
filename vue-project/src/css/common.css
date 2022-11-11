@@ -1,0 +1,8 @@
+.display-inline {
+    display: flex;
+    flex-direction: row;
+}
+
+.boder-red {
+  border-color: red;
+}
