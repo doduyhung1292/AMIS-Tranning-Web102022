@@ -23,16 +23,16 @@
                     <button class="btn-execution">Thực hiện hàng loạt</button>
                 </div>
                 <div class="display-inline toolbar-right">
-                    <input type="text" class="input-search" placeholder="Tìm theo mã, tên nhân viên">
-                    <div class="icon-search"></div>
+                    <input type="text" class="input-search" placeholder="Tìm theo mã, tên nhân viên"  v-on:focusin="inputSearchFocus"  v-on:focusout="inputSearchFocusOut">
+                    <div class="icon-search" :class="isSearchButtonFocus"></div>
                     <div class="icon-reload"></div>
                     <div class="icon__excel"></div>
                     <div class="icon__set-up"></div> 
                 </div>
             </div>
-            <TableEmployees v-on:showModal="showModalEdit"/>
+            <TableEmployees v-on:showModal="showModalEdit" />
             <div class="container-footer">
-                <div class="main-paging-left">Tổng số: <span>111</span> bản ghi</div>
+                <div class="main-paging-left">Tổng số: <span>{{this.numberRowTable}}</span> bản ghi</div>
                     <div class="main-paging-right">
                         <div class="select-paging">
                             <select>
@@ -57,19 +57,25 @@
                     v-if="isModalVisible == true"
                     v-on:closeUnCheck="closeModalUnCheck"
                     v-on:closeCheck="closeModalCheck"
+                    v-on:showToastSuccess="showToastSuccess"
                     :employeeEdit="this.employeeEdit"
                 />
+        <TheToast v-if="isToastSuccessVisible" />
 </template>
 
 <script>
     import TableEmployees from "../ui/TableEmployees.vue"
+    import TheToast from "../ui/TheToast.vue"
     import DialogEmployees from "../ui/DialogEmployees.vue";
 
     export default {
         name: "TheMain",
-        components: {DialogEmployees, TableEmployees},
+        components: {DialogEmployees, TableEmployees, TheToast},
         methods: {
-            // Close modal when click button close and uncheck data change
+            /**
+             * Close modal when click button close and uncheck data change
+             * Author: doduyhung1292 (13/11/2022)
+             */
             closeModalUnCheck: function() {
                 try {
                     this.isModalVisible = false;
@@ -77,6 +83,11 @@
                     console.log(error)
                 }
             },
+
+            /**
+             * Close modal when click button close and check data change
+             * Author: doduyhung1292 (13/11/2022)
+             */
             closeModalCheck: function() {
                 try {
                     this.isModalVisible = false;
@@ -91,7 +102,11 @@
              * Author: doduyhung1292 (08/11/2022)
              */
 
-             //Show modal edit
+             /**
+              * 
+              * Show modal edit employee
+              * Author: doduyhung1292 (13/11/2022)
+              */
              showModalEdit: function(item) {
                 try {
                     this.isModalVisible = true;
@@ -102,11 +117,51 @@
                 }
             },
 
+            /**
+             * Show toast success
+             * Author: doduyhung1292 (13/11/2022)
+             */
+            showToastSuccess: function() {
+                try {
+                    this.isToastSuccessVisible = !this.isToastSuccessVisible;
+                    setTimeout(() => {this.isToastSuccessVisible = false}, 2000)
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+            /**
+             * Bắt sự kiện ô input search in focus
+             * Author: doduyhung1292 (13/11/2022)
+             */
+            inputSearchFocus: function() {
+                try {
+                    this.isSearchButtonFocus = "borderFocus" 
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+            /**
+             * Bắt sự kiện ô input search out focus
+             * Author: doduyhung1292 (13/11/2022)
+             */
+
+            inputSearchFocusOut: function() {
+                try {
+                    this.isSearchButtonFocus = null
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         },
         data() {
             return {
                 isModalVisible: false,
+                isToastSuccessVisible: false,
                 employeeEdit: {},
+                numberRowTable: 0,
+                isSearchButtonFocus: null
             }
         },
     }
@@ -114,4 +169,7 @@
 
 <style scoped>
     @import url(../../css/layout/TheMain.css);
+    .borderFocus {
+       border-color: #2ca10c;
+    }
 </style>

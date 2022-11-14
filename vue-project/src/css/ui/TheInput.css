@@ -108,6 +108,8 @@ input[type="checkbox"] {
     height: 32px;
     border-right: 0;
     cursor: text;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .input-search.header__icon {

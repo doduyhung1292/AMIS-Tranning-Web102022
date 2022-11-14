@@ -1,5 +1,5 @@
 <template>
-    <div class="notice-success" hidden>
+    <div class="notice-success">
         <div class="icon-success"></div>
         <div class="content">Lưu thành công.</div>
         <div class="icon-close close-notice"></div>

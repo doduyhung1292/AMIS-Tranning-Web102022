@@ -217,6 +217,7 @@
     float: right;
     margin-right: 8px;
     margin: 0 10px;
+    cursor: pointer;
 }
 
 .icon-close {

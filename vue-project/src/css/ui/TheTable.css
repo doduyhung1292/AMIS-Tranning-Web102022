@@ -14,6 +14,8 @@ th {
     font-family: Roboto Bold;
     height: 35px;
     cursor: pointer;
+    text-align: left;
+    padding-left: 10px;
 }
 
 td {
@@ -22,9 +24,10 @@ td {
     height: 44px;
     border-left: 1px dotted #c7c7c7;
     border-right: 1px dotted #c7c7c7;
-    padding: 0 10px;
     border-top: 1px solid #c7c7c7;
     cursor: pointer;
+    text-align: left;
+    padding-left: 10px;
 }
 
 tr:hover {
@@ -59,16 +62,15 @@ tr:hover>td:last-child {
 
 /*define width column*/
 .th__employee-id {
-    min-width: 258px;
-    min-width: 258px;
-    padding-left: 62px;
+    min-width: 125px;
 }
 
 .th__checkbox {
     width: 40px;
     min-width: 40px;
-    padding: 0;
     height: 37px;
+    text-align: center;
+    padding: 0;
     background-color: #e5e8ec;
 }
 
@@ -85,16 +87,32 @@ tr:hover>td:last-child {
 .th__date-of-birth {
     width: 118px;
     min-width: 118px;
+    text-align: center;
 }
 
 .th__entity-number {
     width: 110px;
     min-width: 110px;
+    text-align: right;
+    padding-right: 10px;
 }
 
+.td__identity-number {
+    text-align: right;
+    padding-right: 10px;
+}
 .th__issue-date {
     width: 150px;
     min-width: 150px;
+    text-align: center;
+}
+
+.td__identity-date {
+    text-align: center;
+}
+
+.td__date-of-birth {
+    text-align: center;
 }
 
 .th__title-job {
@@ -119,6 +137,12 @@ tr:hover>td:last-child {
 .th__bank-account {
     width: 140px;
     min-width: 140px;
+    text-align: right;
+    padding-right: 10px;
+}
+.td__bank-account-number {
+    text-align: right;
+    padding-right: 10px;
 }
 
 .th__bank-name {
@@ -134,19 +158,18 @@ tr:hover>td:last-child {
 .th__is-customer {
     width: 150px;
     min-width: 150px;
+    text-align: center;
 }
 
 .th__is-supplier {
-    max-width: 246px;
-    min-width: 246px;
-    padding-left: 24px;
-    text-align: left;
+    max-width: 150px;
+    min-width: 150px;
+    text-align: center;
 }
 
 .th__function {
     width: 120px;
     min-width: 120px;
-    padding: 0;
     background-color: #e5e8ec;
 }
 
@@ -160,6 +183,7 @@ tr:hover>td:last-child {
 
 .td__checkbox {
     width: 40px;
+    text-align: center;
     min-width: 40px;
     padding: 0;
 }
@@ -167,18 +191,16 @@ tr:hover>td:last-child {
 
 .td__checkbox>input {
     margin-top: 13px;
-    margin-left: 11px;
+    margin-left: 4px;
 }
 
 .td__employee-id {
-    min-width: 258px;
-    min-width: 258px;
-    padding-left: 72px;
+    min-width: 125px;
 }
 
 .td__is-supplier {
     padding-left: 24px;
-    text-align: left;
-    max-width: 246px;
-    min-width: 246px;
+    text-align: center;
+    max-width: 150px;
+    min-width: 150px;
 }

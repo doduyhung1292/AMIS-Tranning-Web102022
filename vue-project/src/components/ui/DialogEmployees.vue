@@ -14,8 +14,8 @@
                     </div>
                 </div>
                 <div class="model-content-header-right">
-                    <div class="icon-help"></div>
-                    <div class="icon-close btn__close" v-on:click="$emit('closeCheck')"></div>
+                    <div class="icon-help" title="Trợ giúp"></div>
+                    <div class="icon-close btn__close" v-on:click="$emit('closeCheck')" title="Đóng"></div>
                 </div>
             </div>
             <div class="model-content-main">
@@ -23,7 +23,7 @@
                     <div class="display-inline">
                         <div>
                             <label for="id-employee">Mã <span style="color: red">*</span></label><br />
-                            <input type="text" id="id-employee" v-on:blur="employeeCodeInput" :class="employeeCodeBorder" v-model="this.emp.EmployeeCode"  required>
+                            <input type="text" id="id-employee" v-on:blur="employeeCodeInput" :class="employeeCodeBorder" v-model="this.emp.EmployeeCode" ref="employeeCode"  required>
                         </div>
                         <div>
                             <label for="full-name">Tên </label><span style="color: red">*</span><br />
@@ -54,15 +54,15 @@
                             <label for="male" class="label__sex">Giới tính</label><br />
                                 <div class="display-inline">
                                     <div class="radio-sex">
-                                        <input type="radio" id="male" name="sex" v-model="this.emp.GenderName" value="1">
+                                        <input type="radio" id="male" name="sex" v-model="this.emp.GenderName" value="Nam">
                                         <label for="male">Nam</label>
                                     </div>
                                     <div class="radio-sex">
-                                        <input type="radio" id="female" name="sex" v-model="this.emp.GenderName" value="0">
+                                        <input type="radio" id="female" name="sex" v-model="this.emp.GenderName" value="Nữ">
                                         <label for="female">Nữ</label>
                                     </div>
                                     <div class="radio-sex">
-                                        <input type="radio" id="other" name="sex" v-model="this.emp.GenderName" value="2">
+                                        <input type="radio" id="other" name="sex" v-model="this.emp.GenderName" value="Khác">
                                         <label for="other">Khác</label>
                                     </div>
                                 </div>
@@ -123,36 +123,42 @@
                 </div>
                 <div class="footer-right display-inline">
                     <button class="btn-store">Cất</button>
-                    <button class="btn-save" v-on:click="saveEmployee">Cất và Thêm</button>
+                    <button class="btn-save" v-on:click="saveEmployee">Cất và {{this.typeModal}}</button>
                 </div>
             </div>
         </div>
     </div>
+    <DialogNotice :errMsg = "this.errMsg" 
+                  v-if="this.showDialogNotice"
+                  v-on:closeDialogNotice="closeDialogNotice"/>
 </template>
 
 <script>
     import axios from 'axios'
+    import DialogNotice from './DialogNotice.vue'
 
     export default {
         name: "DialogEmployees",
+        components: {DialogNotice},
         props: ["employeeEdit"],
         data () {
             return {
                 emp: {},
                 typeModal: null,
                 errMsg: [],
-                serverResponse: [],
+                serverResponse: {},
                 requiredInput: [],
                 employeeCodeBorder: null,
                 fullnameBorder: null,
                 departmentBorder: null,
+                showDialogNotice: false,
             }
         },
         created() {
             this.emp = this.employeeEdit;
             if(this.emp.DateOfBirth) {this.emp.DateOfBirth = this.formatDate(this.emp.DateOfBirth)};
             if(this.emp.IdentityDate) {this.emp.IdentityDate = this.formatDate(this.emp.IdentityDate)}
-            this.emp.EmployeeId? this.typeModal = "PUT": this.typeModal = "POST";
+            this.emp.EmployeeId? this.typeModal = "Sửa": this.typeModal = "Thêm";
         },
         methods: {
             /**
@@ -174,7 +180,7 @@
              },
 
             /**
-             * Refine date
+             * Formate date
              * Author: doduyhung1292 (10/11/2022)
              */
             formatDate: function(date) {
@@ -213,6 +219,7 @@
 
             validateEmail: function(e) {
                 try {
+                    if(!e) {return}
                     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e)) {
                     return
                     } else {
@@ -228,10 +235,13 @@
              */
             saveEmployee: function() {
                 try {
-                    console.log(this.emp);
                     this.errMsg = [];
                     this.validateInputs();
-                    this.callApiEmployee();
+                    if (this.errMsg.length > 0) {
+                        this.showDialogNotice = true;
+                    } else {
+                        this.additionalDepartmentId();
+                        this.callApiEmployee();};
                 } catch (error) {
                     console.log(error);
                 }
@@ -245,9 +255,10 @@
                 try {
                     if (!this.emp.EmployeeCode) {this.errMsg.push("Mã nhân viên không được bỏ trống")};
                     if (!this.emp.EmployeeName) {this.errMsg.push("Tên nhân viên không được bỏ trống")};
-                    if (!this.emp.Department) {this.errMsg.push("Đơn vị không được bỏ trống")};
+                    if (!this.emp.DepartmentName) {this.errMsg.push("Đơn vị không được bỏ trống")};
                     this.validateEmail(this.emp.Email);
                     console.log(this.errMsg);
+                    return
                 } catch (error) {
                     console.log(error);
                 }
@@ -261,15 +272,15 @@
              callApiEmployee: function() {
                 try {
                 // save new employee infomation
-                    if (this.typeModal == 'POST') {
+                    if (this.typeModal == 'Thêm') {
                         axios.post("https://amis.manhnv.net/api/v1/Employees", this.emp)
-                            .then(res => {this.serverResponse.push(res)})
+                            .then(res => {this.serverResponse = res; this.checkResponse();})
                             .catch(err => console.log(err))
                         };
                 // Change employee infomation    
-                    if (this.typeModal == 'PUT') {
-                        axios.put("https://amis.manhnv.net/api/v1/Employees", this.emp)
-                            .then(res => {this.serverResponse.push(res)})
+                    if (this.typeModal == 'Sửa') {
+                        axios.put(`https://amis.manhnv.net/api/v1/Employees/${this.emp.EmployeeId}`, this.emp)
+                            .then(res => {this.serverResponse = res; this.checkResponse();})
                             .catch(err => console.log(err))
                         }
         
@@ -277,7 +288,69 @@
                     console.log(error);
                 }
             },
-    }
+
+            /**
+             * Check response
+             * Author: doduyhung1292 (13/11/2022)
+             */
+             checkResponse: function () {
+                switch (this.serverResponse.status) {
+                        case 200:
+                            this.$emit('closeUnCheck');
+                            this.$emit('showToastSuccess');
+                            break;
+                        case 201:
+                            this.$emit('closeUnCheck');
+                            this.$emit('showToastSuccess');
+                        default:
+                            break;
+                    }
+            },
+
+            /**
+             * Hide dialog notice
+             * Author: doduyhung1292 (13/11/2022)
+             */
+
+             closeDialogNotice: function() {
+                try {
+                    this.showDialogNotice = false;
+                } catch (error) {
+                    console.log(error);
+                }
+             },
+
+             /**
+              * Add department id into data 
+              * Author: doduyhung1292 (13/11/2022)
+              */
+              additionalDepartmentId: function() {
+                try {
+                   
+                    switch (this.emp.DepartmentName) {
+                        case "Phòng tuyển sinh":
+                            this.emp.DepartmentId = "17120d02-6ab5-3e43-18cb-66948daf6128";
+                            break;
+                        case "Phòng nhân sự":
+                            this.emp.DepartmentId = "142cb08f-7c31-21fa-8e90-67245e8b283e";
+                            break;
+                        case "Phòng sản xuất":
+                            this.emp.DepartmentId = "469b3ece-744a-45d5-957d-e8c757976496";
+                            break;
+                        case "Phòng đào tạo":
+                            this.emp.DepartmentId = "4e272fc4-7875-78d6-7d32-6a1673ffca7c";
+                            break;
+                        default:
+                            break;
+                    };
+                } catch (error) {
+                    console.log(error);
+                }
+              }
+    },
+    mounted() {
+        this.$refs.employeeCode.focus();
+    },
 }
 </script>
 

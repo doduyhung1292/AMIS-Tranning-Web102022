@@ -56,9 +56,9 @@
 }
 
 .container-footer {
-    width: calc(100% - 246px);
+    width: calc(100% - 227px);
     position: fixed;
-    bottom: 10px;
+    bottom: 16px;
     display: flex;
     flex-direction: row;
     align-items: flex-end;

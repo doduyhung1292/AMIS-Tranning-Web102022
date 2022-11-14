@@ -4,10 +4,11 @@
             <div class="content-main">
                 <div class="icon-warning"></div>
                 <div class="content-warning">
+                    <div  v-for="err in this.errMsg">{{err}}</div>
                 </div>
             </div>
             <div class="content-footer">
-                <button class="close-dialog">Đóng</button>
+                <button class="close-dialog" v-on:click="$emit('closeDialogNotice')">Đóng</button>
             </div>
         </div>
     </div>
@@ -15,7 +16,8 @@
 
 <script>
     export default {
-        name: "DialogNotice"
+        name: "DialogNotice",
+        props: ["errMsg"],
     }
 </script>
 

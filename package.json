@@ -1,0 +1,19 @@
+{
+  "name": "amis-tranning-web102022",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doduyhung1292/AMIS-Tranning-Web102022.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/doduyhung1292/AMIS-Tranning-Web102022/issues"
+  },
+  "homepage": "https://github.com/doduyhung1292/AMIS-Tranning-Web102022#readme"
+}
