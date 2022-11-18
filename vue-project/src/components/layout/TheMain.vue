@@ -25,12 +25,12 @@
                 <div class="display-inline toolbar-right">
                     <input type="text" class="input-search" placeholder="Tìm theo mã, tên nhân viên"  v-on:focusin="inputSearchFocus"  v-on:focusout="inputSearchFocusOut">
                     <div class="icon-search" :class="isSearchButtonFocus"></div>
-                    <div class="icon-reload"></div>
-                    <div class="icon__excel"></div>
-                    <div class="icon__set-up"></div> 
+                    <div class="icon-reload" title="Tải lại"></div>
+                    <div class="icon__excel" title="Export excel"></div>
+                    <div class="icon__set-up" title="Cài đặt"></div> 
                 </div>
             </div>
-            <TableEmployees v-on:showModal="showModalEdit" />
+            <TableEmployees v-on:showModal="showModalEdit" v-on:showToastDeleteSuccess="showToastDeleteSuccess"/>
             <div class="container-footer">
                 <div class="main-paging-left">Tổng số: <span>{{this.numberRowTable}}</span> bản ghi</div>
                     <div class="main-paging-right">
@@ -57,20 +57,21 @@
                     v-if="isModalVisible == true"
                     v-on:closeUnCheck="closeModalUnCheck"
                     v-on:closeCheck="closeModalCheck"
-                    v-on:showToastSuccess="showToastSuccess"
+                    v-on:showToastSuccess="showToastSaveSuccess"
                     :employeeEdit="this.employeeEdit"
                 />
-        <TheToast v-if="isToastSuccessVisible" />
+        <ToastNotice v-if="isToastSuccessVisible" 
+                    :contentToastSuccess="this.contentToastSuccess"/>
 </template>
 
 <script>
     import TableEmployees from "../ui/TableEmployees.vue"
-    import TheToast from "../ui/TheToast.vue"
-    import DialogEmployees from "../ui/DialogEmployees.vue";
+    import ToastNotice from "../ui/ToastNotice.vue"
+    import DialogEmployees from "../ui/DialogEmployees.vue"
 
     export default {
         name: "TheMain",
-        components: {DialogEmployees, TableEmployees, TheToast},
+        components: {DialogEmployees, TableEmployees, ToastNotice},
         methods: {
             /**
              * Close modal when click button close and uncheck data change
@@ -96,12 +97,6 @@
                 }
             },
 
-            /**
-             * 
-             * Show form edit infomation employee when double click
-             * Author: doduyhung1292 (08/11/2022)
-             */
-
              /**
               * 
               * Show modal edit employee
@@ -111,7 +106,6 @@
                 try {
                     this.isModalVisible = true;
                     this.employeeEdit = item
-                    console.log(this.employeeEdit);
                 } catch (error) {
                     console.log(error);
                 }
@@ -121,8 +115,9 @@
              * Show toast success
              * Author: doduyhung1292 (13/11/2022)
              */
-            showToastSuccess: function() {
+            showToastSaveSuccess: function() {
                 try {
+                    this.contentToastSuccess = "Lưu thành công.";
                     this.isToastSuccessVisible = !this.isToastSuccessVisible;
                     setTimeout(() => {this.isToastSuccessVisible = false}, 2000)
                 } catch (error) {
@@ -153,6 +148,16 @@
                 } catch (error) {
                     console.log(error)
                 }
+            },
+
+            /**
+             * Show toast success delete 
+             * Author: doduyhung1292 (15/11/2022)
+             */
+            showToastDeleteSuccess: function() {
+                this.contentToastSuccess = "Xóa thành công.";
+                this.isToastSuccessVisible = !this.isToastSuccessVisible;
+                setTimeout(() => {this.isToastSuccessVisible = false}, 2000)
             }
         },
         data() {
@@ -161,7 +166,8 @@
                 isToastSuccessVisible: false,
                 employeeEdit: {},
                 numberRowTable: 0,
-                isSearchButtonFocus: null
+                isSearchButtonFocus: null,
+                contentToastSuccess: null
             }
         },
     }

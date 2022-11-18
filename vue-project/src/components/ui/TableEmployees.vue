@@ -50,30 +50,32 @@
                             </td>
                             <td class="td__function" :class="{selected: rowSelected == index}">
                                 <div class="td__function-content">
-                                    Sửa
-                                    <div class="dropdown">
-                                        <select class="select-function">
+                                    <div  v-on:click="showModal(employee)">Sửa</div>
+                                    <div class="dropdown" v-on:change="this.executeFuntion" v-on:click="this.functionToEmployee(employee)"> 
+                                        <select class="select-function" v-model="this.funtionOnTable">
                                             <option hidden></option>
-                                            <option><button>Nhân bản</button></option>
-                                            <option><button>Xóa</button></option>
-                                            <option><button>Sử dụng</button></option>
+                                            <option>Nhân bản</option>
+                                            <option>Xóa</option>
+                                            <option>Sử dụng</option>
                                         </select>
                                     </div>
-                                </div>
+                                    </div>
                             </td>
                     </tr>
                 </table>
             </div>
     <LoadingSpinner v-if="isLoading"/>
+    <DialogConfirm v-if="isShowDialogConfirmDelete" v-on:callApiDelete = "this.callApiDelete" v-on:closeDialogConfirm="this.hideDialogConfirm"/>
 </template>
 
 <script>
     import axios from "axios"
     import LoadingSpinner from "./LoadingSpinner.vue"
+    import DialogConfirm from "./DialogConfirm.vue"
     
     export default {
         name: "TableEmployees",
-        components: {LoadingSpinner},
+        components: {LoadingSpinner, DialogConfirm},
         created() {
           /**
              * API Get employees
@@ -90,17 +92,25 @@
              * Author: doduyhung1292 (08/11/2022)
              */
              selectEmployee: function(index) {
-                this.rowSelected = index
+                try {
+                    this.rowSelected = index
+                } catch (error) {
+                    console.log(error)
+                }
             },
+
             /**
              * 
              * Show form edit infomation employee when double click
              * Author: doduyhung1292 (08/11/2022)
              */
 
-             //Show modal
              showModal: function(item) {
-                this.$emit('showModal', item);
+                try {
+                    this.$emit('showModal', item);
+                } catch (error) {
+                    console.log(error)
+                }
             },
 
              /**
@@ -119,18 +129,107 @@
 
                     var year = dateBirth.getFullYear();
 
-                    return `${day}-${month}-${year}`;
+                    return `${day}/${month}/${year}`;
                 } catch (error) {
                     console.log(error)
                 } 
             },
+
+             /**
+              * get employee in function
+              * Author: doduyhung1292 (14/11/2022)
+              */
+            functionToEmployee: function(employee) {
+                try {
+                    this.employeeOnFunction = employee
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+            /**
+             * Select funtion on table
+             * Author: doduyhung1292 (14/11/2022)
+             */
+            executeFuntion: function() {
+                try {
+                    switch (this.funtionOnTable) {
+                    case "Xóa":
+                        this.showDialogConfirmDelete();
+                        break;
+                    case "Nhân bản":
+                        console.log("Nhân bản")
+                    default:
+                        break;
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+            /**
+             * Show dialog confirm delete
+             * Author: doduyhung1292 (14/11/2022)
+             */
+             showDialogConfirmDelete: function() {
+                    try {
+                        this.isShowDialogConfirmDelete = true;
+                        this.funtionOnTable = null;
+                    } catch (error) {
+                        console.log(error)
+                    }
+            },
+            /**
+             * Hide dialog confirm
+             * Author: doduyhung1292 (14/11/2022)
+             */
+             hideDialogConfirm: function() {
+                this.isShowDialogConfirmDelete = false
+             },
+
+            /**
+             * Call api delete employee
+             * Author: doduyhung1292 (14/11/2022)
+             */
+
+             callApiDelete: function() {
+                try {
+                    axios.delete(`https://amis.manhnv.net/api/v1/Employees/${this.employeeOnFunction.EmployeeId}`)
+                    .then(res => {this.responseApiDelete(res);})
+                    .catch(err => {console.log(err)})
+                } catch (error) {
+                    console.log(error)
+                }
+             },
+
+             /**
+              * Check response from server when delete
+              * Author: doduyhung1292(15/11/2022)
+              */
+              responseApiDelete: function(res) {
+                try {
+                    switch (res.status) {
+                    case 200:
+                        this.$emit('showToastDeleteSuccess');
+                        this.isShowDialogConfirmDelete = false;
+                        break;
+                    default:
+                        break;
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+              }
       },
         data() {
             return{
                 employees: [],
                 employeeParent: null,
                 rowSelected: -1,
-                isLoading: true
+                isLoading: true,
+                isShowDialogConfirmDelete: false,
+                funtionOnTable: null,
+                employeeOnFunction: null
             }
         }
     }
@@ -163,5 +262,18 @@
     .td__function-content {
         display: flex;
         flex-direction: row;
+    }
+    .dropdown {
+        position: relative;
+    }
+    .content-dropdown {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        
+    }
+    .content-dropdown>button {
+        background-color: #fff;
+        z-index: 40;
     }
 </style>

@@ -2,7 +2,7 @@
     <div class="header">
         <div class="header-left">
             <div class="header-left__iconmenu" tittle="Menu"></div>
-            <div class="header-left__brandname" tittle="CÔNG TY SẢN XUẤT-THƯƠNG MẠI-DỊCH VỤ QUI PHÚC">CÔNG TY SẢN XUẤT-THƯƠNG MẠI-DỊCH VỤ QUI PHÚC</div>
+            <div class="header-left__brandname" tittle="CÔNG TY SẢN XUẤT-THƯƠNG MẠI-DỊCH VỤ QUI PHÚC" title="CÔNG TY SẢN XUẤT-THƯƠNG MẠI-DỊCH VỤ QUI PHÚC">CÔNG TY SẢN XUẤT-THƯƠNG MẠI-DỊCH VỤ QUI PHÚC</div>
             <div class="header-left__icondropdown"></div>
         </div>
         <div class="header-right">

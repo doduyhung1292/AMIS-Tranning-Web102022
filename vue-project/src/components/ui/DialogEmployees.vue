@@ -15,23 +15,23 @@
                 </div>
                 <div class="model-content-header-right">
                     <div class="icon-help" title="Trợ giúp"></div>
-                    <div class="icon-close btn__close" v-on:click="$emit('closeCheck')" title="Đóng"></div>
+                    <div class="icon-close btn__close" v-on:click="closeDialogEmployee" title="Đóng"></div>
                 </div>
             </div>
             <div class="model-content-main">
                 <div class="job-infomation">
                     <div class="display-inline">
                         <div>
-                            <label for="id-employee">Mã <span style="color: red">*</span></label><br />
+                            <label for="id-employee" title="Mã nhân viên">Mã <span style="color: red">*</span></label><br />
                             <input type="text" id="id-employee" v-on:blur="employeeCodeInput" :class="employeeCodeBorder" v-model="this.emp.EmployeeCode" ref="employeeCode"  required>
                         </div>
                         <div>
-                            <label for="full-name">Tên </label><span style="color: red">*</span><br />
+                            <label for="full-name" title="Tên nhân viên">Tên </label><span style="color: red">*</span><br />
                             <input type="text" id="full-name" v-on:blur="fullnameInput" :class="fullnameBorder" v-model="this.emp.EmployeeName"  required>
                         </div>
                     </div>
                     <div>
-                        <label for="unit">Đơn vị </label><span style="color: red">*</span><br />
+                        <label for="unit" title="Đơn vị">Đơn vị </label><span style="color: red">*</span><br />
                         <select name="unit" id="unit" v-on:blur="departmentInput" :class="departmentBorder" v-model="this.emp.DepartmentName" required>
                             <option>Phòng nhân sự</option>
                             <option>Phòng tuyển sinh</option>
@@ -40,18 +40,18 @@
                         </select>
                     </div>
                     <div>
-                        <label for="job-title">Chức danh</label><br />
+                        <label for="job-title" title="Chức danh">Chức danh</label><br />
                         <input type="text" id="job-title" v-model="this.emp.EmployeePosition">
                     </div>
                 </div>
                 <div class="personal-infomation">
                     <div class="display-inline">
                         <div>
-                            <label for="date-of-birth">Ngày sinh</label><br />
+                            <label for="date-of-birth" title="Ngày sinh">Ngày sinh</label><br />
                             <input type="date" id="date-of-birth" placeholder="DD/MM/YYYY" v-model="this.emp.DateOfBirth">
                         </div>
                         <div>
-                            <label for="male" class="label__sex">Giới tính</label><br />
+                            <label for="male" class="label__sex" title="Giới tính">Giới tính</label><br />
                                 <div class="display-inline">
                                     <div class="radio-sex">
                                         <input type="radio" id="male" name="sex" v-model="this.emp.GenderName" value="Nam">
@@ -75,17 +75,17 @@
                             <input @keypress="validateNumber" type="text" id="identity-number" v-model="this.emp.IdentityNumber">
                         </div>
                         <div>
-                            <label for="issue-date">Ngày cấp</label><br />
+                            <label for="issue-date" title="Ngày cấp">Ngày cấp</label><br />
                             <input type="date" id="issue-date" v-model="this.emp.IdentityDate" placeholder="DD/MM/YYYY">
                         </div>
                     </div>
                     <div>
-                        <label for="issued-by">Nơi cấp</label><br />
+                        <label for="issued-by" title="Nơi cấp">Nơi cấp</label><br />
                         <input type="text" id="issued-by" v-model="this.emp.IdentityPlace">
                     </div>
                 </div>
                 <div class="address">
-                    <label for="address">Địa chỉ</label><br />
+                    <label for="address" title="Địa chỉ">Địa chỉ</label><br />
                     <input type="text" id="address" v-model="this.emp.Address">
                 </div>
                 <div class="contact display-inline">
@@ -98,31 +98,31 @@
                         <input @keypress="validateNumber" type="text" id="landline-phone-number" v-model="this.emp.TelephoneNumber">
                     </div>
                     <div>
-                        <label for="email">Email</label><br />
+                        <label for="email" title="Email">Email</label><br />
                         <input type="email" id="email" v-model="this.emp.Email">
                     </div>
                 </div>
                 <div class="bank-infomation display-inline">
                     <div>
-                        <label for="bank-account">Tài khoản ngân hàng</label><br />
+                        <label for="bank-account" title="Tài khoản ngân hàng">Tài khoản ngân hàng</label><br />
                         <input @keypress="validateNumber" type="text" id="bank-account" v-model="this.emp.BankAccountNumber">
                     </div>
                     <div>
-                        <label for="bank-name">Tên ngân hàng</label><br />
+                        <label for="bank-name" title="Tên ngân hàng">Tên ngân hàng</label><br />
                         <input type="text" id="bank-name" v-model="this.emp.BankName">
                     </div>
                     <div>
-                        <label for="branch">Chi nhánh</label><br />
+                        <label for="branch" title="Chi nhánh">Chi nhánh</label><br />
                         <input type="text" id="branch" v-model="this.emp.BankBranchName">
                     </div>
                 </div>
             </div>
             <div class="model-content-footer">
                 <div class="footer-left">
-                    <button class="btn-cancel"  v-on:click="$emit('closeUnCheck')">Hủy</button>
+                    <button class="btn-cancel"  v-on:click="$emit('closeUnCheck')" title="Hủy">Hủy</button>
                 </div>
                 <div class="footer-right display-inline">
-                    <button class="btn-store">Cất</button>
+                    <button class="btn-store" title="Cất">Cất</button>
                     <button class="btn-save" v-on:click="saveEmployee">Cất và {{this.typeModal}}</button>
                 </div>
             </div>
@@ -158,9 +158,26 @@
             this.emp = this.employeeEdit;
             if(this.emp.DateOfBirth) {this.emp.DateOfBirth = this.formatDate(this.emp.DateOfBirth)};
             if(this.emp.IdentityDate) {this.emp.IdentityDate = this.formatDate(this.emp.IdentityDate)}
-            this.emp.EmployeeId? this.typeModal = "Sửa": this.typeModal = "Thêm";
+            if(this.emp.EmployeeId) {this.typeModal = "Sửa"} else {this.typeModal = "Thêm"; this.getNewEmployeeCode()}
         },
         methods: {
+            /**
+             * emit close dialog employee
+             * Author: doduyhung1292 (15/11/2022)
+             */
+            closeDialogEmployee: function() {
+                this.$emit('closeCheck');
+            },
+            /**
+             * Get new employee code
+             * Author: doduyhung1292 (15/11/2022)
+             */
+            getNewEmployeeCode: function() {
+             axios.get("https://amis.manhnv.net/api/v1/Employees/NewEmployeeCode")
+                .then(res => {this.emp.EmployeeCode = res.data})
+                .catch(err => console.log(err))
+            },
+            
             /**
              * 
              * Change color border to red if no data in required input
@@ -275,13 +292,19 @@
                     if (this.typeModal == 'Thêm') {
                         axios.post("https://amis.manhnv.net/api/v1/Employees", this.emp)
                             .then(res => {this.serverResponse = res; this.checkResponse();})
-                            .catch(err => console.log(err))
+                            .catch(err => {
+                                this.serverResponse = err.response; 
+                                this.checkResponse();
+                                console.log(err)})
                         };
                 // Change employee infomation    
                     if (this.typeModal == 'Sửa') {
                         axios.put(`https://amis.manhnv.net/api/v1/Employees/${this.emp.EmployeeId}`, this.emp)
                             .then(res => {this.serverResponse = res; this.checkResponse();})
-                            .catch(err => console.log(err))
+                            .catch(err => {
+                                this.serverResponse = err.response; 
+                                this.checkResponse(); 
+                                console.log(err)})
                         }
         
                 } catch (error) {
@@ -302,6 +325,15 @@
                         case 201:
                             this.$emit('closeUnCheck');
                             this.$emit('showToastSuccess');
+                        case 400:
+                            this.errMsg.push(this.serverResponse.data.userMsg);
+                            this.showDialogNotice = true;
+                        case 500:
+                            this.errMsg.push(this.serverResponse.data.userMsg);
+                            this.showDialogNotice = true;
+
+                            // Return old employee code if can't change to new employee code
+                            //if(this.serverResponse.data.data.SqlState == "23000") {this.emp.EmployeeCode = this.employeeEdit.EmployeeCode; console.log(this.employeeEdit)}
                         default:
                             break;
                     }
