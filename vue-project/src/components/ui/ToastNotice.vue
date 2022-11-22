@@ -14,6 +14,6 @@
 </script>
 
 <style>
-    @import url(../../css/ui/TheToast.css);
+    @import url(../../css/ui/MISAToast.css);
 </style>
 

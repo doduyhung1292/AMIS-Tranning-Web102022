@@ -200,12 +200,25 @@
 .icon-reload {
     background-image: url(../../assets/img/Sprites.64af8f61.svg);
     background-repeat: no-repeat;
+    background-position: -425px -201px;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    margin: 7px 5px 0 20px;
+    cursor: pointer;
+}
+
+.icon-reload:hover {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
     background-position: -1098px -90px;
     width: 24px;
     height: 24px;
     justify-content: center;
     align-items: center;
     margin: 7px 5px 0 20px;
+    cursor: pointer;
 }
 
 .icon-help {
@@ -232,6 +245,16 @@
 .icon__excel {
     background-image: url(../../assets/img/Sprites.64af8f61.svg);
     background-repeat: no-repeat;
+    background-position: -705px -202px;
+    width: 24px;
+    height: 24px;
+    margin: 7px 5px 0 5px;
+    cursor: pointer;
+}
+
+.icon__excel:hover {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
     background-position: -705px -258px;
     width: 24px;
     height: 24px;
@@ -241,7 +264,17 @@
 .icon__set-up {
     background-image: url(../../assets/img/Sprites.64af8f61.svg);
     background-repeat: no-repeat;
-    background-position: -676px -30px;
+    background-position: -90px -201px;
+    width: 24px;
+    height: 24px;
+    margin: 5px 10px 0 10px;
+    cursor: pointer;
+}
+
+.icon__set-up:hover {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -90px -257px;
     width: 24px;
     height: 24px;
     margin: 5px 10px 0 10px;
@@ -338,4 +371,20 @@
     width: 10px;
     height: 26px;
     margin-left: 15px;
+}
+
+.icon__warning-delete {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -598px -463px;
+    width: 37px;
+    height: 37px;
+}
+
+.icon__warning-store {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -832px -462px;
+    width: 37px;
+    height: 37px;
 }

@@ -24,6 +24,7 @@
     export default {
         name: "TheHeader",
         methods: {
+//Region UI
             /**
              * Bắt sự kiện ô input search in focus
              * Author: doduyhung1292 (13/11/2022)
@@ -48,6 +49,7 @@
                     console.log(error)
                 }
             }
+//End region UI
         },
         data() {
             return{

@@ -5,11 +5,11 @@
                 <div class="model-content-header-left">
                     <div class="title">Thông tin nhân viên</div>
                     <div class="model-content-header__checkbox">
-                        <input type="checkbox">
+                        <input type="checkbox"  ref="isCustomer">
                         <div>Là khách hàng</div>
                     </div>
                     <div class="model-content-header__checkbox">
-                        <input type="checkbox">
+                        <input type="checkbox" >
                         <div>Là nhà cung cấp</div>
                     </div>
                 </div>
@@ -22,48 +22,63 @@
                 <div class="job-infomation">
                     <div class="display-inline">
                         <div>
-                            <label for="id-employee" title="Mã nhân viên">Mã <span style="color: red">*</span></label><br />
-                            <input type="text" id="id-employee" v-on:blur="employeeCodeInput" :class="employeeCodeBorder" v-model="this.emp.EmployeeCode" ref="employeeCode"  required>
+                            <label for="id-employee" title="Mã nhân viên">Mã <span style="color: red" ref="employeeCode" >*</span></label><br />
+                            <input type="text" id="id-employee" 
+                                v-bind:title='titleEmployeeCodeInput' 
+                                v-on:blur="employeeCodeInput" 
+                                :class="employeeCodeBorder" 
+                                v-model="this.emp.EmployeeCode" 
+                                ref="employeeCode" 
+                                required>
                         </div>
                         <div>
                             <label for="full-name" title="Tên nhân viên">Tên </label><span style="color: red">*</span><br />
-                            <input type="text" id="full-name" v-on:blur="fullnameInput" :class="fullnameBorder" v-model="this.emp.EmployeeName"  required>
+                            <input type="text" id="full-name" 
+                                v-bind:title='titleEmployeeNameInput' 
+                                v-on:blur="fullnameInput" 
+                                :class="fullnameBorder" 
+                                v-model="this.emp.EmployeeName" required>
                         </div>
                     </div>
                     <div>
                         <label for="unit" title="Đơn vị">Đơn vị </label><span style="color: red">*</span><br />
-                        <select name="unit" id="unit" v-on:blur="departmentInput" :class="departmentBorder" v-model="this.emp.DepartmentName" required>
-                            <option>Phòng nhân sự</option>
-                            <option>Phòng tuyển sinh</option>
-                            <option>Phòng sản xuất</option>
-                            <option>Phòng đào tạo</option>
+                        <select name="unit" id="unit" 
+                            v-bind:title='titleDepartmentInput' 
+                            v-on:blur="departmentInput" 
+                            :class="departmentBorder" 
+                            v-model="this.emp.DepartmentName" required>
+                            <option v-for="(department, index) in allDepartment" :key="index">{{department.DepartmentName}}</option>
                         </select>
                     </div>
                     <div>
                         <label for="job-title" title="Chức danh">Chức danh</label><br />
-                        <input type="text" id="job-title" v-model="this.emp.EmployeePosition">
+                        <select name="job-title" id="job-title" 
+                            v-model="this.emp.EmployeePosition" 
+                            title="Chức danh" >
+                            <option v-for="(position, index) in allPosition" :key="index">{{position.PositionName}}</option>
+                        </select>
                     </div>
                 </div>
                 <div class="personal-infomation">
                     <div class="display-inline">
                         <div>
                             <label for="date-of-birth" title="Ngày sinh">Ngày sinh</label><br />
-                            <input type="date" id="date-of-birth" placeholder="DD/MM/YYYY" v-model="this.emp.DateOfBirth">
+                            <input type="date" id="date-of-birth" title="Ngày sinh" placeholder="DD/MM/YYYY" v-model="this.emp.DateOfBirth" >
                         </div>
                         <div>
                             <label for="male" class="label__sex" title="Giới tính">Giới tính</label><br />
                                 <div class="display-inline">
                                     <div class="radio-sex">
-                                        <input type="radio" id="male" name="sex" v-model="this.emp.GenderName" value="Nam">
-                                        <label for="male">Nam</label>
+                                        <input type="radio"  title="Nam" id="male" name="sex" v-model="this.emp.GenderName" value="Nam" >
+                                        <label for="male" title="Nam">Nam</label>
                                     </div>
                                     <div class="radio-sex">
-                                        <input type="radio" id="female" name="sex" v-model="this.emp.GenderName" value="Nữ">
-                                        <label for="female">Nữ</label>
+                                        <input type="radio"  title="Nữ" id="female" name="sex" v-model="this.emp.GenderName" value="Nữ" >
+                                        <label for="female"  title="Nữ">Nữ</label>
                                     </div>
                                     <div class="radio-sex">
-                                        <input type="radio" id="other" name="sex" v-model="this.emp.GenderName" value="Khác">
-                                        <label for="other">Khác</label>
+                                        <input type="radio" id="other"  title="Khác" name="sex" v-model="this.emp.GenderName" value="Khác" >
+                                        <label for="other"  title="Khác">Khác</label>
                                     </div>
                                 </div>
 
@@ -72,58 +87,65 @@
                     <div class="display-inline">
                         <div>
                             <label for="identity-number" title="Số chứng minh nhân dân">Số CMND</label><br />
-                            <input @keypress="validateNumber" type="text" id="identity-number" v-model="this.emp.IdentityNumber">
+                            <input @keypress="validateNumber" title="Số chứng minh nhân dân" 
+                                type="text" id="identity-number" 
+                                v-model="this.emp.IdentityNumber" >
                         </div>
                         <div>
                             <label for="issue-date" title="Ngày cấp">Ngày cấp</label><br />
-                            <input type="date" id="issue-date" v-model="this.emp.IdentityDate" placeholder="DD/MM/YYYY">
+                            <input type="date" id="issue-date" title="Ngày cấp" v-model="this.emp.IdentityDate" placeholder="DD/MM/YYYY" >
                         </div>
                     </div>
                     <div>
                         <label for="issued-by" title="Nơi cấp">Nơi cấp</label><br />
-                        <input type="text" id="issued-by" v-model="this.emp.IdentityPlace">
+                        <input type="text" id="issued-by" title="Nơi cấp" v-model="this.emp.IdentityPlace" >
                     </div>
                 </div>
                 <div class="address">
                     <label for="address" title="Địa chỉ">Địa chỉ</label><br />
-                    <input type="text" id="address" v-model="this.emp.Address">
+                    <input type="text" id="address" title="Địa chỉ" v-model="this.emp.Address" >
                 </div>
                 <div class="contact display-inline">
                     <div>
                         <label for="mobile-phone-number" title="Điện thoại di động">ĐT di động</label><br />
-                        <input @keypress="validateNumber" type="text" id="mobile-phone-number" v-model="this.emp.PhoneNumber">
+                        <input @keypress="validateNumber" title="Điện thoại di động" type="text" 
+                            id="mobile-phone-number" 
+                            v-model="this.emp.PhoneNumber" >
                     </div>
                     <div>
                         <label for="landline-phone-number" title="Điện thoại cố định">ĐT cố định</label><br />
-                        <input @keypress="validateNumber" type="text" id="landline-phone-number" v-model="this.emp.TelephoneNumber">
+                        <input @keypress="validateNumber" title="Điện thoại cố định" type="text" 
+                            id="landline-phone-number" v-model="this.emp.TelephoneNumber" >
                     </div>
                     <div>
                         <label for="email" title="Email">Email</label><br />
-                        <input type="email" id="email" v-model="this.emp.Email">
+                        <input type="email" id="email" title="Email" v-model="this.emp.Email" >
                     </div>
                 </div>
                 <div class="bank-infomation display-inline">
                     <div>
                         <label for="bank-account" title="Tài khoản ngân hàng">Tài khoản ngân hàng</label><br />
-                        <input @keypress="validateNumber" type="text" id="bank-account" v-model="this.emp.BankAccountNumber">
+                        <input @keypress="validateNumber" type="text" 
+                            title="Tài khoản ngân hàng" id="bank-account" 
+                            v-model="this.emp.BankAccountNumber" >
                     </div>
                     <div>
                         <label for="bank-name" title="Tên ngân hàng">Tên ngân hàng</label><br />
-                        <input type="text" id="bank-name" v-model="this.emp.BankName">
+                        <input type="text" id="bank-name" title="Tên ngân hàng" v-model="this.emp.BankName" >
                     </div>
                     <div>
                         <label for="branch" title="Chi nhánh">Chi nhánh</label><br />
-                        <input type="text" id="branch" v-model="this.emp.BankBranchName">
+                        <input type="text" id="branch" title="Chi nhánh" v-model="this.emp.BankBranchName" >
                     </div>
                 </div>
             </div>
             <div class="model-content-footer">
                 <div class="footer-left">
-                    <button class="btn-cancel"  v-on:click="$emit('closeUnCheck')" title="Hủy">Hủy</button>
+                    <button class="btn-cancel"  v-on:click="$emit('closeUnCheck')" title="Hủy" >Hủy</button>
                 </div>
                 <div class="footer-right display-inline">
-                    <button class="btn-store" title="Cất">Cất</button>
-                    <button class="btn-save" v-on:click="saveEmployee">Cất và {{this.typeModal}}</button>
+                    <button class="btn-store" title="Cất"   v-on:click="this.clickStore" >Cất</button>
+                    <button class="btn-save" v-on:click="saveEmployee" v-on:keydown.tab="returnFirstTabIndex">Cất và {{this.typeModal}}</button>
                 </div>
             </div>
         </div>
@@ -146,12 +168,17 @@
                 emp: {},
                 typeModal: null,
                 errMsg: [],
+                allPosition: [],
+                allDepartment: [],
                 serverResponse: {},
                 requiredInput: [],
                 employeeCodeBorder: null,
                 fullnameBorder: null,
                 departmentBorder: null,
                 showDialogNotice: false,
+                titleEmployeeCodeInput: "Mã nhân viên",
+                titleEmployeeNameInput: "Tên nhân viên",
+                titleDepartmentInput: "Đơn vị"
             }
         },
         created() {
@@ -159,69 +186,95 @@
             if(this.emp.DateOfBirth) {this.emp.DateOfBirth = this.formatDate(this.emp.DateOfBirth)};
             if(this.emp.IdentityDate) {this.emp.IdentityDate = this.formatDate(this.emp.IdentityDate)}
             if(this.emp.EmployeeId) {this.typeModal = "Sửa"} else {this.typeModal = "Thêm"; this.getNewEmployeeCode()}
+
+            /**
+             * Get department 
+             * Author: doduyhung1292 (22/11/2022)
+             */
+            axios.get("https://amis.manhnv.net/api/v1/Departments")
+                .then(res => {this.allDepartment = res.data})
+                .catch(err => console.log(err))
+            
+            /**
+             * Get positon 
+             * Author: doduyhung1292 (22/11/2022)
+             */
+             axios.get("https://amis.manhnv.net/api/v1/Positions")
+                .then(res => {this.allPosition = res.data})
+                .catch(err => console.log(err))
+
+
         },
         methods: {
-            /**
-             * emit close dialog employee
-             * Author: doduyhung1292 (15/11/2022)
-             */
-            closeDialogEmployee: function() {
-                this.$emit('closeCheck');
-            },
+//Region API
             /**
              * Get new employee code
              * Author: doduyhung1292 (15/11/2022)
              */
-            getNewEmployeeCode: function() {
+             getNewEmployeeCode: function() {
              axios.get("https://amis.manhnv.net/api/v1/Employees/NewEmployeeCode")
                 .then(res => {this.emp.EmployeeCode = res.data})
                 .catch(err => console.log(err))
             },
-            
+
             /**
-             * 
-             * Change color border to red if no data in required input
+             * Function send api save employee
+             * Author: doduyhung1292 (09/11/2022)
+             */
+
+             callApiEmployee: function() {
+                try {
+                // save new employee infomation
+                    if (this.typeModal == 'Thêm') {
+                        axios.post("https://amis.manhnv.net/api/v1/Employees", this.emp)
+                            .then(res => {this.serverResponse = res; this.checkResponse();})
+                            .catch(err => {
+                                this.serverResponse = err.response;
+                                this.checkResponse();
+                                console.log(err)})
+                        };
+                // Change employee infomation    
+                    if (this.typeModal == 'Sửa') {
+                        axios.put(`https://amis.manhnv.net/api/v1/Employees/${this.emp.EmployeeId}`, this.emp)
+                            .then(res => {this.serverResponse = res; this.checkResponse();})
+                            .catch(err => {
+                                this.serverResponse = err.response; 
+                                this.checkResponse(); 
+                                console.log(err)})
+                        }
+        
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+            
+//End region API
+// Region validate
+
+            /**
+             * Function validate inputs
              * Author: doduyhung1292 (11/11/2022)
              */
 
-             employeeCodeInput: function() {
-                if (!this.emp.EmployeeCode) {this.employeeCodeBorder = 'borderRed'} else {this.employeeCodeBorder = null}
-             },
-
-             fullnameInput: function() {
-                if (!this.emp.EmployeeName) {this.fullnameBorder = 'borderRed'} else {this.fullnameBorder = null}
-             },
-
-             departmentInput: function() {
-                if (!this.emp.DepartmentName) {this.departmentBorder = 'borderRed'} else {this.departmentBorder = null}
-             },
-
-            /**
-             * Formate date
-             * Author: doduyhung1292 (10/11/2022)
-             */
-            formatDate: function(date) {
+             validateInputs: function() {
                 try {
-                    var dateBirth = new Date(date);
-                    var day = dateBirth.getDay();
-                    if (day<10) {day = `0${day}`};
-
-                    var month = dateBirth.getMonth() + 1;
-                    if(month<10) {month = `0${month}`};
-
-                    var year = dateBirth.getFullYear();
-
-                    return `${year}-${month}-${day}`;
+                    if (!this.emp.EmployeeCode) {this.errMsg.push("Mã nhân viên không được để trống")};
+                    if (!this.emp.EmployeeName) {this.errMsg.push("Tên nhân viên không được để trống")};
+                    if (!this.emp.DepartmentName) {this.errMsg.push("Đơn vị không được để trống")};
+                    this.validateEmail(this.emp.Email);
+                    console.log(this.errMsg);
+                    return
                 } catch (error) {
-                    console.log(error)
-                } 
-            },
+                    console.log(error);
+                }
+             },
+
             /**
              * 
              * Only accept input type = number
              * Author: doduyhung1292 (11/11/2022)
              */
-            validateNumber: (event) => {
+             validateNumber: (event) => {
                 let keyCode = event.keyCode;
                 if (keyCode < 48 || keyCode > 57) {
                     event.preventDefault();
@@ -246,7 +299,67 @@
                     console.log(error);
                 }
             },
+
             /**
+             * 
+             * Change color border to red if no data in required input
+             * Author: doduyhung1292 (11/11/2022)
+             */
+
+             employeeCodeInput: function() {
+                if (!this.emp.EmployeeCode) {this.employeeCodeBorder = 'borderRed'; this.titleEmployeeCodeInput = "Mã nhân viên không được để trống."; console.log(this.titleEmployeeNameInput);} 
+                    else {this.employeeCodeBorder = null;  this.titleEmployeeCodeInput = "Mã nhân viên."}
+
+             },
+
+             fullnameInput: function() {
+                if (!this.emp.EmployeeName) {this.fullnameBorder = 'borderRed';  this.titleEmployeeNameInput = "Tên nhân viên không được để trống."} 
+                    else {this.fullnameBorder = null; this.titleEmployeeNameInput = "Tên nhân viên."}
+             },
+
+             departmentInput: function() {
+                if (!this.emp.DepartmentName) {this.departmentBorder = 'borderRed';  this.titleDepartmentInput = "Đơn vị không được để trống."} 
+                    else {this.departmentBorder = null;   this.titleDepartmentInput = "Đơn vị."}
+             },
+
+             /**
+              * Add department id into data 
+              * Author: doduyhung1292 (13/11/2022)
+              */
+              additionalDepartmentId: function() {
+                try {
+                    for (let depart of this.allDepartment) {
+                        if (this.emp.DepartmentName == depart.DepartmentName) {
+                            this.emp.DepartmentId = depart.DepartmentId} 
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+              },
+
+              /**
+             * Formate date
+             * Author: doduyhung1292 (10/11/2022)
+             */
+            formatDate: function(date) {
+                try {
+                    var dateBirth = new Date(date);
+                    var day = dateBirth.getDate();
+                    if (day<10) {day = `0${day}`};
+
+                    var month = dateBirth.getMonth() + 1;
+                    if(month<10) {month = `0${month}`};
+
+                    var year = dateBirth.getFullYear();
+
+                    return `${year}-${month}-${day}`;
+                } catch (error) {
+                    console.log(error)
+                } 
+            },
+//End region validate
+//Region function
+             /**
              * Function save new employee
              * Author: doduyhung1292 (09/11/2022)
              */
@@ -263,50 +376,14 @@
                     console.log(error);
                 }
             },
+
             /**
-             * Function validate inputs
-             * Author: doduyhung1292 (11/11/2022)
+             * Close dialog when click button 'Có'
+             * Author: doduyhung1292 (20/11/2022)
              */
-
-             validateInputs: function() {
+             clickStore: function() {
                 try {
-                    if (!this.emp.EmployeeCode) {this.errMsg.push("Mã nhân viên không được bỏ trống")};
-                    if (!this.emp.EmployeeName) {this.errMsg.push("Tên nhân viên không được bỏ trống")};
-                    if (!this.emp.DepartmentName) {this.errMsg.push("Đơn vị không được bỏ trống")};
-                    this.validateEmail(this.emp.Email);
-                    console.log(this.errMsg);
-                    return
-                } catch (error) {
-                    console.log(error);
-                }
-             },
-
-             /**
-             * Function send api save employee
-             * Author: doduyhung1292 (09/11/2022)
-             */
-
-             callApiEmployee: function() {
-                try {
-                // save new employee infomation
-                    if (this.typeModal == 'Thêm') {
-                        axios.post("https://amis.manhnv.net/api/v1/Employees", this.emp)
-                            .then(res => {this.serverResponse = res; this.checkResponse();})
-                            .catch(err => {
-                                this.serverResponse = err.response; 
-                                this.checkResponse();
-                                console.log(err)})
-                        };
-                // Change employee infomation    
-                    if (this.typeModal == 'Sửa') {
-                        axios.put(`https://amis.manhnv.net/api/v1/Employees/${this.emp.EmployeeId}`, this.emp)
-                            .then(res => {this.serverResponse = res; this.checkResponse();})
-                            .catch(err => {
-                                this.serverResponse = err.response; 
-                                this.checkResponse(); 
-                                console.log(err)})
-                        }
-        
+                    this.$emit('clickStore');
                 } catch (error) {
                     console.log(error);
                 }
@@ -325,18 +402,41 @@
                         case 201:
                             this.$emit('closeUnCheck');
                             this.$emit('showToastSuccess');
+                            break;
                         case 400:
+                            this.errMsg = [];
                             this.errMsg.push(this.serverResponse.data.userMsg);
                             this.showDialogNotice = true;
+                            break;
                         case 500:
                             this.errMsg.push(this.serverResponse.data.userMsg);
                             this.showDialogNotice = true;
+                            break;
 
                             // Return old employee code if can't change to new employee code
                             //if(this.serverResponse.data.data.SqlState == "23000") {this.emp.EmployeeCode = this.employeeEdit.EmployeeCode; console.log(this.employeeEdit)}
                         default:
                             break;
                     }
+            },
+//End region function
+// Region UI
+            /**
+             * emit close dialog employee
+             * Author: doduyhung1292 (15/11/2022)
+             */
+             closeDialogEmployee: function() {
+                if(this.typeModal == "Thêm" && this.emp != {}) {this.$emit('closeCheck', this.emp); return;}
+                if(this.typeModal == "Sửa" && this.emp != this.employeeEdit) {this.$emit('closeCheck', this.emp); return;} 
+                    else {this.$emit('closeUnCheck'); return;}
+            },
+
+            /**
+             *  return to first input in dialog employee
+             * Author: doduyhung1292 (22/11/2022)
+             */
+             returnFirstTabIndex: function() {
+                this.$refs.employeeCode.focus();
             },
 
             /**
@@ -351,44 +451,22 @@
                     console.log(error);
                 }
              },
-
-             /**
-              * Add department id into data 
-              * Author: doduyhung1292 (13/11/2022)
-              */
-              additionalDepartmentId: function() {
-                try {
-                   
-                    switch (this.emp.DepartmentName) {
-                        case "Phòng tuyển sinh":
-                            this.emp.DepartmentId = "17120d02-6ab5-3e43-18cb-66948daf6128";
-                            break;
-                        case "Phòng nhân sự":
-                            this.emp.DepartmentId = "142cb08f-7c31-21fa-8e90-67245e8b283e";
-                            break;
-                        case "Phòng sản xuất":
-                            this.emp.DepartmentId = "469b3ece-744a-45d5-957d-e8c757976496";
-                            break;
-                        case "Phòng đào tạo":
-                            this.emp.DepartmentId = "4e272fc4-7875-78d6-7d32-6a1673ffca7c";
-                            break;
-                        default:
-                            break;
-                    };
-                } catch (error) {
-                    console.log(error);
-                }
-              }
+// End region UI         
     },
     mounted() {
         this.$refs.employeeCode.focus();
     },
 }
+
 </script>
 
 <style>
     @import url(../../css/ui/DialogEmployees.css);
     .borderRed {
         border-color: red;
+    }
+
+    .model-content-header__checkbox:focus {
+        outline :1px solid red;
     }
 </style>

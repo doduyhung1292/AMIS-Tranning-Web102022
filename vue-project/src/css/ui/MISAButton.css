@@ -1,3 +1,7 @@
+button:focus-visible {
+    outline: none;
+}
+
 .btn__add-new {
     height: 36px;
     min-width: 74px;

@@ -8,6 +8,8 @@ table, th, td {
 
 th {
     border: 1px solid #c7c7c7;
+    border-top: none;
+    position: sticky;
     background-color: #e5e8ec;
     font-size: 12px;
     font-weight: 700px;
@@ -17,7 +19,6 @@ th {
     text-align: left;
     padding-left: 10px;
 }
-
 td {
     font-size: 13px;
     font-weight: 400;
@@ -37,26 +38,43 @@ tr:hover {
 tr>th:first-child,tr>td:first-child {
     position: sticky;
     left: 0;
-    border-left: none;
+    min-width: 20px;
+    border: none;
+    background-color: #fff;
+    padding: 0;
+    z-index: 2;
   }
 tr>td:first-child {
     background-color: #fff;
 }
-tr:hover>td:first-child {
+tr:hover>td:nth-child(2) {
     background-color: #e5f3ff;
 }
 
-/*fixed last column*/
+/*fixed last column - column padding right*/
 tr>th:last-child,tr>td:last-child {
     position: sticky;
+    min-width: 30px;
     right: 0;
-    border-right: none;
+    padding: 0;
+    border: none!important; 
+    background-color: #fff;
   }
 tr>td:last-child {
     background-color: #fff;
 }
 
-tr:hover>td:last-child {
+/*fix column function*/
+tr>th:nth-child(18),tr>td:nth-child(18) {
+    position: sticky;
+    right: 30px;
+    border-right: none;
+  }
+tr>td:nth-child(18) {
+    background-color: #fff;
+}
+
+tr:hover>td:nth-child(18) {
     background-color: #e5f3ff;
 }
 
@@ -71,6 +89,7 @@ tr:hover>td:last-child {
     height: 37px;
     text-align: center;
     padding: 0;
+    left: 20px;
     background-color: #e5e8ec;
 }
 
@@ -171,6 +190,7 @@ tr:hover>td:last-child {
     width: 120px;
     min-width: 120px;
     background-color: #e5e8ec;
+    text-align: center;
 }
 
 .td__function {
@@ -179,6 +199,7 @@ tr:hover>td:last-child {
     font-weight: 600;
     color: #0075c0;
     border-left: 1px dotted #c7c7c7;
+    justify-content: center;
 }
 
 .td__checkbox {

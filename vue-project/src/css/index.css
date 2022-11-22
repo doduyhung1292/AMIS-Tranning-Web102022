@@ -1,17 +1,16 @@
 @import url(./layout/TheMain.css);
 @import url(./layout/TheSidebar.css);
+@import url(./layout/TheHeader.css);
 @import url(./ui/DialogEmployees.css);
 @import url(./common.css);
-@import url(./ui/TheButton.css);
+@import url(./ui/MISAButton.css);
 @import url(./ui/TheTable.css);
-@import url(./ui/TheHeading.css);
-@import url(./ui/TheIcon.css);
-@import url(./ui/TheSelect.css);
-@import url(./ui/TheInput.css);
-@import url(./ui/TheLabel.css);
-@import url(./ui/TheScroll.css);
-@import url(./layout/TheHeader.css);
-@import url(./ui/TheToast.css);
+@import url(./ui/MISAIcon.css);
+@import url(./ui/MISASelect.css);
+@import url(./ui/MISAInput.css);
+@import url(./ui/MISALabel.css);
+@import url(./ui/MISAScroll.css);
+@import url(./ui/MISAToast.css);
 
 body {
     margin: 0;

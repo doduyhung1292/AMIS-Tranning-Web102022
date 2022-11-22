@@ -1,7 +1,8 @@
 <template>
     <div class="main-content-table">
             <table class="row-table">
-                <tr>
+                <tr>    
+                        <th class="column-padding"></th>
                         <th class="th__checkbox">
                             <input type="checkbox">
                         </th>
@@ -21,11 +22,14 @@
                         <th class="th__is-customer" title="LÀ KHÁCH HÀNG">LÀ KHÁCH HÀNG</th>
                         <th class="th__is-supplier" title="LÀ NHÀ CUNG CẤP">LÀ NHÀ CUNG CẤP</th>
                         <th class="th__function" title="CHỨC NĂNG">CHỨC NĂNG</th>
+                        <th class="column-padding--right"></th>
                     </tr>
+                    <tbody>
                         <tr v-for="(employee, index) in employees" :key="index"
                             v-on:click="selectEmployee(index)"
                             v-on:dblclick="showModal(employee)"
                             :class="{selected: rowSelected == index}">
+                            <td  class="column-padding"></td>
                             <td class="td__checkbox" :class="{selected: rowSelected == index}">
                                 <input type="checkbox">
                             </td>
@@ -37,7 +41,7 @@
                             <td class="td__identity-date">{{formatDate(employee.IdentityDate)}}</td>
                             <td>{{employee.IdentityPlace}}</td>
                             <td>{{employee.EmployeePosition}}</td>
-                            <td>{{employee.DepartmentId}}</td>
+                            <td>{{employee.DepartmentCode}}</td>
                             <td>{{employee.DepartmentName}}</td>
                             <td class="td__bank-account-number">{{employee.BankAccountNumber}}</td>
                             <td>{{employee.BankName}}</td>
@@ -61,11 +65,16 @@
                                     </div>
                                     </div>
                             </td>
+                            <td class="column-padding--right"></td>
                     </tr>
+                </tbody>
                 </table>
             </div>
     <LoadingSpinner v-if="isLoading"/>
-    <DialogConfirm v-if="isShowDialogConfirmDelete" v-on:callApiDelete = "this.callApiDelete" v-on:closeDialogConfirm="this.hideDialogConfirm"/>
+    <DialogConfirm v-if="isShowDialogConfirmDelete" 
+                    v-on:callApiDelete = "this.callApiDelete" 
+                    v-on:closeDialogConfirm="this.hideDialogConfirm"
+                    :msgConfirmDelete="this.msgConfirmDelete"/>
 </template>
 
 <script>
@@ -76,17 +85,62 @@
     export default {
         name: "TableEmployees",
         components: {LoadingSpinner, DialogConfirm},
+        props: ["numberPerPage", "pageSelected", "informationSearchEmployee"],
         created() {
           /**
              * API Get employees
              * Author: doduyhung1292 (08/11/2022)
              */
-             axios.get("https://amis.manhnv.net/api/v1/Employees")
-                .then(res => {this.employees = res.data; this.isLoading = false})
+             axios.get(`https://amis.manhnv.net/api/v1/Employees/filter?pageSize=${this.numberPerPage}&pageNumber=1`)
+                .then(res => {this.employees = res.data.Data; 
+                                this.isLoading = false; 
+                                this.$emit('getEmployeeLength', res.data.TotalRecord, res.data.TotalPage)})
                 .catch(err => console.log(err))
       },
-      methods: {
-         /**
+      watch: {
+        /**
+         * Lấy lại api khi thay đổi số lượng bản ghi/ trang
+         * Author: doduyhung1292 (22/11/2022)
+         * @param {số bản ghi/ trang} newVal 
+         * 
+         */
+        numberPerPage: function(newVal, oldVal) {
+            axios.get(`https://amis.manhnv.net/api/v1/Employees/filter?pageSize=${this.numberPerPage}&pageNumber=${this.pageSelected}`)
+                .then(res => {this.employees = res.data.Data; 
+                                this.isLoading = false;
+                                this.$emit('getEmployeeLength', res.data.TotalRecord, res.data.TotalPage)})
+                .catch(err => console.log(err))
+        },
+        /**
+         * Lấy lại api khi thay đổi số trang
+         * Author: doduyhung1292 (22/11/2022)
+         * @param {số trang} newVal 
+         * 
+         */
+         pageSelected: function(newVal, oldVal) {
+            axios.get(`https://amis.manhnv.net/api/v1/Employees/filter?pageSize=${this.numberPerPage}&pageNumber=${this.pageSelected}`)
+                .then(res => {this.employees = res.data.Data;
+                    console.log(this.pageSelected);
+                                this.isLoading = false;
+                                this.$emit('getEmployeeLength', res.data.TotalRecord, res.data.TotalPage)})
+                .catch(err => console.log(err))
+        },
+        /**
+         * Search API
+         * Author: doduyhung1292 (22/11/2022)
+         */
+         informationSearchEmployee: function(newVal, oldVal) {
+            axios.get(`https://amis.manhnv.net/api/v1/Employees/filter?pageSize=${this.numberPerPage}&pageNumber=${this.pageSelected}&employeeFilter=${this.informationSearchEmployee}`)
+                .then(res => {this.employees = res.data.Data;
+                    console.log(this.pageSelected);
+                                this.isLoading = false;
+                                this.$emit('getEmployeeLength', res.data.TotalRecord, res.data.TotalPage)})
+                .catch(err => console.log(err))
+         }
+      },
+      methods: {         
+// Region UI
+            /**
              * 
              * Highlight row selected
              * Author: doduyhung1292 (08/11/2022)
@@ -100,7 +154,6 @@
             },
 
             /**
-             * 
              * Show form edit infomation employee when double click
              * Author: doduyhung1292 (08/11/2022)
              */
@@ -113,39 +166,61 @@
                 }
             },
 
-             /**
-             * Formate date
-             * Author: doduyhung1292 (13/11/2022)
+            /**
+             * Show dialog confirm delete
+             * Author: doduyhung1292 (14/11/2022)
              */
-             formatDate: function(date) {
-                try {
-                    if (!date) {return}
-                    var dateBirth = new Date(date);
-                    var day = dateBirth.getDay();
-                    if (day<10) {day = `0${day}`};
-
-                    var month = dateBirth.getMonth() + 1;
-                    if(month<10) {month = `0${month}`};
-
-                    var year = dateBirth.getFullYear();
-
-                    return `${day}/${month}/${year}`;
-                } catch (error) {
-                    console.log(error)
-                } 
+             showDialogConfirmDelete: function() {
+                    try {
+                        this.isShowDialogConfirmDelete = true;
+                        this.funtionOnTable = null;
+                        this.msgConfirmDelete = `Bạn có thực sự muốn xóa nhân viên <${this.employeeOnFunction.EmployeeCode}> không?`;
+                    } catch (error) {
+                        console.log(error)
+                    }
             },
-
+            /**
+             * Hide dialog confirm
+             * Author: doduyhung1292 (14/11/2022)
+             */
+             hideDialogConfirm: function() {
+                this.isShowDialogConfirmDelete = false
+             },
+// Endregion UI
+//Region API
              /**
-              * get employee in function
-              * Author: doduyhung1292 (14/11/2022)
-              */
-            functionToEmployee: function(employee) {
+             * Call api delete employee
+             * Author: doduyhung1292 (14/11/2022)
+             */
+             callApiDelete: function() {
                 try {
-                    this.employeeOnFunction = employee
+                    axios.delete(`https://amis.manhnv.net/api/v1/Employees/${this.employeeOnFunction.EmployeeId}`)
+                    .then(res => {this.responseApiDelete(res); console.log(res)})
+                    .catch(err => {console.log(err)})
                 } catch (error) {
                     console.log(error)
                 }
-            },
+             },
+//End region API
+//Region function
+             /**
+              * Check response from server when delete
+              * Author: doduyhung1292(15/11/2022)
+              */
+              responseApiDelete: function(res) {
+                try {
+                    switch (res.status) {
+                    case 200:
+                        this.$emit('showToastDeleteSuccess');
+                        this.isShowDialogConfirmDelete = false;
+                        break;
+                    default:
+                        break;
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+              },
 
             /**
              * Select funtion on table
@@ -168,59 +243,39 @@
             },
 
             /**
-             * Show dialog confirm delete
-             * Author: doduyhung1292 (14/11/2022)
+             * Formate date
+             * Author: doduyhung1292 (13/11/2022)
              */
-             showDialogConfirmDelete: function() {
-                    try {
-                        this.isShowDialogConfirmDelete = true;
-                        this.funtionOnTable = null;
-                    } catch (error) {
-                        console.log(error)
-                    }
+             formatDate: function(date) {
+                try {
+                    if (!date) {return}
+                    var dateBirth = new Date(date);
+                    var day = dateBirth.getDate();
+                    if (day<10) {day = `0${day}`};
+
+                    var month = dateBirth.getMonth() + 1;
+                    if(month<10) {month = `0${month}`};
+
+                    var year = dateBirth.getFullYear();
+                    return `${day}/${month}/${year}`;
+                } catch (error) {
+                    console.log(error)
+                } 
             },
-            /**
-             * Hide dialog confirm
-             * Author: doduyhung1292 (14/11/2022)
-             */
-             hideDialogConfirm: function() {
-                this.isShowDialogConfirmDelete = false
-             },
 
             /**
-             * Call api delete employee
-             * Author: doduyhung1292 (14/11/2022)
-             */
-
-             callApiDelete: function() {
-                try {
-                    axios.delete(`https://amis.manhnv.net/api/v1/Employees/${this.employeeOnFunction.EmployeeId}`)
-                    .then(res => {this.responseApiDelete(res);})
-                    .catch(err => {console.log(err)})
-                } catch (error) {
-                    console.log(error)
-                }
-             },
-
-             /**
-              * Check response from server when delete
-              * Author: doduyhung1292(15/11/2022)
+              * get employee in function
+              * Author: doduyhung1292 (14/11/2022)
               */
-              responseApiDelete: function(res) {
+            functionToEmployee: function(employee) {
                 try {
-                    switch (res.status) {
-                    case 200:
-                        this.$emit('showToastDeleteSuccess');
-                        this.isShowDialogConfirmDelete = false;
-                        break;
-                    default:
-                        break;
-                    }
+                    this.employeeOnFunction = employee
                 } catch (error) {
                     console.log(error)
                 }
-              }
-      },
+            },
+//End region function
+},
         data() {
             return{
                 employees: [],
@@ -229,7 +284,8 @@
                 isLoading: true,
                 isShowDialogConfirmDelete: false,
                 funtionOnTable: null,
-                employeeOnFunction: null
+                employeeOnFunction: null,
+                msgConfirmDelete: null
             }
         }
     }
@@ -262,6 +318,7 @@
     .td__function-content {
         display: flex;
         flex-direction: row;
+        margin-left: 25px;
     }
     .dropdown {
         position: relative;
@@ -275,5 +332,14 @@
     .content-dropdown>button {
         background-color: #fff;
         z-index: 40;
+    }
+    tr>th:nth-child(2),tr>td:nth-child(2) {
+    position: sticky;
+    left: 20px;
+    border-left: none;
+    z-index: 10;
+  }
+    tr>td:nth-child(2) {
+        background-color: #fff;
     }
 </style>
