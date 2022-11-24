@@ -2,19 +2,23 @@
     <div class="header">
         <div class="header-left">
             <div class="header-left__iconmenu" tittle="Menu"></div>
-            <div class="header-left__brandname" tittle="CÔNG TY SẢN XUẤT-THƯƠNG MẠI-DỊCH VỤ QUI PHÚC" title="CÔNG TY SẢN XUẤT-THƯƠNG MẠI-DỊCH VỤ QUI PHÚC">CÔNG TY SẢN XUẤT-THƯƠNG MẠI-DỊCH VỤ QUI PHÚC</div>
+            <div class="header-left__brandname" 
+                :title="this.theHeaderContent.companyName">
+                {{this.theHeaderContent.companyName}}</div>
             <div class="header-left__icondropdown"></div>
         </div>
         <div class="header-right">
             <div class="header-right__iconnotice"></div>
             <div class="header-right__avatar"></div>
-            <div class="header-right__username">Nguyễn Văn Mạnh</div>
+            <div class="header-right__username">{{this.theHeaderContent.userName}}</div>
             <div class="header-left__icondropdown"></div>
         </div>
     </div>
 </template>
 
 <script>
+    import {TheHeaderContent} from './../../resource.js';
+    
     export default {
         name: "TheHeader",
         methods: {
@@ -47,7 +51,8 @@
         },
         data() {
             return{
-                isSearchButtonFocus: null
+                isSearchButtonFocus: null,
+                theHeaderContent: TheHeaderContent
             }
         }
     }

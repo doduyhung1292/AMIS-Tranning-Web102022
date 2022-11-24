@@ -31,22 +31,19 @@
                             :numberPerPage = "this.numberPerPage"
                             :pageSelected = "this.pageSelected"
                             :newEmployee = "this.newEmployee"
-                            :modifyEmployee = "this.modifyEmployee"                            :informationSearchEmployee = "this.informationSearchEmployee"/>
+                            :modifyEmployee = "this.modifyEmployee"                            
+                            :informationSearchEmployee = "this.informationSearchEmployee"/>
                             <div class="container-footer">
-            <div class="main-paging-left content-footer--right">Tổng số: {{this.numberEmployee}} bản ghi</div>
+            <div class="main-paging-left content-footer--right">{{this.theMainContent.mainContentPaging.total}} {{this.numberEmployee}} {{this.theMainContent.mainContentPaging.record}}</div>
                 <div class="main-paging-right">
                     <div class="select-paging">
-                        <div class="content-footer--right">Số bản ghi/ trang:</div>
+                        <div class="content-footer--right">{{this.theMainContent.mainContentPaging.recordPerPage}}</div>
                         <select v-model="this.numberPerPage">
-                            <option>10</option>
-                            <option>20</option>
-                            <option>30</option>
-                            <option>50</option>
-                            <option>100</option>
+                            <option v-for="(number, index) in this.theMainContent.mainContentPaging.numberPerPage" :key="index">{{number}}</option>
                         </select>
                     </div>
                     <div class="number-paging">
-                        <div class="content-footer--right numberRecords">1 - 4 bản ghi</div>
+                        <div class="content-footer--right numberRecords">1 - 4 {{this.theMainContent.mainContentPaging.record}}</div>
                         <button class="icon-next" v-on:click="changePage(pageSelected - 1)"></button>
                         <button class="icon-previous" v-on:click="changePage(pageSelected + 1)"></button>
                     </div>
@@ -77,6 +74,7 @@
     import ToastNotice from "../ui/ToastNotice.vue"
     import DialogEmployees from "../ui/DialogEmployees.vue"
     import DialogConfirmStore from "../ui/DialogConfirmStore.vue"
+    import {TheMainContent, ToastContent} from './../../resource.js';
 
     export default {
         name: "TheMain",
@@ -278,7 +276,7 @@
             showToastSaveSuccess: function(e) {
                 try {
                     this.newEmployee = e;
-                    this.contentToastSuccess = "Thông tin nhân viên đã được thêm.";
+                    this.contentToastSuccess = this.toastContent.contentToastSaveSuccess;
                     this.isToastSuccessVisible = !this.isToastSuccessVisible;
                     setTimeout(() => {this.isToastSuccessVisible = false}, 5000)
                 } catch (error) {
@@ -294,7 +292,7 @@
             showToastModifySuccess: function(e) {
                 try {
                     this.modifyEmployee = e;
-                    this.contentToastSuccess = "Thông tin nhân viên đã được sửa.";
+                    this.contentToastSuccess = this.toastContent.contentToastModifySuccess;
                     this.isToastSuccessVisible = !this.isToastSuccessVisible;
                     setTimeout(() => {this.isToastSuccessVisible = false}, 5000)
                 } catch (error) {
@@ -320,7 +318,7 @@
              */
             showToastDeleteSuccess: function() {
                 try {
-                    this.contentToastSuccess = "Nhân viên đã được xóa";
+                    this.contentToastSuccess = this.toastContent.contentToastDeleteSuccess;
                     this.isToastSuccessVisible = !this.isToastSuccessVisible;
                     setTimeout(() => {this.isToastSuccessVisible = false}, 5000)
                 } catch (error) {
@@ -371,6 +369,8 @@
                 pageSelected: 1,
                 inputSearchEmployee: null,
                 informationSearchEmployee: null,
+                theMainContent: TheMainContent,
+                toastContent: ToastContent
             }
         },
     }

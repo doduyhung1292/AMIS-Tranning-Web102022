@@ -5,17 +5,17 @@
                         <th class="th__checkbox">
                             <input type="checkbox">
                         </th>
-                        <th class="th__employee-id" title="MÃ NHÂN VIÊN">MÃ NHÂN VIÊN</th>
-                        <th class="th__fullname" title="TÊN NHÂN VIÊN">TÊN NHÂN VIÊN</th>
-                        <th class="th__sex" title="GIỚI TÍNH">GIỚI TÍNH</th>
-                        <th class="th__date-of-birth" title="NGÀY SINH">NGÀY SINH</th>
-                        <th class="th__entity-number" title="SỐ CHỨNG MINH NHÂN DÂN">SỐ CMND</th>
-                        <th class="th__title-job" title="CHỨC DANH">CHỨC DANH</th>
-                        <th class="th__unit" title="TÊN ĐƠN VỊ">TÊN ĐƠN VỊ</th>
-                        <th class="th__bank-account" title="SỐ TÀI KHOẢN">SỐ TÀI KHOẢN</th>
-                        <th class="th__bank-name" title="TÊN NGÂN HÀNG">TÊN NGÂN HÀNG</th>
-                        <th class="th__branch-bank" title="CHI NHÁNH TÀI KHOẢN NGÂN HÀNG">CHI NHÁNH TK NGÂN HÀNG</th>
-                        <th class="th__function" title="CHỨC NĂNG">CHỨC NĂNG</th>
+                        <th class="th__employee-id" :title="this.theMainContent.mainContentTable.employeeId">{{this.theMainContent.mainContentTable.employeeId}}</th>
+                        <th class="th__fullname" :title="this.theMainContent.mainContentTable.employeeName">{{this.theMainContent.mainContentTable.employeeName}}</th>
+                        <th class="th__sex" :title="this.theMainContent.mainContentTable.gender">{{this.theMainContent.mainContentTable.gender}}</th>
+                        <th class="th__date-of-birth" :title="this.theMainContent.mainContentTable.dateOfBirth">{{this.theMainContent.mainContentTable.dateOfBirth}}</th>
+                        <th class="th__entity-number" :title="this.theMainContent.mainContentTable.titleIdentityNumber">{{this.theMainContent.mainContentTable.identityNumber}}</th>
+                        <th class="th__title-job" :title="this.theMainContent.mainContentTable.positionName">{{this.theMainContent.mainContentTable.positionName}}</th>
+                        <th class="th__unit" :title="this.theMainContent.mainContentTable.departmentName">{{this.theMainContent.mainContentTable.departmentName}}</th>
+                        <th class="th__bank-account" :title="this.theMainContent.mainContentTable.bankAccountNumber">{{this.theMainContent.mainContentTable.bankAccountNumber}}</th>
+                        <th class="th__bank-name" :title="this.theMainContent.mainContentTable.bankName">{{this.theMainContent.mainContentTable.bankName}}</th>
+                        <th class="th__branch-bank" :title="this.theMainContent.mainContentTable.titleBankBranchName">{{this.theMainContent.mainContentTable.bankBranchName}}</th>
+                        <th class="th__function" :title="this.theMainContent.mainContentTable.functionTable">{{this.theMainContent.mainContentTable.functionTable}}</th>
                     </tr>
                     <tbody>
                         <tr v-for="(employee, index) in employees" :key="index"
@@ -37,13 +37,13 @@
                             <td>{{employee.BankBranchName}}</td>
                             <td class="td__function" :class="{selected: rowSelected == index}">
                                 <div class="td__function-content">
-                                    <div  v-on:click="showModal(employee)">Sửa</div>
+                                    <div  v-on:click="showModal(employee)">{{this.theMainContent.mainContentTable.functionOnTable.typeFunction}}</div>
                                     <div class="dropdown" v-on:change="this.executeFuntion" v-on:click="this.functionToEmployee(employee)"> 
                                         <select class="select-function" v-model="this.funtionOnTable">
                                             <option hidden></option>
-                                            <option>Nhân bản</option>
-                                            <option>Xóa</option>
-                                            <option>Sử dụng</option>
+                                            <option>{{this.theMainContent.mainContentTable.functionOnTable.cloneEmployee}}</option>
+                                            <option>{{this.theMainContent.mainContentTable.functionOnTable.deleteEmployee}}</option>
+                                            <option>{{this.theMainContent.mainContentTable.functionOnTable.useEmployee}}</option>
                                         </select>
                                     </div>
                                     </div>
@@ -63,7 +63,8 @@
     import axios from "axios"
     import LoadingSpinner from "./LoadingSpinner.vue"
     import DialogConfirm from "./DialogConfirm.vue"
-    
+    import {TheMainContent} from './../../resource.js';
+
     export default {
         name: "TableEmployees",
         components: {LoadingSpinner, DialogConfirm},
@@ -301,7 +302,8 @@
                 isShowDialogConfirmDelete: false,
                 funtionOnTable: null,
                 employeeOnFunction: null,
-                msgConfirmDelete: null
+                msgConfirmDelete: null,
+                theMainContent: TheMainContent
             }
         }
     }
