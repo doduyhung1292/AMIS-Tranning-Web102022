@@ -3,75 +3,64 @@
         <div class="main-header">
             <div class="main-header__left">
                 <div class="main-header__name">Nhân viên</div>
-                <div class="direction">Tất cả danh mục</div>
             </div>
             <div class="main-header__right">
-                <button class="btn-utilities">
-                    <div>Tiện ích</div> 
-                    <div class="icon"></div>
-                </button>
-                <button class="btn__add-new" v-on:click="showModalEdit(this.tempEmp)">Thêm</button>
-                <button class="btn__expand-more">
-                    <div class="line"></div>
-                    <div class="icon__expand-more"></div>
-                </button>
+                <button class="btn__add-new" v-on:click="showModalEdit(this.tempEmp)">Thêm mới nhân viên</button>
             </div>
         </div>
-        <div class="main-content">
-            <div class="main-content-toolbar">
-                <div>
-                    <button class="btn-execution">Thực hiện hàng loạt</button>
-                </div>
+        <div class="main-content-toolbar">
                 <div class="display-inline toolbar-right">
                     <input type="text" class="input-search" placeholder="Tìm theo mã, tên nhân viên"  
-                            v-on:focusin="inputSearchFocus"  
+                            v-on:focusin="inputSearchFocus"
+                            v-on:select="inputSearchFocus" 
                             v-on:focusout="inputSearchFocusOut"
+                            v-on:mouseenter="inputSearchHover"
+                            v-on:mouseleave="inputSearchUnhover"
                             v-model="this.inputSearchEmployee"
                             v-on:keydown.enter="this.searchEmployee">
                     <div class="icon-search" 
-                            :class="isSearchButtonFocus" 
+                            :class="isSearchButtonFocus, isSearchButtonHover" 
                             v-on:click="this.searchEmployee"></div>
                     <div class="icon-reload" title="Lấy lại dữ liệu." v-on:click="reloadPage"></div>
-                    <div class="icon__excel" title="Xuất ra excel."></div>
-                    <div class="icon__set-up" title="Tùy chỉnh giao diện."></div> 
                 </div>
-            </div>
+        </div>
+        <div class="main-content">
             <TableEmployees v-on:showModal="showModalEdit" 
                             v-on:showToastDeleteSuccess="showToastDeleteSuccess"
                             v-on:getEmployeeLength="getEmployeeLength"
                             :numberPerPage = "this.numberPerPage"
                             :pageSelected = "this.pageSelected"
-                            :informationSearchEmployee = "this.informationSearchEmployee"/>
-            <div class="container-footer">
-                <div class="main-paging-left">Tổng số: <span>{{this.numberEmployee}}</span> bản ghi</div>
-                    <div class="main-paging-right">
-                        <div class="select-paging">
-                            <select v-model="this.selectPaging" v-on:change="convertType">
-                                <option>10 bản ghi trên 1 trang</option>
-                                <option>20 bản ghi trên 1 trang</option>
-                                <option>30 bản ghi trên 1 trang</option>
-                                <option>50 bản ghi trên 1 trang</option>
-                                <option>100 bản ghi trên 1 trang</option>
-                            </select>
-                        </div>
-                        <div class="number-paging">
-                            <button class="next-page" v-on:click="changePage(pageSelected - 1)">Trước</button>
-                            <button class="page-unselected" v-for="numPage of numberPage" 
-                                :class="{selectedPage: pageSelected == numPage}"
-                                v-on:click="changePage(numPage)">
-                                {{numPage}}
-                            </button>
-                            <button class="previous-page" v-on:click="changePage(pageSelected + 1)">Sau</button>
-                        </div>
+                            :newEmployee = "this.newEmployee"
+                            :modifyEmployee = "this.modifyEmployee"                            :informationSearchEmployee = "this.informationSearchEmployee"/>
+                            <div class="container-footer">
+            <div class="main-paging-left content-footer--right">Tổng số: {{this.numberEmployee}} bản ghi</div>
+                <div class="main-paging-right">
+                    <div class="select-paging">
+                        <div class="content-footer--right">Số bản ghi/ trang:</div>
+                        <select v-model="this.numberPerPage">
+                            <option>10</option>
+                            <option>20</option>
+                            <option>30</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                    </div>
+                    <div class="number-paging">
+                        <div class="content-footer--right numberRecords">1 - 4 bản ghi</div>
+                        <button class="icon-next" v-on:click="changePage(pageSelected - 1)"></button>
+                        <button class="icon-previous" v-on:click="changePage(pageSelected + 1)"></button>
                     </div>
                 </div>
             </div>
+            </div>
+        
         </div>
         <DialogEmployees 
                     v-if="this.isModalVisible == true"
                     v-on:closeUnCheck="closeModalUnCheck"
                     v-on:closeCheck="closeModalCheck"
-                    v-on:showToastSuccess="showToastSaveSuccess"
+                    v-on:showToastSaveSuccess="showToastSaveSuccess"
+                    v-on:showToastModifySuccess="showToastModifySuccess"
                     v-on:clickStore="this.clickStore"
                     :employeeEdit="this.employeeEdit"
                 />
@@ -99,7 +88,11 @@
              * Author: doduyhung1292 (22/11/2022)
              */
             searchEmployee: function() {
-                this.informationSearchEmployee = this.inputSearchEmployee;
+                try {
+                    this.informationSearchEmployee = this.inputSearchEmployee;
+                } catch (error) {
+                    console.log(error)
+                }
             },
 
             /**
@@ -144,35 +137,35 @@
                 }
              },
 
-             /**
-             * Convert select paging to number employee/page
-             * Author: doduyhung1292 (22/11/2022)
-             */
-            convertType: function() {
-                try {
-                    switch (this.selectPaging) {
-                    case '10 bản ghi trên 1 trang':
-                        this.numberPerPage = 10
-                        break;
-                    case '20 bản ghi trên 1 trang':
-                        this.numberPerPage = 20
-                        break;
-                    case '30 bản ghi trên 1 trang':
-                        this.numberPerPage = 30
-                        break;
-                    case '50 bản ghi trên 1 trang':
-                        this.numberPerPage = 50
-                        break;
-                    case '100 bản ghi trên 1 trang':
-                        this.numberPerPage = 100
-                        break;
-                    default:
-                        break;
-                    };
-                } catch (error) {
-                    console.log(error)
-                }
-            },
+            //  /**
+            //  * Convert select paging to number employee/page
+            //  * Author: doduyhung1292 (22/11/2022)
+            //  */
+            // convertType: function() {
+            //     try {
+            //         switch (this.selectPaging) {
+            //         case '10 bản ghi trên 1 trang':
+            //             this.numberPerPage = 10
+            //             break;
+            //         case '20 bản ghi trên 1 trang':
+            //             this.numberPerPage = 20
+            //             break;
+            //         case '30 bản ghi trên 1 trang':
+            //             this.numberPerPage = 30
+            //             break;
+            //         case '50 bản ghi trên 1 trang':
+            //             this.numberPerPage = 50
+            //             break;
+            //         case '100 bản ghi trên 1 trang':
+            //             this.numberPerPage = 100
+            //             break;
+            //         default:
+            //             break;
+            //         };
+            //     } catch (error) {
+            //         console.log(error)
+            //     }
+            // },
 
             /**
              * close modal confirm store and modal employee
@@ -194,18 +187,49 @@
              * Author: doduyhung1292 (20/11/2022)
              */
              clickStore: function() {
-                //console.log("function active");
-                this.isShowModalConfirmStore = false;
-                this.isModalVisible = false;
+                try {
+                    this.isShowModalConfirmStore = false;
+                    this.isModalVisible = false;
+                } catch (error) {
+                    console.log(error)
+                }
              },
 //End Region function
 //Region UI
+             /**
+              * Catch event hover input search
+              * Author: doduyhung1292 (24/11/2022)
+              */
+            inputSearchHover: function() {
+                try {
+                    this.isSearchButtonHover = "input__search--hover"
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+            /**
+              * Catch event unhover input search
+              * Author: doduyhung1292 (24/11/2022)
+              */
+              inputSearchUnhover: function() {
+                try {
+                    this.isSearchButtonHover = null
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
              /**
              * Show modal confirm store when click button "Cất"
              * Author: doduyhung1292 (20/11/2022)
              */
             showModalConfirmStore: function() {
-                this.isShowModalConfirmStore = !this.isShowModalConfirmStore;
+                try {
+                    this.isShowModalConfirmStore = !this.isShowModalConfirmStore;
+                } catch (error) {
+                    console.log(error)
+                }
             },
 
             /**
@@ -248,26 +272,45 @@
             },
 
             /**
-             * Show toast success
+             * Show toast save success
              * Author: doduyhung1292 (13/11/2022)
              */
-            showToastSaveSuccess: function() {
+            showToastSaveSuccess: function(e) {
                 try {
-                    this.contentToastSuccess = "Lưu thành công.";
+                    this.newEmployee = e;
+                    this.contentToastSuccess = "Thông tin nhân viên đã được thêm.";
                     this.isToastSuccessVisible = !this.isToastSuccessVisible;
-                    setTimeout(() => {this.isToastSuccessVisible = false}, 2000)
+                    setTimeout(() => {this.isToastSuccessVisible = false}, 5000)
                 } catch (error) {
                     console.log(error)
                 }
             },
 
             /**
+             * Show toast modify success
+             * Author: doduyhung1292 (13/11/2022)
+             */
+
+            showToastModifySuccess: function(e) {
+                try {
+                    this.modifyEmployee = e;
+                    this.contentToastSuccess = "Thông tin nhân viên đã được sửa.";
+                    this.isToastSuccessVisible = !this.isToastSuccessVisible;
+                    setTimeout(() => {this.isToastSuccessVisible = false}, 5000)
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+            /**
              * Hide modal confirm store
              * Author: doduyhung1292 (20/11/2022)
              */
              hideDialogConfirmStore: function() {
-                //console.log("function active");
-                this.isShowModalConfirmStore = false;
+                try {
+                    this.isShowModalConfirmStore = false;
+                } catch (error) {
+                    console.log(error)
+                }
              },
 
              
@@ -277,9 +320,9 @@
              */
             showToastDeleteSuccess: function() {
                 try {
-                    this.contentToastSuccess = "Xóa thành công.";
+                    this.contentToastSuccess = "Nhân viên đã được xóa";
                     this.isToastSuccessVisible = !this.isToastSuccessVisible;
-                    setTimeout(() => {this.isToastSuccessVisible = false}, 2000)
+                    setTimeout(() => {this.isToastSuccessVisible = false}, 5000)
                 } catch (error) {
                     console.log(error)
                 }
@@ -318,15 +361,16 @@
                 employeeEdit: {},
                 numberEmployee: 0,
                 isSearchButtonFocus: null,
+                isSearchButtonHover: null,
                 contentToastSuccess: null,
                 isShowModalConfirmStore: false,
                 tempEmp: {},
-                selectPaging: '10 bản ghi trên 1 trang',
+                selectPaging: '10',
                 numberPerPage: 10,
                 numberPage: 0, 
                 pageSelected: 1,
                 inputSearchEmployee: null,
-                informationSearchEmployee: null
+                informationSearchEmployee: null,
             }
         },
     }
@@ -342,5 +386,28 @@
     border: 1px solid #e0e0e0!important;
     border-radius: 2px;
     cursor: pointer;
+}
+.content-footer--right, select{
+    font-family: Notosans;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #666666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.select-paging>select {
+    background-color: #CEEAD9;
+    border: none;
+    height: 29px;
+}
+
+.numberRecords {
+    margin-bottom: 2px;
+    margin-left: 16px;
+}
+.input__search--hover {
+    background-color: #E7F5EC;
 }
 </style>

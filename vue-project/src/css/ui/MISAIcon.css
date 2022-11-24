@@ -166,7 +166,7 @@
     background-position: -847px -30px;
     width: 24px;
     height: 24px;
-    margin-left: 10px;
+    margin-left: 16px;
     margin-right: 16px;
     justify-content: center;
     align-items: center;
@@ -176,10 +176,10 @@
 .header-left__icondropdown {
     background-image: url(../../assets/img/Sprites.64af8f61.svg);
     background-repeat: no-repeat;
-    background-position: -1078px -28px;
+    background-position: -1123px -357px;
     width: 24px;
     height: 24px;
-    margin-left: 10px;
+    margin-left: 2px;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -194,7 +194,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    margin: 0 10px;
+    margin: 0 26px;
 }
 
 .icon-reload {
@@ -205,20 +205,14 @@
     height: 24px;
     justify-content: center;
     align-items: center;
-    margin: 7px 5px 0 20px;
     cursor: pointer;
+    margin-right: 20px;
+    margin-top: 18px;
+    margin-left: 12px;
 }
 
 .icon-reload:hover {
-    background-image: url(../../assets/img/Sprites.64af8f61.svg);
-    background-repeat: no-repeat;
     background-position: -1098px -90px;
-    width: 24px;
-    height: 24px;
-    justify-content: center;
-    align-items: center;
-    margin: 7px 5px 0 20px;
-    cursor: pointer;
 }
 
 .icon-help {
@@ -236,81 +230,10 @@
 .icon-close {
     background-image: url(../../assets/img/Sprites.64af8f61.svg);
     background-repeat: no-repeat;
-    background-position: -147px -147px;
+    background-position: -141px -147px;
     width: 24px;
     height: 24px;
     cursor: pointer;
-}
-
-.icon__excel {
-    background-image: url(../../assets/img/Sprites.64af8f61.svg);
-    background-repeat: no-repeat;
-    background-position: -705px -202px;
-    width: 24px;
-    height: 24px;
-    margin: 7px 5px 0 5px;
-    cursor: pointer;
-}
-
-.icon__excel:hover {
-    background-image: url(../../assets/img/Sprites.64af8f61.svg);
-    background-repeat: no-repeat;
-    background-position: -705px -258px;
-    width: 24px;
-    height: 24px;
-    margin: 7px 5px 0 5px;
-}
-
-.icon__set-up {
-    background-image: url(../../assets/img/Sprites.64af8f61.svg);
-    background-repeat: no-repeat;
-    background-position: -90px -201px;
-    width: 24px;
-    height: 24px;
-    margin: 5px 10px 0 10px;
-    cursor: pointer;
-}
-
-.icon__set-up:hover {
-    background-image: url(../../assets/img/Sprites.64af8f61.svg);
-    background-repeat: no-repeat;
-    background-position: -90px -257px;
-    width: 24px;
-    height: 24px;
-    margin: 5px 10px 0 10px;
-}
-
-.icon-message {
-    background-image: url(../../assets/img/Sprites.64af8f61.svg);
-    background-repeat: no-repeat;
-    background-position: -899px -30px;
-    width: 24px;
-    height: 24px;
-    margin: 0 10px;
-}
-
-.icon__extend-feature {
-    background-image: url(../../assets/img/Sprites.64af8f61.svg);
-    background-repeat: no-repeat;
-    background-position: -568px -30px;
-    width: 24px;
-    height: 24px;
-    margin: 0 10px;
-}
-
-.icon__search {
-    background-image: url(../../assets/img/Sprites.64af8f61.svg);
-    background-repeat: no-repeat;
-    background-position: -955px -26px;
-    width: 24px;
-    height: 27px;
-    border-radius: 2px;
-    border-top-left-radius: none;
-    border-bottom-left-radius: none;
-    border: 1px solid #EBEBEB;
-    cursor: pointer;
-    padding: 1px 10px 2px 0;
-    border-left: none;
 }
 
 .icon-search {
@@ -318,14 +241,15 @@
     background-repeat: no-repeat;
     background-position: -955px -26px;
     width: 24px;
-    height: 29px;
+    height: 33px;
     border-radius: 2px;
     border-top-left-radius: none;
     border-bottom-left-radius: none;
     border: 1px solid #EBEBEB;
     cursor: pointer;
-    padding: 1px 10px 2px 0;
+    padding: 1px 8px 2px 0;
     border-left: none;
+    margin-top: 12px;
 }
 
 .icon__set-up.header__icon {
@@ -358,19 +282,21 @@
 .icon-success {
     background-image: url(../../assets/img/Sprites.64af8f61.svg);
     background-repeat: no-repeat;
-    background-position: -1489px -201px;
+    background-position: -1602px -258px;
     width: 22px;
     height: 22px;
-    margin-left: 15px;
+    margin-left: 18px;
+    margin-right: 10px;
 }
 
 .icon-close.close-notice {
     background-image: url(../../assets/img/Sprites.64af8f61.svg);
     background-repeat: no-repeat;
-    background-position: -84px -316px;
-    width: 10px;
+    background-position: -1178px -362px;
+    width: 24px;
     height: 26px;
-    margin-left: 15px;
+    margin-left: 19px;
+    margin-top: 14px;
 }
 
 .icon__warning-delete {
@@ -387,4 +313,71 @@
     background-position: -832px -462px;
     width: 37px;
     height: 37px;
+}
+
+/*Set icon when hover item in sidebar*/
+
+.overview:hover .icon-overview {
+    background-position: -33px -1587px!important;
+}
+
+.money:hover .icon-money {
+    background-position: -78px -1588px!important;
+}
+.bank:hover .icon-bank {
+    background-position: -121px -1590px!important;
+}
+.buy:hover .icon-buy {
+    background-position: -165px -1589px!important;
+}
+.sell:hover .icon-sell {
+    background-position: -206px -1588px!important;
+}
+.order:hover .icon-order {
+    background-position: -254px -1589px!important;
+}
+.warehouse:hover .icon-warehouse {
+    background-position: -294px -1589px!important;
+}
+.tools:hover .icon-tools {
+    background-position: -339px -1590px!important;
+}
+.assets:hover .icon-assets {
+    background-position: -382px -1589px!important;
+}
+.tax:hover .icon-tax {
+    background-position: -427px -1591px!important;
+}
+.price:hover .icon-price {
+    background-position: -471px -1590px!important;
+}
+.general:hover .icon-general {
+    background-position: -514px -1590px!important;
+}
+.budget:hover .icon-budget {
+    background-position: -427px -1664px!important;
+}
+.report:hover .icon-report {
+    background-position: -552px -1593px!important;
+}
+.financial:hover .icon-financial {
+    background-position: -251px -1667px!important;
+}
+
+.icon-next {
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -20px -355px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    cursor: pointer;
+    margin-left: 16px;
+}
+
+.icon-previous {
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -69px -355px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    cursor: pointer;
+    margin-left: 16px;
 }

@@ -1,17 +1,20 @@
 <template>
     <div class="dialog-notice">
         <div class="content-notice">
+            <div class="content-header">
+                <div>Dữ liệu đã thay đổi</div>
+                <div class="icon-close"   v-on:click="this.clickCancel"></div>
+            </div>
             <div class="content-main">
-                <div class="icon__warning-store"></div>
                 <div class="content-warning">
-                    <div>Dữ liệu đã bị thay đổi. Bạn có muốn cất không?</div>
+                    <div>Lưu lại những thay đổi?</div>
                 </div>
             </div>
             <div class="content-footer">
-                <button v-on:click="this.clickCancel" class="btn-cancel">Hủy</button>
                 <div>
-                    <button class="btn-cancel" v-on:click="this.clickNoStore">Không</button>
-                    <button class="close-dialog btn__store"  v-on:click="this.clickStore" >Có</button>
+                    <button class="btn-cancel" v-on:click="this.clickNoStore">Đóng</button>
+                    <button class="btn-cancel" v-on:click="this.clickNoStore">Không lưu</button>
+                    <button class="close-dialog btn__store"  v-on:click="this.clickStore" >Lưu</button>
                 </div>
                 
             </div>
@@ -64,12 +67,13 @@
 
 <style scoped>
     @import url(../../css/ui/DialogEmployees.css);
-
-    .content-footer {
-        display: flex;
-        justify-content: space-between;
+    .btn-cancel {
+        margin: 0 4px;
     }
-    .btn__store {
-        margin-left: 6px;
+    .close-dialog {
+        margin-left: 4px;
+    }
+    button {
+        min-width: 80px;
     }
 </style>

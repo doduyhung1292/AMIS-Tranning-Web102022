@@ -16,7 +16,7 @@ body {
     margin: 0;
 }
 .container {
-    font-family: Roboto;
+    font-family: Notosans;
     margin: 0;
     display: flex;
     flex-wrap: wrap;
@@ -25,20 +25,20 @@ body {
     width: 100%;
     max-width: 100%;
     max-height: 100vh;
-    background-color: #eceef1;
+    background-color: #E7F5EC;
 }
 
 @font-face {
-    font-family: Roboto;
-    src: url(../assets/font/Roboto-Regular.ttf);
+    font-family: Notosans;
+    src: url(../assets/font/notosans-regular.2cb88a13.woff2);
 }
 
 @font-face {
-    font-family: Roboto Bold;
-    src: url(../assets/font/Roboto-Bold.ttf);
+    font-family: Notosans-bold;
+    src: url(../assets/font/notosans-bold.3ede5aff.woff2);
 }
 
 @font-face {
-    font-family: Roboto Medium;
-    src: url(../assets/font/Roboto-Medium.ttf);
+    font-family: Notosans-semibold;
+    src: url(../assets/font/notosans-semibold.df3e6dc4.woff2);
 }

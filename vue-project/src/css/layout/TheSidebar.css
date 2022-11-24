@@ -1,7 +1,7 @@
 .sidebar {
-    width: 178px;
+    width: 200px;
     height: 100vh;
-    background-color: #393a3d;
+    background-color: #021E0D;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -29,15 +29,19 @@
 
 .menu-item {
     box-sizing: border-box;
-    height: 42px;
-    width: 173px;
+    height: 44px;
+    width: 176px;
     display: flex;
     justify-content: start;
     align-items: center;
     box-sizing: border-box;
-    color: #fff;
+    color: #869AB8;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 14px;
+    font-family: Notosans-semibold;
+    font-weight: 500;
+    margin: 4px 12px;
+    border-radius: 6px;
 }
 
 a {
@@ -46,14 +50,27 @@ a {
 }
 
 .menu-item:hover {
-    background-color: #59595d;
+    background-color: #033C1A;
+    color: #fff;
+    
 }
 
 .sidebar-item {
     overflow-y: scroll;
 }
 
-.sidebar-item::-webkit-scrollbar {
-    width: 0px;
-    height: 100%;
+.sidebar-item::-webkit-scrollbar-track {   
+    margin-left: 16px;
+	-webkit-box-shadow: inset 0 0 6px #021E0D;
+	background-color: #021E0D;
+}
+
+.sidebar-item::-webkit-scrollbar {   
+	width: 6px;
+    height: 6px;
+	background-color: #021E0D;
+}
+
+.sidebar-item::-webkit-scrollbar-thumb {
+	background-color:#067933;
 }

@@ -2,80 +2,74 @@ table, th, td {
     border: 1px black;
     border-collapse: collapse; 
     color: #1F1F1F;
-    height: calc(100% - 126px);
     width: 100%;
 }
 
+table {
+    border-radius: 4px;
+}
+
 th {
-    border: 1px solid #c7c7c7;
     border-top: none;
     position: sticky;
-    background-color: #e5e8ec;
-    font-size: 12px;
-    font-weight: 700px;
-    font-family: Roboto Bold;
-    height: 35px;
+    top: 0;
+    background-color: #CEEAD9;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 700;
+    font-family: Notosans-bold;
+    height: 40px;
     cursor: pointer;
     text-align: left;
     padding-left: 10px;
 }
 td {
-    font-size: 13px;
+
+    font-size: 14px;
+    line-height: 18px;
     font-weight: 400;
-    height: 44px;
-    border-left: 1px dotted #c7c7c7;
-    border-right: 1px dotted #c7c7c7;
-    border-top: 1px solid #c7c7c7;
+    font-family: Notosans;
+    height: 40px;
+    border-top: 1px solid #E0E0E0;
     cursor: pointer;
     text-align: left;
-    padding-left: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 tr:hover {
-    background-color: #e5f3ff;
-}
-/*fixed 1st column*/
-tr>th:first-child,tr>td:first-child {
-    position: sticky;
-    left: 0;
-    min-width: 20px;
-    border: none;
-    background-color: #fff;
-    padding: 0;
-    z-index: 2;
-  }
-tr>td:first-child {
-    background-color: #fff;
-}
-tr:hover>td:nth-child(2) {
-    background-color: #e5f3ff;
+    background-color: #E7F5EC;
 }
 
-/*fixed last column - column padding right*/
+tr:hover>td:first-child {
+    background-color: #E7F5EC;
+}
+
+/*fix column function*/
 tr>th:last-child,tr>td:last-child {
     position: sticky;
-    min-width: 30px;
     right: 0;
-    padding: 0;
-    border: none!important; 
-    background-color: #fff;
+    border-right: none;
   }
+
+tr>th:last-child {
+    top: 0;
+    z-index: 10;
+    border-top-right-radius: 4px;
+}
+
+tr>th:first-child {
+    top: 0;
+    z-index: 10;
+    border-top-left-radius: 4px;
+}
+
 tr>td:last-child {
     background-color: #fff;
 }
 
-/*fix column function*/
-tr>th:nth-child(18),tr>td:nth-child(18) {
-    position: sticky;
-    right: 30px;
-    border-right: none;
-  }
-tr>td:nth-child(18) {
-    background-color: #fff;
-}
-
-tr:hover>td:nth-child(18) {
-    background-color: #e5f3ff;
+tr:hover>td:last-child {
+    background-color: #E7F5EC;
 }
 
 /*define width column*/
@@ -90,7 +84,7 @@ tr:hover>td:nth-child(18) {
     text-align: center;
     padding: 0;
     left: 20px;
-    background-color: #e5e8ec;
+    background-color: #CEEAD9;
 }
 
 .th__fullname {
@@ -112,22 +106,11 @@ tr:hover>td:nth-child(18) {
 .th__entity-number {
     width: 110px;
     min-width: 110px;
-    text-align: right;
-    padding-right: 10px;
+    text-align: left;
 }
 
 .td__identity-number {
-    text-align: right;
-    padding-right: 10px;
-}
-.th__issue-date {
-    width: 150px;
-    min-width: 150px;
-    text-align: center;
-}
-
-.td__identity-date {
-    text-align: center;
+    text-align: left;
 }
 
 .td__date-of-birth {
@@ -139,15 +122,6 @@ tr:hover>td:nth-child(18) {
     min-width: 100px;
 }
 
-.th__issued-by {
-    width: 150px;
-    min-width: 150px;
-}
-
-.th__id-unit {
-    width: 150px;
-    min-width: 150px;
-}
 .th__unit {
     width: 200px;
     min-width: 200px;
@@ -156,11 +130,9 @@ tr:hover>td:nth-child(18) {
 .th__bank-account {
     width: 140px;
     min-width: 140px;
-    text-align: right;
     padding-right: 10px;
 }
 .td__bank-account-number {
-    text-align: right;
     padding-right: 10px;
 }
 
@@ -174,22 +146,10 @@ tr:hover>td:nth-child(18) {
     min-width: 250px;
 }
 
-.th__is-customer {
-    width: 150px;
-    min-width: 150px;
-    text-align: center;
-}
-
-.th__is-supplier {
-    max-width: 150px;
-    min-width: 150px;
-    text-align: center;
-}
-
 .th__function {
     width: 120px;
     min-width: 120px;
-    background-color: #e5e8ec;
+    background-color: #CEEAD9;
     text-align: center;
 }
 
@@ -197,8 +157,7 @@ tr:hover>td:nth-child(18) {
     width: 100px;
     min-width: 100px;
     font-weight: 600;
-    color: #0075c0;
-    border-left: 1px dotted #c7c7c7;
+    color: #033C1A;
     justify-content: center;
 }
 
@@ -217,11 +176,4 @@ tr:hover>td:nth-child(18) {
 
 .td__employee-id {
     min-width: 125px;
-}
-
-.td__is-supplier {
-    padding-left: 24px;
-    text-align: center;
-    max-width: 150px;
-    min-width: 150px;
 }

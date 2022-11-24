@@ -6,12 +6,6 @@
             <div class="header-left__icondropdown"></div>
         </div>
         <div class="header-right">
-            <input class="header__icon input-search" placeholder="Nhập từ khóa tìm kiếm"  v-on:focusin="inputSearchFocus"  v-on:focusout="inputSearchFocusOut">
-            <div class="icon__search header__search"  :class="isSearchButtonFocus"></div>
-            <div class="icon__extend-feature"></div>
-            <div class="icon__set-up header__icon"></div>
-            <div class="icon-message"></div>
-            <div class="icon-help" tittle="Giúp"></div>
             <div class="header-right__iconnotice"></div>
             <div class="header-right__avatar"></div>
             <div class="header-right__username">Nguyễn Văn Mạnh</div>

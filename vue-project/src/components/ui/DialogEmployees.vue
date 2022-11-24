@@ -4,14 +4,6 @@
             <div class="model-content-header">
                 <div class="model-content-header-left">
                     <div class="title">Thông tin nhân viên</div>
-                    <div class="model-content-header__checkbox">
-                        <input type="checkbox"  ref="isCustomer">
-                        <div>Là khách hàng</div>
-                    </div>
-                    <div class="model-content-header__checkbox">
-                        <input type="checkbox" >
-                        <div>Là nhà cung cấp</div>
-                    </div>
                 </div>
                 <div class="model-content-header-right">
                     <div class="icon-help" title="Trợ giúp"></div>
@@ -29,7 +21,7 @@
                                 :class="employeeCodeBorder" 
                                 v-model="this.emp.EmployeeCode" 
                                 ref="employeeCode" 
-                                required>
+                                required tabindex="1">
                         </div>
                         <div>
                             <label for="full-name" title="Tên nhân viên">Tên </label><span style="color: red">*</span><br />
@@ -37,7 +29,8 @@
                                 v-bind:title='titleEmployeeNameInput' 
                                 v-on:blur="fullnameInput" 
                                 :class="fullnameBorder" 
-                                v-model="this.emp.EmployeeName" required>
+                                v-model="this.emp.EmployeeName" required
+                                tabindex="2">
                         </div>
                     </div>
                     <div>
@@ -46,7 +39,8 @@
                             v-bind:title='titleDepartmentInput' 
                             v-on:blur="departmentInput" 
                             :class="departmentBorder" 
-                            v-model="this.emp.DepartmentName" required>
+                            v-model="this.emp.DepartmentName" required
+                            tabindex="3">
                             <option v-for="(department, index) in allDepartment" :key="index">{{department.DepartmentName}}</option>
                         </select>
                     </div>
@@ -54,7 +48,8 @@
                         <label for="job-title" title="Chức danh">Chức danh</label><br />
                         <select name="job-title" id="job-title" 
                             v-model="this.emp.EmployeePosition" 
-                            title="Chức danh" >
+                            title="Chức danh" 
+                            tabindex="4">
                             <option v-for="(position, index) in allPosition" :key="index">{{position.PositionName}}</option>
                         </select>
                     </div>
@@ -63,13 +58,17 @@
                     <div class="display-inline">
                         <div>
                             <label for="date-of-birth" title="Ngày sinh">Ngày sinh</label><br />
-                            <input type="date" id="date-of-birth" title="Ngày sinh" placeholder="DD/MM/YYYY" v-model="this.emp.DateOfBirth" >
+                            <input type="date" id="date-of-birth" title="Ngày sinh" 
+                                    placeholder="DD/MM/YYYY" v-model="this.emp.DateOfBirth" 
+                                    tabindex="5">
                         </div>
                         <div>
                             <label for="male" class="label__sex" title="Giới tính">Giới tính</label><br />
-                                <div class="display-inline">
+                                <div class="display-inline combo-radio-gender">
                                     <div class="radio-sex">
-                                        <input type="radio"  title="Nam" id="male" name="sex" v-model="this.emp.GenderName" value="Nam" >
+                                        <input type="radio"  title="Nam" id="male" name="sex" 
+                                                v-model="this.emp.GenderName" value="Nam" 
+                                                tabindex="6">
                                         <label for="male" title="Nam">Nam</label>
                                     </div>
                                     <div class="radio-sex">
@@ -87,65 +86,84 @@
                     <div class="display-inline">
                         <div>
                             <label for="identity-number" title="Số chứng minh nhân dân">Số CMND</label><br />
-                            <input @keypress="validateNumber" title="Số chứng minh nhân dân" 
+                            <input title="Số chứng minh nhân dân" 
                                 type="text" id="identity-number" 
-                                v-model="this.emp.IdentityNumber" >
+                                v-model="this.emp.IdentityNumber" 
+                                tabindex="7">
                         </div>
                         <div>
                             <label for="issue-date" title="Ngày cấp">Ngày cấp</label><br />
-                            <input type="date" id="issue-date" title="Ngày cấp" v-model="this.emp.IdentityDate" placeholder="DD/MM/YYYY" >
+                            <input type="date" id="issue-date" title="Ngày cấp" 
+                                v-model="this.emp.IdentityDate" placeholder="DD-MM-YYYY" 
+                                tabindex="8">
                         </div>
                     </div>
                     <div>
                         <label for="issued-by" title="Nơi cấp">Nơi cấp</label><br />
-                        <input type="text" id="issued-by" title="Nơi cấp" v-model="this.emp.IdentityPlace" >
+                        <input type="text" id="issued-by" title="Nơi cấp" 
+                            v-model="this.emp.IdentityPlace" 
+                            tabindex="9">
                     </div>
                 </div>
                 <div class="address">
                     <label for="address" title="Địa chỉ">Địa chỉ</label><br />
-                    <input type="text" id="address" title="Địa chỉ" v-model="this.emp.Address" >
+                    <input type="text" id="address" title="Địa chỉ" 
+                        v-model="this.emp.Address" 
+                        tabindex="10">
                 </div>
                 <div class="contact display-inline">
                     <div>
                         <label for="mobile-phone-number" title="Điện thoại di động">ĐT di động</label><br />
-                        <input @keypress="validateNumber" title="Điện thoại di động" type="text" 
+                        <input title="Điện thoại di động" type="text" 
                             id="mobile-phone-number" 
-                            v-model="this.emp.PhoneNumber" >
+                            v-model="this.emp.PhoneNumber" 
+                            tabindex="11">
                     </div>
                     <div>
                         <label for="landline-phone-number" title="Điện thoại cố định">ĐT cố định</label><br />
-                        <input @keypress="validateNumber" title="Điện thoại cố định" type="text" 
-                            id="landline-phone-number" v-model="this.emp.TelephoneNumber" >
+                        <input title="Điện thoại cố định" type="text" 
+                            id="landline-phone-number" v-model="this.emp.TelephoneNumber" 
+                            tabindex="12">
                     </div>
                     <div>
                         <label for="email" title="Email">Email</label><br />
-                        <input type="email" id="email" title="Email" v-model="this.emp.Email" >
+                        <input type="email" id="email" title="Email" v-model="this.emp.Email" tabindex="13">
                     </div>
                 </div>
                 <div class="bank-infomation display-inline">
                     <div>
                         <label for="bank-account" title="Tài khoản ngân hàng">Tài khoản ngân hàng</label><br />
-                        <input @keypress="validateNumber" type="text" 
+                        <input type="text" 
                             title="Tài khoản ngân hàng" id="bank-account" 
-                            v-model="this.emp.BankAccountNumber" >
+                            v-model="this.emp.BankAccountNumber" 
+                            tabindex="14">
                     </div>
                     <div>
                         <label for="bank-name" title="Tên ngân hàng">Tên ngân hàng</label><br />
-                        <input type="text" id="bank-name" title="Tên ngân hàng" v-model="this.emp.BankName" >
+                        <input type="text" id="bank-name" title="Tên ngân hàng" v-model="this.emp.BankName" 
+                        tabindex="15">
                     </div>
                     <div>
                         <label for="branch" title="Chi nhánh">Chi nhánh</label><br />
-                        <input type="text" id="branch" title="Chi nhánh" v-model="this.emp.BankBranchName" >
+                        <input type="text" id="branch" title="Chi nhánh" v-model="this.emp.BankBranchName" 
+                            tabindex="16">
                     </div>
                 </div>
             </div>
             <div class="model-content-footer">
                 <div class="footer-left">
-                    <button class="btn-cancel"  v-on:click="$emit('closeUnCheck')" title="Hủy" >Hủy</button>
+                    <button class="btn-cancel"  
+                        v-on:click="$emit('closeUnCheck')" 
+                        title="Hủy" 
+                        tabindex="19"
+                        v-on:keydown.tab="returnFirstTabIndex">Hủy</button>
                 </div>
                 <div class="footer-right display-inline">
-                    <button class="btn-store" title="Cất"   v-on:click="this.clickStore" >Cất</button>
-                    <button class="btn-save" v-on:click="saveEmployee" v-on:keydown.tab="returnFirstTabIndex">Cất và {{this.typeModal}}</button>
+                    <button class="btn-store" title="Cất"   
+                        v-on:click="this.clickStore" 
+                        tabindex="17">Cất</button>
+                    <button class="btn-save" v-on:click="saveEmployee" 
+                        tabindex="18">Cất và {{this.typeModal}}</button>
                 </div>
             </div>
         </div>
@@ -271,18 +289,6 @@
 
             /**
              * 
-             * Only accept input type = number
-             * Author: doduyhung1292 (11/11/2022)
-             */
-             validateNumber: (event) => {
-                let keyCode = event.keyCode;
-                if (keyCode < 48 || keyCode > 57) {
-                    event.preventDefault();
-                }
-            },
-
-            /**
-             * 
              * Validate email
              * Author: doduyhung1292 (11/11/2022)
              */
@@ -307,19 +313,40 @@
              */
 
              employeeCodeInput: function() {
-                if (!this.emp.EmployeeCode) {this.employeeCodeBorder = 'borderRed'; this.titleEmployeeCodeInput = "Mã nhân viên không được để trống."; console.log(this.titleEmployeeNameInput);} 
+                try {
+                    if (!this.emp.EmployeeCode) {this.employeeCodeBorder = 'borderRed'; this.titleEmployeeCodeInput = "Mã nhân viên không được để trống."; console.log(this.titleEmployeeNameInput);} 
                     else {this.employeeCodeBorder = null;  this.titleEmployeeCodeInput = "Mã nhân viên."}
-
+                } catch (error) {
+                    console.log(error);
+                }
              },
 
+             /**
+             * 
+             * Change color border to red if no data in required input
+             * Author: doduyhung1292 (11/11/2022)
+             */
              fullnameInput: function() {
-                if (!this.emp.EmployeeName) {this.fullnameBorder = 'borderRed';  this.titleEmployeeNameInput = "Tên nhân viên không được để trống."} 
+                try {
+                    if (!this.emp.EmployeeName) {this.fullnameBorder = 'borderRed';  this.titleEmployeeNameInput = "Tên nhân viên không được để trống."} 
                     else {this.fullnameBorder = null; this.titleEmployeeNameInput = "Tên nhân viên."}
+                } catch (error) {
+                    console.log(error);
+                }
              },
 
+             /**
+             * 
+             * Change color border to red if no data in required input
+             * Author: doduyhung1292 (11/11/2022)
+             */
              departmentInput: function() {
-                if (!this.emp.DepartmentName) {this.departmentBorder = 'borderRed';  this.titleDepartmentInput = "Đơn vị không được để trống."} 
+                try {
+                    if (!this.emp.DepartmentName) {this.departmentBorder = 'borderRed';  this.titleDepartmentInput = "Đơn vị không được để trống."} 
                     else {this.departmentBorder = null;   this.titleDepartmentInput = "Đơn vị."}
+                } catch (error) {
+                    console.log(error)
+                }
              },
 
              /**
@@ -394,14 +421,15 @@
              * Author: doduyhung1292 (13/11/2022)
              */
              checkResponse: function () {
-                switch (this.serverResponse.status) {
+                try {
+                    switch (this.serverResponse.status) {
                         case 200:
                             this.$emit('closeUnCheck');
-                            this.$emit('showToastSuccess');
+                            this.$emit('showToastModifySuccess', this.emp);
                             break;
                         case 201:
                             this.$emit('closeUnCheck');
-                            this.$emit('showToastSuccess');
+                            this.$emit('showToastSaveSuccess', this.emp);
                             break;
                         case 400:
                             this.errMsg = [];
@@ -418,6 +446,9 @@
                         default:
                             break;
                     }
+                } catch (error) {
+                    console.log(error);
+                }
             },
 //End region function
 // Region UI
@@ -426,9 +457,13 @@
              * Author: doduyhung1292 (15/11/2022)
              */
              closeDialogEmployee: function() {
-                if(this.typeModal == "Thêm" && this.emp != {}) {this.$emit('closeCheck', this.emp); return;}
-                if(this.typeModal == "Sửa" && this.emp != this.employeeEdit) {this.$emit('closeCheck', this.emp); return;} 
-                    else {this.$emit('closeUnCheck'); return;}
+                try {
+                    if(this.typeModal == "Thêm" && this.emp != {}) {this.$emit('closeCheck', this.emp); return;}
+                    if(this.typeModal == "Sửa" && this.emp != this.employeeEdit) {this.$emit('closeCheck', this.emp); return;} 
+                        else {this.$emit('closeUnCheck'); return;}
+                } catch (error) {
+                    console.log(error)
+                }
             },
 
             /**
@@ -436,7 +471,11 @@
              * Author: doduyhung1292 (22/11/2022)
              */
              returnFirstTabIndex: function() {
-                this.$refs.employeeCode.focus();
+                try {
+                    this.$refs.employeeCode.focus();
+                } catch (error) {
+                    console.log(error)
+                }
             },
 
             /**
@@ -460,7 +499,7 @@
 
 </script>
 
-<style>
+<style scoped>
     @import url(../../css/ui/DialogEmployees.css);
     .borderRed {
         border-color: red;
@@ -468,5 +507,17 @@
 
     .model-content-header__checkbox:focus {
         outline :1px solid red;
+    }
+
+    button {
+        min-width: 80px;
+    }
+    .combo-radio-gender {
+        margin-top: 9px;
+        margin-left: 7px;
+    }
+
+    input[type="radio"] {
+        margin-right: 1px;
     }
 </style>

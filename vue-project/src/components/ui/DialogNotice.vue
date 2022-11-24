@@ -1,8 +1,11 @@
 <template>
     <div class="dialog-notice">
         <div class="content-notice">
+            <div class="content-header">
+                <div>Xác thực dữ liệu</div>
+                <div class="icon-close"  v-on:click="$emit('closeDialogNotice')"></div>
+            </div>
             <div class="content-main">
-                <div class="icon-warning"></div>
                 <div class="content-warning">
                     <div  v-for="err in this.errMsg">{{err}}</div>
                 </div>
@@ -23,4 +26,8 @@
 
 <style scoped>
     @import url(../../css/ui/DialogEmployees.css);
+
+    button {
+        min-width: 80px;
+    }
 </style>

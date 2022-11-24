@@ -2,7 +2,6 @@
     <div class="main-content-table">
             <table class="row-table">
                 <tr>    
-                        <th class="column-padding"></th>
                         <th class="th__checkbox">
                             <input type="checkbox">
                         </th>
@@ -11,25 +10,18 @@
                         <th class="th__sex" title="GIỚI TÍNH">GIỚI TÍNH</th>
                         <th class="th__date-of-birth" title="NGÀY SINH">NGÀY SINH</th>
                         <th class="th__entity-number" title="SỐ CHỨNG MINH NHÂN DÂN">SỐ CMND</th>
-                        <th class="th__issue-date" title="NGÀY CẤP">NGÀY CẤP</th>
-                        <th class="th__issued-by" title="NƠI CẤP">NƠI CẤP</th>
                         <th class="th__title-job" title="CHỨC DANH">CHỨC DANH</th>
-                        <th class="th__id-unit" title="MÃ ĐƠN VỊ">MÃ ĐƠN VỊ</th>
                         <th class="th__unit" title="TÊN ĐƠN VỊ">TÊN ĐƠN VỊ</th>
                         <th class="th__bank-account" title="SỐ TÀI KHOẢN">SỐ TÀI KHOẢN</th>
                         <th class="th__bank-name" title="TÊN NGÂN HÀNG">TÊN NGÂN HÀNG</th>
                         <th class="th__branch-bank" title="CHI NHÁNH TÀI KHOẢN NGÂN HÀNG">CHI NHÁNH TK NGÂN HÀNG</th>
-                        <th class="th__is-customer" title="LÀ KHÁCH HÀNG">LÀ KHÁCH HÀNG</th>
-                        <th class="th__is-supplier" title="LÀ NHÀ CUNG CẤP">LÀ NHÀ CUNG CẤP</th>
                         <th class="th__function" title="CHỨC NĂNG">CHỨC NĂNG</th>
-                        <th class="column-padding--right"></th>
                     </tr>
                     <tbody>
                         <tr v-for="(employee, index) in employees" :key="index"
                             v-on:click="selectEmployee(index)"
                             v-on:dblclick="showModal(employee)"
                             :class="{selected: rowSelected == index}">
-                            <td  class="column-padding"></td>
                             <td class="td__checkbox" :class="{selected: rowSelected == index}">
                                 <input type="checkbox">
                             </td>
@@ -38,20 +30,11 @@
                             <td>{{employee.GenderName}}</td>
                             <td class="td__date-of-birth">{{formatDate(employee.DateOfBirth)}}</td>
                             <td class="td__identity-number">{{employee.IdentityNumber}}</td>
-                            <td class="td__identity-date">{{formatDate(employee.IdentityDate)}}</td>
-                            <td>{{employee.IdentityPlace}}</td>
                             <td>{{employee.EmployeePosition}}</td>
-                            <td>{{employee.DepartmentCode}}</td>
                             <td>{{employee.DepartmentName}}</td>
                             <td class="td__bank-account-number">{{employee.BankAccountNumber}}</td>
                             <td>{{employee.BankName}}</td>
                             <td>{{employee.BankBranchName}}</td>
-                            <td class="td__checkbox">
-                                <input type="checkbox">
-                            </td>
-                            <td class="td__checkbox">
-                                <input type="checkbox">
-                            </td>
                             <td class="td__function" :class="{selected: rowSelected == index}">
                                 <div class="td__function-content">
                                     <div  v-on:click="showModal(employee)">Sửa</div>
@@ -65,12 +48,11 @@
                                     </div>
                                     </div>
                             </td>
-                            <td class="column-padding--right"></td>
                     </tr>
                 </tbody>
+                <LoadingSpinner v-if="isLoading"/>
                 </table>
             </div>
-    <LoadingSpinner v-if="isLoading"/>
     <DialogConfirm v-if="isShowDialogConfirmDelete" 
                     v-on:callApiDelete = "this.callApiDelete" 
                     v-on:closeDialogConfirm="this.hideDialogConfirm"
@@ -85,7 +67,7 @@
     export default {
         name: "TableEmployees",
         components: {LoadingSpinner, DialogConfirm},
-        props: ["numberPerPage", "pageSelected", "informationSearchEmployee"],
+        props: ["modifyEmployee", "newEmployee", "numberPerPage", "pageSelected", "informationSearchEmployee"],
         created() {
           /**
              * API Get employees
@@ -98,6 +80,35 @@
                 .catch(err => console.log(err))
       },
       watch: {
+        /**
+         * Receive prop new employee when save success
+         * Author: doduyhung1292 (24/11/2022)
+         */
+        newEmployee: function(newVal, oldVal) {
+            try {
+                this.employees.unshift(newVal);
+            } catch (error) {
+                console.log(error)
+            }
+         },
+
+         /**
+         * Receive prop new employee when save success
+         * Author: doduyhung1292 (24/11/2022)
+         */
+         modifyEmployee: function(newVal, oldVal) {
+            try {
+                for (var emplo of this.employees) {
+                    if (emplo.EmployeeId == newVal.EmployeeId) {
+                        emplo = newVal;
+                        console.log("updated")
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+         },
+
         /**
          * Lấy lại api khi thay đổi số lượng bản ghi/ trang
          * Author: doduyhung1292 (22/11/2022)
@@ -136,7 +147,7 @@
                                 this.isLoading = false;
                                 this.$emit('getEmployeeLength', res.data.TotalRecord, res.data.TotalPage)})
                 .catch(err => console.log(err))
-         }
+         },
       },
       methods: {         
 // Region UI
@@ -184,7 +195,11 @@
              * Author: doduyhung1292 (14/11/2022)
              */
              hideDialogConfirm: function() {
-                this.isShowDialogConfirmDelete = false
+                try {
+                    this.isShowDialogConfirmDelete = false
+                } catch (error) {
+                    console.log(error)
+                }
              },
 // Endregion UI
 //Region API
@@ -213,6 +228,7 @@
                     case 200:
                         this.$emit('showToastDeleteSuccess');
                         this.isShowDialogConfirmDelete = false;
+                        this.employees = this.employees.filter(item => item.EmployeeId != this.employeeOnFunction.EmployeeId)
                         break;
                     default:
                         break;
@@ -301,10 +317,10 @@
     }
 
     .selected {
-        background-color: #e5f3ff!important;
+        background-color: #CEEAD9!important;
     }
     .hover {
-        background-color: #e5f3ff;
+        background-color: #E7F5EC;
     }
 
     .select-function {
@@ -333,13 +349,14 @@
         background-color: #fff;
         z-index: 40;
     }
-    tr>th:nth-child(2),tr>td:nth-child(2) {
+    tr>th:first-child,tr>td:first-child {
     position: sticky;
-    left: 20px;
+    left: 0;
     border-left: none;
-    z-index: 10;
   }
-    tr>td:nth-child(2) {
+    tr>td:first-child {
         background-color: #fff;
+        padding-left: 16px;
+        text-align: left;
     }
 </style>
