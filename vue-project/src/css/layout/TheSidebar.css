@@ -59,6 +59,7 @@ a {
     overflow-y: scroll;
 }
 
+/*Scroll bar*/
 .sidebar-item::-webkit-scrollbar-track {   
     margin-left: 16px;
 	-webkit-box-shadow: inset 0 0 6px #021E0D;
@@ -73,4 +74,216 @@ a {
 
 .sidebar-item::-webkit-scrollbar-thumb {
 	background-color:#067933;
+}
+
+/*Icon in item menu*/
+.icon-menu {
+    box-sizing: border-box;
+    height: 24px;
+    width: 24px;
+    margin-right: 8px;
+    margin-top: 7px;
+    background-repeat: no-repeat;
+    background-position: -424px -86px;
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+}
+
+.icon-overview {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -33px -1630px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-money {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -78px -1631px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-bank {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -121px -1633px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-buy {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -165px -1632px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-sell {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -206px -1631px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-order {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -254px -1632px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-warehouse {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -294px -1632px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-tools {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -339px -1633px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-assets {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -382px -1632px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+
+.icon-tax {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -427px -1634px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-price {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -471px -1633px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-general {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -514px -1632px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-budget {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -382px -1664px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-report {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -552px -1636px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+.icon-financial {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -207px -1667px;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    margin-left: 13px;
+}
+
+/*Set icon when hover item in sidebar*/
+
+.overview:hover .icon-overview {
+    background-position: -33px -1587px!important;
+}
+
+.money:hover .icon-money {
+    background-position: -78px -1588px!important;
+}
+.bank:hover .icon-bank {
+    background-position: -121px -1590px!important;
+}
+.buy:hover .icon-buy {
+    background-position: -165px -1589px!important;
+}
+.sell:hover .icon-sell {
+    background-position: -206px -1588px!important;
+}
+.order:hover .icon-order {
+    background-position: -254px -1589px!important;
+}
+.warehouse:hover .icon-warehouse {
+    background-position: -294px -1589px!important;
+}
+.tools:hover .icon-tools {
+    background-position: -339px -1590px!important;
+}
+.assets:hover .icon-assets {
+    background-position: -382px -1589px!important;
+}
+.tax:hover .icon-tax {
+    background-position: -427px -1591px!important;
+}
+.price:hover .icon-price {
+    background-position: -471px -1590px!important;
+}
+.general:hover .icon-general {
+    background-position: -514px -1590px!important;
+}
+.budget:hover .icon-budget {
+    background-position: -427px -1664px!important;
+}
+.report:hover .icon-report {
+    background-position: -552px -1593px!important;
+}
+.financial:hover .icon-financial {
+    background-position: -251px -1667px!important;
 }

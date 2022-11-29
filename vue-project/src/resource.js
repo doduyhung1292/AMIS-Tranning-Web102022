@@ -25,6 +25,8 @@ export const TheMainContent = {
     mainContentHeader: {
         btnAddNewEmployee: "Thêm mới nhân viên",
         title: "Nhân viên",
+        placeholderSearch: "Tìm theo mã, tên nhân viên",
+        titleButtonReload: "Lấy lại dữ liệu"
     },
     mainContentTable: {
         //th column name on table
@@ -43,6 +45,7 @@ export const TheMainContent = {
         //th title column name on table
         titleIdentityNumber: "SỐ CHỨNG MINH NHÂN DÂN",
         titleBankBranchName: "CHI NHÁNH TÀI KHOẢN NGÂN HÀNG",
+        titleBankAccountNumber: "SỐ TÀI KHOẢN NGÂN HÀNG",
 
         //function on table
         functionOnTable: {
@@ -65,4 +68,104 @@ export const ToastContent = {
     contentToastDeleteSuccess: "Nhân viên đã được xóa",
     contentToastModifySuccess: "Thông tin nhân viên đã được sửa.",
     contentToastSaveSuccess: "Thông tin nhân viên đã được thêm."
-}
+};
+
+export const DialogEmployee = {
+    //header
+    titleDialog: "Thông tin nhân viên",
+    titleIconHelp: "Trợ giúp",
+    titleIconCloseDialog: "Đóng",
+    //label
+    employeeId: "Mã",
+    employeeName: "Tên",
+    departmentName: "Đơn vị",
+    positionName: "Chức danh",
+    dateOfBirth: "Ngày sinh",
+    gender: "Giới tính",
+    genderMale: "Nam",
+    genderFemale: "Nữ",
+    otherGender: "Khác",
+    identityNumber: "Số CMND",
+    identityDate: "Ngày cấp",
+    identityBy: "Nơi cấp",
+    address: "Địa chỉ",
+    phoneNumber: "ĐT di động",
+    telephoneNumber: "ĐT cố định",
+    email: "Email",
+    bankAccountNumber: "Số tài khoản ngân hàng",
+    bankName: "Tên ngân hàng",
+    bankBranchName: "Chi nhánh",
+
+    //title
+    titleEmployeeId: "Mã nhân viên",
+    titleEmployeeName: "Tên nhân viên",
+    titleIdentityNumber: "Số Chứng Minh Nhân Dân",
+    titleDepartment: "Đơn vị",
+    titlePhoneNumber: "Điện thoại di dộng",
+    titleTelephoneNumber: "Điện thoại cố định",
+    titleDateOfBirth: "Ngày sinh",
+    titleBankAccountNumber: "Tài khoản ngân hàng",
+    titleIdentityDate: "Ngày cấp chứng minh nhân dân",
+    titleEmail: "Email",
+
+    //button
+
+    buttonCacel: "Hủy",
+    buttonStore: "Cất",
+    buttonSave: "Cất và",
+
+    titleButtonSave: "Bấm Ctrl + S để lưu",
+
+    // title input invalid
+    titleDepartmentInvalid: "Đơn vị không được để trống.",
+    titleEmployeeNameInvalid: "Tên nhân viên không được để trống.",
+    titleEmployeeIdInvalid: "Mã nhân viên không được để trống.",
+    titleBankAccountNumberInvalid: "Số tài khoản ngân hàng không hợp lệ.",
+    titleTelephoneNumberInvalid: "Số điện thoại cố định không hợp lệ.",
+    titlePhoneNumberInvalid: "Số điện thoại di động không hợp lệ.",
+    titleIdentityNumberInvalid: "Số chứng minh nhân dân không hợp lệ.",
+    titleDateOfBirthInvalid: "Ngày sinh không hợp lệ",
+    titleIdentityDateInvalid: "Ngày cấp chứng minh nhân dân không hợp lệ",
+    titleEmailInvalid: "Email không hợp lệ.",
+
+    // title input valid
+    titleDepartmentValid: "Đơn vị",
+    titleEmployeeNameValid: "Tên nhân viên",
+    titleEmployeeIdValid: "Mã nhân viên",
+    titleBankAccountNumberValid: "Số tài khoản ngân hàng",
+    titleTelephoneNumberValid: "Số điện thoại cố định",
+    titlePhoneNumberValid: "Số điện thoại di động",
+    titleIdentityNumberValid: "Số chứng minh nhân dân",
+    titleDateOfBirthValid: "Ngày sinh",
+    titleIdentityDateValid: "Ngày cấp chứng minh nhân dân",
+    titleEmailValid: "Email",
+
+    //response error
+    serverErrorDefault: 'Đã có lỗi xảy ra, vui lòng liên hệ quản trị viên để biết thêm chi tiết.'
+};
+
+export const DialogNotice = {
+    titleDialog: "Xác thực dữ liệu",
+    buttonCloseDialog: "Đóng",
+    titleButtonCloseDialog: "Đóng"
+};
+
+export const DialogConfirmStoreResource = {
+    titleDialog: "Dữ liệu đã thay đổi",
+    contentDialog: "Lưu lại những thay đổi?",
+    buttonCloseDialog: "Đóng",
+    titleButtonCloseDialog: "Đóng",
+    titleButtonNotSave: "Không lưu",
+    titleButtonSave: "Lưu",
+    buttonNotSave: "Không lưu",
+    buttonSave: "Lưu"
+};
+
+export const DialogConfirm = {
+    titleDialog: "Xóa nhân viên",
+    titleButtonCloseDialog: "Đóng",
+    buttonCancel: "Hủy bỏ",
+    titleButtonCancel: "Hủy bỏ",
+    buttonDelete: "Xóa",
+    titleButtonDelete: "Xóa",
+};

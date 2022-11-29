@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/doduyhung1292/AMIS-Tranning-Web102022/issues"
   },
-  "homepage": "https://github.com/doduyhung1292/AMIS-Tranning-Web102022#readme"
+  "homepage": "https://github.com/doduyhung1292/AMIS-Tranning-Web102022#readme",
+  "dependencies": {
+    "vuex": "^4.0.2"
+  }
 }

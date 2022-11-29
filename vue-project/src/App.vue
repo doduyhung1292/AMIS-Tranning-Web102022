@@ -1,6 +1,6 @@
 <script setup>
 import TheHeader from "./components/layout/TheHeader.vue"
-import TheMain from "./components/layout/TheMain.vue"
+import TheMainEmployee from "./components/layout/employee/TheMainEmployee.vue"
 import TheSidebar from "./components/layout/TheSidebar.vue"
 </script>
 
@@ -8,10 +8,11 @@ import TheSidebar from "./components/layout/TheSidebar.vue"
   <div class="container">
     <TheSidebar />
     <TheHeader />
-    <TheMain />
+    <TheMainEmployee />
   </div>
 </template>
 
 <style>
   @import url(./css/index.css);
+  @import url(./css/common.css);
 </style>

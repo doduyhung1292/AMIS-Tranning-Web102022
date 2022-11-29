@@ -1,0 +1,227 @@
+@import url(../../index.css);
+
+.main {
+    padding: 24px 0 0 24px;
+    width: calc(100% - 200px);
+    height: calc(100% - 56px);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.main-header__right {
+    display: flex;
+    flex-direction: row;
+}
+
+.main-content {
+    height: 100%;
+    background-color: #fff;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 0 16px;
+    padding-top: 8px;
+}
+
+.main-content-toolbar {
+    box-sizing: border-box;
+    height: 52px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    justify-content: space-between;
+    background-color: #fff;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+
+.main-paging-left {
+    height: 17px;
+    margin-right: 210px;
+    font-size: 14px;
+    line-height: 0;
+    font-weight: 400;
+    font-family: Notosans;
+    color: #212121;
+    padding: 20px 0 19px 16px;
+}
+
+.container-footer {
+    display: flex;
+    height: 56px;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    background-color: #F5F5F5;
+    box-sizing: border-box;
+    padding: 0;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.main-paging-right {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding: 20px 16px 12px 0;
+    height: 17px;
+}
+
+.select-paging>select {
+    margin: 0;
+    cursor: pointer;
+}
+
+.select-paging {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.number-paging {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 4px;
+    box-sizing: border-box;
+}
+
+.number-paging>.next-page {
+    border: none;
+    background-color: #fff;
+    color: #111;
+    font-size: 13px;
+    margin-left: 4px;
+    margin-right: 7px;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.number-paging>.previous-page {
+    border: none;
+    background-color: #fff;
+    color: #111;
+    font-size: 13px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.page-unselected {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 1px;
+}
+
+.main-header__name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1F1F1F;
+    line-height: 28px;
+    font-family: Notosans-bold;
+}
+/*Icon*/
+.icon-reload {
+    background-image: url(../../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -425px -201px;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-top: 18px;
+    margin-left: 12px;
+}
+
+.icon-reload:hover {
+    background-position: -1098px -90px;
+}
+
+.input-search {
+    padding: 0 0px 0 10px;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    width: 210px;
+    height: 36px;
+    border-right: 0;
+    cursor: text;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-search.header__icon {
+    height: 32px;
+    width: 170px;
+    margin: 0;
+    cursor: text;
+    
+}
+
+.btn__add-new:hover,
+.btn__add-new:focus {
+    background-color: #6BC18D;
+    cursor: pointer;
+}
+
+.btn__add-new {
+    font-size: 14px;
+    font-family: Notosans-semibold;
+    font-weight: 500;
+    height: 36px;
+    min-width: 80px;
+    border: unset;
+    background-color: #089740;
+    color: #fff;
+    padding: 0 16px;
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.icon-next {
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -20px -355px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    cursor: pointer;
+    margin-left: 16px;
+}
+
+.icon-previous {
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -69px -355px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    cursor: pointer;
+    margin-left: 16px;
+}
+
+.icon-search {
+    background-image: url(../../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -955px -26px;
+    width: 24px;
+    height: 33px;
+    border-radius: 2px;
+    border-top-left-radius: none;
+    border-bottom-left-radius: none;
+    border: 1px solid #EBEBEB;
+    cursor: pointer;
+    padding: 1px 8px 2px 0;
+    border-left: none;
+    margin-top: 12px;
+}

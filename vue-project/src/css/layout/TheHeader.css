@@ -44,3 +44,40 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
+.header-left__iconmenu {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -847px -30px;
+    width: 24px;
+    height: 24px;
+    margin-left: 16px;
+    margin-right: 16px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.header-left__icondropdown {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -1123px -357px;
+    width: 24px;
+    height: 24px;
+    margin-left: 2px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.header-right__iconnotice {
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -788px -30px;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 26px;
+}

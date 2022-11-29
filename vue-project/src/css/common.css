@@ -1,3 +1,98 @@
+button:focus-visible {
+  outline: none;
+}
+
+button {
+  border-radius: 4px;
+}
+
+label {
+  font-family: Notosans-semibold;
+  font-weight: 500;
+  font-size: 14px;
+  color: #1F1F1F;
+}
+
+
+select {
+  height: 36px;
+  border-width: 1px;
+  border-radius: 4px;
+  border-color: #EBEBEB;
+  cursor: pointer;
+  margin: 8px 0;
+  font-family: Notosans;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  padding-left: 10px;
+}
+
+select:hover {
+  background-color: #E7F5EC;
+}
+
+option {
+  height: 29px;
+  border-width: 1px;
+  border-color: #EBEBEB;
+  cursor: pointer;
+}
+
+input {
+  height: 34px;
+  border-width: 1px;
+  border-radius: 4px;
+  border-color: #EBEBEB;
+  cursor: pointer;
+  margin: 8px 0px;
+  border-style: solid;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 12px;
+  font-family: Notosans;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+input:hover {
+  background-color: #E7F5EC;
+}
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #afafaf;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #afafaf;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+input[type="date"] {
+  font-family: Notosans;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  cursor: pointer;
+}
+
+input:focus, select:focus {
+  border-width: 1px;
+  outline: none;
+  border-color: #2ca10c;
+}
+
 .display-inline {
     display: flex;
     flex-direction: row;
