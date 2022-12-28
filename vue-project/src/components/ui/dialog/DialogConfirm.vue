@@ -46,8 +46,8 @@
         width: auto;
         padding: 0 16px;
     }
-    .close-dialog:hover {
-        background-color: #EB3333;
+    .close-dialog:hover, .close-dialog:focus {
+        background-color: #EB3333!important;
     }
 
     button {

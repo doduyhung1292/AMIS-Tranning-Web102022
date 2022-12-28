@@ -1,15 +1,20 @@
 <template>
     <div class="model">
-        <div class="model-content">
+        <div class="model-content" 
+            v-on:keydown.ctrl.enter="saveEmployee('saveAndShowDialog')"
+            v-on:keydown.ctrl.shift.enter="saveEmployee('saveAndHideDialog')"
+            v-on:keydown.esc="closeDialogEmployee">
+
             <div class="model-content-header">
                 <div class="model-content-header-left">
                     <div class="title">{{this.dialogEmployee.titleDialog}}</div>
                 </div>
                 <div class="model-content-header-right">
                     <div class="icon-help" :title="this.dialogEmployee.titleIconHelp"></div>
-                    <div class="icon-close btn__close" v-on:click="closeDialogEmployee" :title="this.dialogEmployee.titleIconCloseDialog"></div>
+                    <div class="icon-close btn__close" v-on:click="closeDialogEmployee" :title="this.dialogEmployee.titleButtonClose"></div>
                 </div>
             </div>
+
             <div class="model-content-main">
                 <div class="job-infomation">
                     <div class="display-inline">
@@ -25,7 +30,9 @@
                                 v-model="this.emp.EmployeeCode" 
                                 ref="employeeCode" 
                                 required tabindex="1">
+                            <div class="alert-error" v-if="this.isEmployeeCodeValid == false">{{errorMessage.employeeCodeInvalid}}</div>
                         </div>
+
                         <div>
                             <label for="full-name" :title="this.dialogEmployee.titleEmployeeName">
                                 {{this.dialogEmployee.employeeName}} 
@@ -37,8 +44,10 @@
                                 :class="fullnameBorder" 
                                 v-model="this.emp.EmployeeName" required
                                 tabindex="2">
+                            <div class="alert-error" v-if="this.isEmployeeNameValid == false">{{errorMessage.employeeNameInvalid}}</div>
                         </div>
                     </div>
+
                     <div>
                         <label for="unit" :title="this.dialogEmployee.departmentName">
                             {{this.dialogEmployee.departmentName}}</label>
@@ -49,18 +58,20 @@
                             :class="departmentBorder" 
                             v-model="this.emp.DepartmentName" required
                             tabindex="3">
-                            <option v-for="(department, index) in allDepartment" :key="index">{{department.DepartmentName}}</option>
+                            <option v-for="(department, index) in this.allDepartment">{{department.DepartmentName}}</option>
                         </select>
+                        <div class="alert-error" v-if="this.isDepartmentValid == false">{{errorMessage.departmentInvalid}}</div>
                     </div>
+
                     <div>
-                        <label for="job-title" :title="this.dialogEmployee.positionName">
-                            {{this.dialogEmployee.positionName}}
+                        <label for="job-title" :title="this.dialogEmployee.jobPositionName">
+                            {{this.dialogEmployee.jobPositionName}}
                         </label><br />
                         <select name="job-title" id="job-title" 
-                            v-model="this.emp.EmployeePosition" 
-                            :title="this.dialogEmployee.positionName" 
+                            v-model="this.emp.JobPositionName" 
+                            :title="this.dialogEmployee.jobPositionName" 
                             tabindex="4">
-                            <option v-for="(position, index) in allPosition" :key="index">{{position.PositionName}}</option>
+                            <option v-for="(position, index) in this.allPosition" :key="index">{{position.JobPositionName}}</option>
                         </select>
                     </div>
                 </div>
@@ -77,6 +88,7 @@
                                     :class="this.dateOfBirthBorder"
                                     v-on:blur="validateDateOfBirth"
                                     tabindex="5">
+                            <div class="alert-error" v-if="this.isDateOfBirthValid == false">{{errorMessage.dateOfBirthInvalid}}</div>
                         </div>
                         <div>
                             <label for="male" class="label__sex" :title="this.dialogEmployee.gender">
@@ -85,12 +97,13 @@
                                 <div class="display-inline combo-radio-gender">
                                     <div class="radio-sex">
                                         <input type="radio"  :title="this.dialogEmployee.genderMale" id="male" name="sex" 
-                                            tabindex="6" v-model="this.emp.genderMale"
+                                            tabindex="6" v-model="this.emp.GenderName"
                                             value="Nam">
                                         <label for="male"  :title="this.dialogEmployee.genderMale"> 
                                             {{this.dialogEmployee.genderMale}}
                                         </label>
                                     </div>
+
                                     <div class="radio-sex">
                                         <input type="radio"  
                                             :title="this.dialogEmployee.genderFemale" 
@@ -101,7 +114,7 @@
                                     <div class="radio-sex">
                                         <input type="radio" id="other"  
                                             :title="this.dialogEmployee.otherGender" 
-                                            value="Other" name="sex" v-model="this.emp.GenderName">
+                                            value="Khác" name="sex" v-model="this.emp.GenderName">
                                         <label for="other"  :title="this.dialogEmployee.otherGender"> 
                                             {{this.dialogEmployee.otherGender}}
                                         </label>
@@ -110,6 +123,7 @@
 
                         </div>
                     </div>
+
                     <div class="display-inline">
                         <div>
                             <label for="identity-number" :title="this.dialogEmployee.titleIdentityNumber"> 
@@ -117,11 +131,15 @@
                             </label><br />
                             <input :title="this.dialogEmployee.titleIdentityNumber" 
                                 v-on:blur="validateInputIdentityTypeNumber" 
+                                v-on:input="formatIdentityNumberLayer1"
                                 :class="identityNumberBorder"
                                 type="text" id="identity-number" 
                                 v-model="this.emp.IdentityNumber" 
+                                maxlength="20"
                                 tabindex="7">
+                            <div class="alert-error" v-if="this.isIdentityNumberValid == false">{{errorMessage.identityNumberInvalid}}</div>
                         </div>
+
                         <div>
                             <label for="issue-date" :title="this.dialogEmployee.identityDate">
                                 {{this.dialogEmployee.identityDate}}
@@ -131,8 +149,10 @@
                                 :class="this.identityDateBorder"
                                 v-on:blur="validateIdentityDate"
                                 tabindex="8">
+                            <div class="alert-error" v-if="this.isIdentityDateValid == false">{{errorMessage.identityDateInvalid}}</div>
                         </div>
                     </div>
+
                     <div>
                         <label for="issued-by" :title="this.dialogEmployee.identityBy">
                             {{this.dialogEmployee.identityBy}}
@@ -142,6 +162,7 @@
                             tabindex="9">
                     </div>
                 </div>
+                
                 <div class="address">
                     <label for="address" :title="this.dialogEmployee.address">
                         {{this.dialogEmployee.address}}
@@ -150,6 +171,7 @@
                         v-model="this.emp.Address" 
                         tabindex="10">
                 </div>
+
                 <div class="contact display-inline">
                     <div>
                         <label for="mobile-phone-number" :title="this.dialogEmployee.titlePhoneNumber">
@@ -157,11 +179,15 @@
                         </label><br />
                         <input :title="this.dialogEmployee.titlePhoneNumber" type="text" 
                             v-on:blur="validateInputMobilePhoneTypeNumber"
+                            v-on:input="formatPhoneNumberLayer1"
                             :class="this.mobilephoneBorder"
                             id="mobile-phone-number" 
                             v-model="this.emp.PhoneNumber" 
+                            maxlength="20"
                             tabindex="11">
+                        <div class="alert-error" v-if="this.isPhoneNumberValid == false">{{errorMessage.phoneNumberInvalid}}</div>
                     </div>
+
                     <div>
                         <label for="landline-phone-number" :title="this.dialogEmployee.titleTelephoneNumber">
                             {{this.dialogEmployee.telephoneNumber}}
@@ -170,8 +196,11 @@
                             v-on:blur="validateInputTelephoneNumberTypeNumber"
                             :class="this.telephoneBorder"
                             id="landline-phone-number" 
+                            v-on:input="formatTelephoneNumberLayer1"
                             v-model="this.emp.TelephoneNumber" 
+                            maxlength="20"
                             tabindex="12">
+                        <div class="alert-error" v-if="this.isTelephoneNumberValid == false">{{errorMessage.telephoneNumberInvalid}}</div>
                     </div>
                     <div>
                         <label for="email" :title="this.dialogEmployee.email">
@@ -182,8 +211,10 @@
                                 v-model="this.emp.Email" 
                                 v-on:blur="validateInputEmail"
                                 :class="emailBorder" tabindex="13">
+                        <div class="alert-error" v-if="this.isEmailValid == false">{{errorMessage.emailInvalid}}</div>
                     </div>
                 </div>
+
                 <div class="bank-infomation display-inline">
                     <div>
                         <label for="bank-account" :title="this.dialogEmployee.bankAccountNumber">
@@ -194,8 +225,13 @@
                             id="bank-account" 
                             :class="this.bankAccountBorder"
                             v-on:blur="validateInputBankAccountTypeNumber"
+                            v-on:input="formatBankAcountNumberLayer1"
                             v-model="this.emp.BankAccountNumber" 
+                            maxlength="20"
                             tabindex="14">
+                        <div class="alert-error" style="margin:0" v-if="this.isBankAccountNumberValid == false">
+                            {{errorMessage.bankAccountNumberInvalid}}
+                        </div>
                     </div>
                     <div>
                         <label for="bank-name" :title="this.dialogEmployee.bankName">
@@ -216,6 +252,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="model-content-footer">
                 <div class="footer-left">
                     <button class="btn-cancel"  
@@ -249,20 +286,23 @@
 
 <script>
     import axios from 'axios'
+    import _ from 'lodash'
     import DialogNotice from '../dialog/DialogNotice.vue'
-    import {DialogEmployee} from '../../../resource.js';
+    import {DialogEmployee, ErrorMessage, GenderName, ModeDialogName} from '../../../resource.js';
+    import {GenderEnum} from '../../../enum.js';
     import {validateRequiredInputs, validateEmail} from '../../../js/base/validate.js';
     import {formatDate} from '../../../js/base/common.js';
 
     export default {
         name: "DialogEmployees",
         components: {DialogNotice},
-        props: ["employeeEdit"],
+        props: ["employeeEdit", "mode"],
         data () {
             return {
                 emp: {},
                 tempEmployeeModeModify: {},
                 typeModal: null,
+                typeSave: null,
                 errMsg: [],
                 allPosition: [],
                 allDepartment: [],
@@ -270,6 +310,7 @@
                 requiredInput: [],
                 typeOfSave: null,
 
+                // border input validate
                 employeeCodeBorder: null,
                 bankAccountBorder: null,
                 telephoneBorder: null,
@@ -282,29 +323,79 @@
                 emailBorder: null,
 
                 showDialogNotice: false,
+
+                // import from resource
                 dialogEmployee: DialogEmployee,
+                errorMessage: ErrorMessage,
+                genderName: GenderName,
+                modeDialogName: ModeDialogName,
+
+                // import from enum
+                genderEnum: GenderEnum,
+
+                // check input valid
+                isEmployeeCodeValid: true,
+                isEmployeeNameValid: true,
+                isDepartmentValid: true,
+                isDateOfBirthValid: true,
+                isIdentityDateValid: true,
+                isIdentityNumberValid: true,
+                isPhoneNumberValid: true,
+                isTelephoneNumberValid: true,
+                isEmailValid: true,
+                isBankAccountNumberValid: true,
             }
         },
         created() {
-            this.emp = this.employeeEdit;
-            this.tempEmployeeModeModify = this.employeeEdit;
-            if(this.emp.DateOfBirth) {this.emp.DateOfBirth = formatDate(this.emp.DateOfBirth)};
-            if(this.emp.IdentityDate) {this.emp.IdentityDate = formatDate(this.emp.IdentityDate)}
-            if(this.emp.EmployeeId) {this.typeModal = "Sửa"} else {this.typeModal = "Thêm"; this.getNewEmployeeCode()}
+            try {
+                this.emp = _.cloneDeep(this.employeeEdit);
+                this.tempEmployeeModeModify = _.cloneDeep(this.employeeEdit);
 
+                // format Date to dd/mm/yyyy
+                if(this.emp.DateOfBirth) {
+                    this.emp.DateOfBirth = formatDate(this.emp.DateOfBirth)
+                };
+
+                // format Date to dd/mm/yyyy
+                if(this.emp.IdentityDate) {
+                    this.emp.IdentityDate = formatDate(this.emp.IdentityDate)
+                }
+
+                //format to gender name
+                if(this.emp.Gender != null) {
+                    this.emp.GenderName = this.formatToGenderName(this.emp.Gender)
+                }
+
+                //Check mode, set type model
+                if(this.emp.EmployeeId && this.mode == "Modify") {
+                    this.typeModal = this.modeDialogName.modify
+                } 
+
+                if(this.emp.EmployeeId && this.mode == "Clone") {
+                    this.typeModal = this.modeDialogName.clone;
+                    this.getNewEmployeeCode()
+                } 
+
+                if(!this.emp.EmployeeId && this.mode == "AddNew") {
+                    this.typeModal = this.modeDialogName.addNew; 
+                    this.getNewEmployeeCode()
+                }
+            } catch (error) {
+                console.log(error)
+            }
             /**
              * Get department 
              * Author: doduyhung1292 (22/11/2022)
              */
-             axios.get("https://amis.manhnv.net/api/v1/Departments")
+             axios.get("http://localhost:5210/api/v1/Departments")
                 .then(res => {this.allDepartment = res.data})
                 .catch(err => console.log(err))
             /**
              * Get positon 
              * Author: doduyhung1292 (22/11/2022)
              */
-             axios.get("https://amis.manhnv.net/api/v1/Positions")
-                .then(res => {this.allPosition = res.data})
+             axios.get("http://localhost:5210/api/v1/JobPositions")
+                .then(res => {this.allPosition = res.data; console.log(res);})
                 .catch(err => console.log(err))
 
 
@@ -316,8 +407,8 @@
              * Author: doduyhung1292 (15/11/2022)
              */
              getNewEmployeeCode: function() {
-             axios.get("https://amis.manhnv.net/api/v1/Employees/NewEmployeeCode")
-                .then(res => {this.emp.EmployeeCode = res.data})
+             axios.get("http://localhost:5210/api/v1/Employees/new-code")
+                .then(res => {this.emp.EmployeeCode = res.data.MaxEmployeeCode;})
                 .catch(err => console.log(err))
             },
 
@@ -328,25 +419,34 @@
 
              callApiEmployee: function() {
                 try {
-                // save new employee infomation
-                    if (this.typeModal == 'Thêm') {
-                        axios.post("https://amis.manhnv.net/api/v1/Employees", this.emp)
-                            .then(res => {this.serverResponse = res; this.checkResponse();})
-                            .catch(err => {
-                                this.serverResponse = err.response;
-                                this.checkResponse();
-                                console.log(err)})
-                        };
-                // Change employee infomation    
-                    if (this.typeModal == 'Sửa') {
-                        axios.put(`https://amis.manhnv.net/api/v1/Employees/${this.emp.EmployeeId}`, this.emp)
-                            .then(res => {this.serverResponse = res; this.checkResponse();})
-                            .catch(err => {
-                                this.serverResponse = err.response; 
-                                this.checkResponse(); 
-                                console.log(err)})
+                this.errMsg = [];
+                this.fullnameInput();
+                this.departmentInput();
+                if (this.isEmployeeNameValid == false) {this.errMsg.push(this.errorMessage.employeeNameInvalid)}
+                if (this.isDepartmentValid == false) {this.errMsg.push(this.errorMessage.departmentInvalid)}
+
+                if (this.errMsg.length > 0) {
+                        this.showDialogNotice = true;
+                    } else {
+                        // save new employee infomation
+                        if (this.mode == 'AddNew' || this.mode == 'Clone') {
+                            axios.post("http://localhost:5210/api/v1/Employees", this.emp)
+                                .then(res => {this.serverResponse = res; this.checkResponse();})
+                                .catch(err => {
+                                    this.serverResponse = err.response;
+                                    this.checkResponse();
+                                    console.log(err)})
+                            };
+                        // Change employee infomation    
+                        if (this.typeModal == 'Sửa') {
+                            axios.put(`http://localhost:5210/api/v1/Employees/${this.emp.EmployeeId}`, this.emp)
+                                .then(res => {this.serverResponse = res; console.log(res); this.checkResponse();})
+                                .catch(err => {
+                                    this.serverResponse = err.response; 
+                                    this.checkResponse(); 
+                                    console.log(err)})
                         }
-        
+                    }
                 } catch (error) {
                     console.log(error);
                 }
@@ -415,10 +515,12 @@
             validateInputEmail: function() {
                 if(this.validateEmail(this.emp.Email) == false) {
                     this.emailBorder = 'borderRed';
+                    this.isEmailValid = false;
                     this.dialogEmployee.titleEmail = this.dialogEmployee.titleEmailInvalid
                 } else {
                     this.emailBorder = null;
-                    this.dialogEmployee.titleEmail = this.dialogEmployee.titleEmailValid
+                    this.dialogEmployee.titleEmail = this.dialogEmployee.titleEmailValid;
+                    this.isEmailValid = true;
                 }
             },
             /**
@@ -428,10 +530,12 @@
              validateIdentityDate: function() {
                 if (this.validateDate(this.emp.IdentityDate) == false) {
                         this.identityDateBorder = 'borderRed';
+                        this.isIdentityDateValid = false;
                         this.dialogEmployee.titleIdentityDate = this.dialogEmployee.titleIdentityDateInvalid}
                         else {
                             this.identityDateBorder = null;
-                            this.dialogEmployee.titleIdentityDate = this.dialogEmployee.titleIdentityDateValid
+                            this.dialogEmployee.titleIdentityDate = this.dialogEmployee.titleIdentityDateValid;
+                            this.isIdentityDateValid = true;
                         }
              },
 
@@ -442,10 +546,12 @@
              validateDateOfBirth: function() {
                 if (this.validateDate(this.emp.DateOfBirth) == false) {
                         this.dateOfBirthBorder = 'borderRed';
+                        this.isDateOfBirthValid = false;
                         this.dialogEmployee.titleDateOfBirth = this.dialogEmployee.titleDateOfBirthInvalid}
                         else {
                             this.dateOfBirthBorder = null;
-                            this.dialogEmployee.titleDateOfBirth = this.dialogEmployee.titleDateOfBirthValid
+                            this.dialogEmployee.titleDateOfBirth = this.dialogEmployee.titleDateOfBirthValid;
+                            this.isDateOfBirthValid = true;
                         }
              },
 
@@ -455,12 +561,14 @@
              */
              validateInputIdentityTypeNumber: function() {
                 try {
-                    if(this.isNumber(this.emp.IdentityNumber) == false) {
+                    if(this.emp.IdentityNumber && this.isNumber(this.emp.IdentityNumber.replace(/ /g, '')) == false) {
                         this.identityNumberBorder = 'borderRed';
+                        this.isIdentityNumberValid = false;
                         this.dialogEmployee.titleIdentityNumber = this.dialogEmployee.titleIdentityNumberInvalid} 
                         else {
                         this.identityNumberBorder = null;
-                        this.dialogEmployee.titleIdentityNumber = this.dialogEmployee.titleIdentityNumberValid} 
+                        this.dialogEmployee.titleIdentityNumber = this.dialogEmployee.titleIdentityNumberValid
+                        this.isIdentityNumberValid = true;} 
                 } catch (error) {
                     console.log(error)
                 }
@@ -472,11 +580,13 @@
              */
              validateInputMobilePhoneTypeNumber: function() {
                 try {
-                    if(this.isNumber(this.emp.PhoneNumber) == false) {
+                    if(this.emp.PhoneNumber && this.isNumber(this.emp.PhoneNumber.replace(/ /g, '')) == false) {
                         this.mobilephoneBorder = 'borderRed';
+                        this.isPhoneNumberValid = false;
                         this.dialogEmployee.titlePhoneNumber =  this.dialogEmployee.titlePhoneNumberInvalid} 
                         else {
                         this.mobilephoneBorder = null;
+                        this.isPhoneNumberValid = true;
                         this.dialogEmployee.titlePhoneNumber = this.dialogEmployee.titlePhoneNumberValid} 
                 } catch (error) {
                     console.log(error)
@@ -489,11 +599,13 @@
              */
              validateInputTelephoneNumberTypeNumber: function() {
                 try {
-                    if(this.isNumber(this.emp.TelephoneNumber) == false) {
+                    if(this.emp.TelephoneNumber && this.isNumber(this.emp.TelephoneNumber.replace(/ /g, '')) == false) {
                         this.telephoneBorder = 'borderRed';
+                        this.isTelephoneNumberValid = false;
                         this.dialogEmployee.titleTelephoneNumber = this.dialogEmployee.titleTelephoneNumberInvalid} 
                         else {
                         this.telephoneBorder = null;
+                        this.isTelephoneNumberValid = true;
                         this.dialogEmployee.titleTelephoneNumber = this.dialogEmployee.titleTelephoneNumberValid} 
                 } catch (error) {
                     console.log(error)
@@ -506,11 +618,13 @@
              */
              validateInputBankAccountTypeNumber: function() {
                 try {
-                    if(this.isNumber(this.emp.BankAccountNumber) == false) {
+                    if(this.isNumber(this.emp.BankAccountNumber && this.emp.BankAccountNumber.replace(/ /g, '')) == false) {
                         this.bankAccountBorder = 'borderRed';
+                        this.isBankAccountNumberValid = false;
                         this.dialogEmployee.titleBankAccountNumber = this.dialogEmployee.titleBankAccountNumberInvalid} 
                         else {
                         this.bankAccountBorder = null;
+                        this.isBankAccountNumberValid = true;
                         this.dialogEmployee.titleBankAccountNumber =  this.dialogEmployee.titleBankAccountNumberValid} 
                 } catch (error) {
                     console.log(error)
@@ -524,8 +638,14 @@
 
              employeeCodeInput: function() {
                 try {
-                    if (!this.emp.EmployeeCode) {this.employeeCodeBorder = 'borderRed'; this.dialogEmployee.titleEmployeeId = this.dialogEmployee.titleEmployeeIdInvalid;} 
-                    else {this.employeeCodeBorder = null;  this.dialogEmployee.titleEmployeeId = this.dialogEmployee.titleEmployeeIdValid}
+                    if (!this.emp.EmployeeCode) {
+                        this.employeeCodeBorder = 'borderRed'; 
+                        this.isEmployeeCodeValid = false;
+                        this.dialogEmployee.titleEmployeeId = this.dialogEmployee.titleEmployeeIdInvalid;} 
+                    else {
+                        this.employeeCodeBorder = null;
+                        this.isEmployeeCodeValid = true;  
+                        this.dialogEmployee.titleEmployeeId = this.dialogEmployee.titleEmployeeIdValid}
                 } catch (error) {
                     console.log(error);
                 }
@@ -537,8 +657,14 @@
              */
              fullnameInput: function() {
                 try {
-                    if (!this.emp.EmployeeName) {this.fullnameBorder = 'borderRed';  this.dialogEmployee.titleEmployeeName = this.dialogEmployee.titleEmployeeNameInvalid} 
-                    else {this.fullnameBorder = null; this.dialogEmployee.titleEmployeeName = this.dialogEmployee.titleEmployeeNameValid}
+                    if (!this.emp.EmployeeName) {
+                        this.fullnameBorder = 'borderRed';  
+                        this.isEmployeeNameValid = false;
+                        this.dialogEmployee.titleEmployeeName = this.dialogEmployee.titleEmployeeNameInvalid} 
+                    else {
+                        this.fullnameBorder = null; 
+                        this.dialogEmployee.titleEmployeeName = this.dialogEmployee.titleEmployeeNameValid
+                        this.isEmployeeNameValid = true;}
                 } catch (error) {
                     console.log(error);
                 }
@@ -551,8 +677,15 @@
              */
              departmentInput: function() {
                 try {
-                    if (!this.emp.DepartmentName) {this.departmentBorder = 'borderRed';  this.dialogEmployee.titleDepartment = this.dialogEmployee.titleDepartmentInvalid} 
-                    else {this.departmentBorder = null;   this.dialogEmployee.titleDepartment = this.dialogEmployee.titleDepartmentValid}
+                    if (!this.emp.DepartmentName) {
+                        this.departmentBorder = 'borderRed';  
+                        this.isDepartmentValid = false;
+                        this.dialogEmployee.titleDepartment = this.dialogEmployee.titleDepartmentInvalid} 
+                    else {
+                        this.departmentBorder = null;
+                        this.addDepartmentId();
+                        this.isDepartmentValid = true;
+                        this.dialogEmployee.titleDepartment = this.dialogEmployee.titleDepartmentValid}
                 } catch (error) {
                     console.log(error)
                 }
@@ -562,16 +695,216 @@
               * Add department id into data 
               * Author: doduyhung1292 (13/11/2022)
               */
-              additionalDepartmentId: function() {
+              addDepartmentId: function() {
                 try {
-                    for (let depart of this.allDepartment) {
-                        if (this.emp.DepartmentName == depart.DepartmentName) {
-                            this.emp.DepartmentId = depart.DepartmentId} 
-                    }
+                    this.allDepartment.forEach(department => {
+                        if (this.emp.DepartmentName.trim() == department.DepartmentName.trim()) {
+                            this.emp.DepartmentId = department.DepartmentId;
+                            return;
+                        }
+                    });
+                    return;
                 } catch (error) {
                     console.log(error);
                 }
               },
+
+              /**
+              * Add department id into data 
+              * Author: doduyhung1292 (13/11/2022)
+              */
+              addJobPositionId: function() {
+                try {
+                    this.allPosition.forEach(jobPosition => {
+                        if (jobPosition.JobPositionName == this.emp.JobPositionName) {
+                            this.emp.JobPositionId = jobPosition.JobPositionID;
+                        } else {
+                            return
+                        }
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+              },
+
+              /**
+               * Format identity number layer 1
+               * If type input is number, will return to layer 2 to format number
+               * Author: doduyhung1292 (10/12/2022)
+               */
+               formatIdentityNumberLayer1: function() {
+                    try {
+                        if(this.isNumber(this.emp.IdentityNumber.replace(/ /g, '')) == true) {
+                            this.formatIdentityNumberLayer2();
+                        } else {
+                            return
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                    
+              },
+
+              /**
+               * Format identity number layer 2
+               * Author: doduyhung1292 (10/12/2022)
+               */
+              formatIdentityNumberLayer2: function() {
+                try {
+                    if(this.emp.IdentityNumber.charAt(0) == '0' && this.emp.IdentityNumber.length > 1) {
+                    this.emp.IdentityNumber = '0' + Number(Number(this.emp.IdentityNumber.replace(/\s/g, ""))).toLocaleString().replace(/,/g, ' ');
+                    } else {
+                        this.emp.IdentityNumber = Number(Number(this.emp.IdentityNumber.replace(/\s/g, ""))).toLocaleString().replace(/,/g, ' ');
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+             },
+
+              /**
+               * Format bank number layer 1
+               * If input is number will return to layer 2
+               * Author: doduyhung1292 (10/12/2022)
+               */
+               formatBankAcountNumberLayer1: function() {
+                    try {
+                        if(this.isNumber(this.emp.BankAccountNumber.replace(/ /g, '')) == true) {
+                            this.formatBankAcountNumberLayer2();
+                        } else {
+                            return
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+              },
+
+              /**
+               * Format bank number layer 2
+               * Author: doduyhung1292 (10/12/2022)
+               */
+               formatBankAcountNumberLayer2: function() {
+                    try {
+                        if(this.emp.BankAccountNumber.charAt(0) == '0' && this.emp.BankAccountNumber.length > 1) {
+                            this.emp.BankAccountNumber = '0' + Number(Number(this.emp.BankAccountNumber.replace(/\s/g, ""))).toLocaleString().replace(/,/g, ' ');
+                        } else {
+                            this.emp.BankAccountNumber = Number(Number(this.emp.BankAccountNumber.replace(/\s/g, ""))).toLocaleString().replace(/,/g, ' ');
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+              },
+
+              /**
+               * Format phone number
+               * Author: doduyhung1292 (10/12/2022)
+               */
+               formatPhoneNumberLayer1: function() {
+                    try {
+                        if(this.isNumber(this.emp.PhoneNumber.replace(/ /g, '')) == true) {
+                            this.formatPhoneNumberLayer2();
+                        } else {
+                            return
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+              },
+
+              /**
+               * Format phone number
+               * Author: doduyhung1292 (10/12/2022)
+               */
+               formatPhoneNumberLayer2: function() {
+                    try {
+                        if(this.emp.PhoneNumber.charAt(0) == '0' && this.emp.PhoneNumber.length > 1) {
+                            this.emp.PhoneNumber = '0' + Number(Number(this.emp.PhoneNumber.replace(/\s/g, ""))).toLocaleString().replace(/,/g, ' ');
+                        } else {
+                            this.emp.PhoneNumber = Number(Number(this.emp.PhoneNumber.replace(/\s/g, ""))).toLocaleString().replace(/,/g, ' ');
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+              },
+
+              /**
+               * Format telephone number
+               * Author: doduyhung1292 (10/12/2022)
+               */
+               formatTelephoneNumberLayer1: function() {
+                    try {
+                        if(this.isNumber(this.emp.TelephoneNumber.replace(/\s/g, "")) == true) {
+                        console.log(this.emp.TelephoneNumber);
+                        this.formatTelephoneNumberLayer2();
+                        } else {
+                            return
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+              },
+
+              /**
+               * Format telephone number
+               * Author: doduyhung1292 (10/12/2022)
+               */
+               formatTelephoneNumberLayer2: function() {
+                    try {
+                        if(this.emp.TelephoneNumber.charAt(0) == '0' && this.emp.TelephoneNumber.length > 1) {
+                            this.emp.TelephoneNumber = '0' + Number(Number(this.emp.TelephoneNumber.replace(/\s/g, ""))).toLocaleString().replace(/,/g, ' ');
+                        } else {
+                            this.emp.TelephoneNumber = Number(Number(this.emp.TelephoneNumber.replace(/\s/g, ""))).toLocaleString().replace(/,/g, ' ');
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+              },
+              /**
+               *  Format gender to enum
+               * Author: doduyhung1292 (08/12/2022)
+               */
+               formatGender: function(genderName) {
+                    try {
+                        switch (genderName) {
+                        case this.genderName.male:
+                            this.emp.Gender = this.genderEnum.male;
+                            break;
+                        case this.genderName.female:
+                            this.emp.Gender = this.genderEnum.female;
+                            break;
+                        case this.genderName.other:
+                            this.emp.Gender = this.genderEnum.other;
+                            break;
+                        default:
+                            this.emp.Gender = null;
+                            break;
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+               },
+               /**
+                * Format to gender name
+                * Author: doduyhung1292 (09/12/2022)
+                */
+                formatToGenderName: function(gender) {
+                    try {
+                        switch (gender) {
+                            case this.genderEnum.male:
+                                return this.genderName.male;
+                                break;
+                            case this.genderEnum.female:
+                                return this.genderName.female;
+                                break;
+                            case this.genderEnum.other:
+                                return this.genderName.other;
+                                break;
+                            default:
+                                break;
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                },
 //End region validate
 //Region function
              /**
@@ -581,19 +914,33 @@
             saveEmployee: function(type) {
                 try {
                     this.typeOfSave = type;
+                    this.typeSave = type;
                     this.errMsg = [];
+                    if(this.emp.JobPositionName != null) {this.addJobPositionId();}
+                    if(this.emp.GenderName != null) {this.formatGender(this.emp.GenderName)}
 
-                    // Check input required
-                    validateRequiredInputs(this.emp.EmployeeCode, this.emp.EmployeeName, this.emp.DepartmentName)? this.errMsg = validateRequiredInputs(this.emp.EmployeeCode, this.emp.EmployeeName, this.emp.DepartmentName) : this.errMsg = [];
-
-                    // validate email
-                    validateEmail(this.emp.Email)? this.errMsg.push(validateEmail(this.emp.Email)) : this.errMsg;
-
+                    // check valid input. Push error message to errMsg
+                    if (this.isEmployeeCodeValid == false) {this.errMsg.push(this.errorMessage.employeeCodeInvalid)}
+                    if (this.isEmployeeNameValid == false) {this.errMsg.push(this.errorMessage.employeeNameInvalid)}
+                    if (this.isDepartmentValid == false) {this.errMsg.push(this.errorMessage.departmentInvalid)}
+                    if (this.isDateOfBirthValid == false) {this.errMsg.push(this.errorMessage.dateOfBirthInvalid)}
+                    if (this.isIdentityDateValid == false) {this.errMsg.push(this.errorMessage.identityDateInvalid)}
+                    if (this.isIdentityNumberValid == false) {this.errMsg.push(this.errorMessage.identityNumberInvalid)}
+                    if (this.isPhoneNumberValid == false) {this.errMsg.push(this.errorMessage.phoneNumberInvalid)}
+                    if (this.isTelephoneNumberValid == false) {this.errMsg.push(this.errorMessage.telephoneNumberInvalid)}
+                    if (this.isEmailValid == false) {this.errMsg.push(this.errorMessage.emailInvalid)}
+                    if (this.isBankAccountNumberValid == false) {this.errMsg.push(this.errorMessage.bankAccountNumberInvalid)}
+                    
                     if (this.errMsg.length > 0) {
                         this.showDialogNotice = true;
-                    } else {
-                        this.additionalDepartmentId();
-                        this.callApiEmployee();};
+                    }
+                    else {
+                        this.emp.BankAccountNumber = this.emp.PhoneNumber?.replace(/ /g, '');
+                        this.emp.IdentityNumber = this.emp.IdentityNumber?.replace(/ /g, '');
+                        this.addJobPositionId();
+                        this.callApiEmployee();
+                    }
+                    
                 } catch (error) {
                     console.log(error);
                 }
@@ -619,36 +966,41 @@
                 try {
                     switch (this.serverResponse.status) {
                         case 200:
-                            this.$emit('closeUnCheck');
+                            this.$emit('closeUnCheck', this.typeSave);
                             this.$emit('showToastModifySuccess', this.emp);
                             this.$emit('updateTotalRowWhenAddNewSuccess');
                             this.emp = {};
+                            this.getNewEmployeeCode();
                             break;
                         case 201:
                             if (this.typeOfSave == 'saveAndHideDialog') {
                                 this.$emit('closeUnCheck');
-                                this.emp = {};
+                                // if add new success. server return employeeId and assign to new employee in Frontend
+                                this.serverResponse.data? this.emp.EmployeeId = this.serverResponse.data : this.emp;
                                 this.$emit('showToastSaveSuccess', this.emp);
-                                this.getNewEmployeeCode();
-                        }   else {
                                 this.emp = {};
-                                this.$emit('showToastSaveSuccess', this.emp);
                                 this.getNewEmployeeCode();
-                        }                         
+                            } else {
+                                // if add new success. server return employeeId and assign to new employee in Frontend
+                                this.serverResponse.data? this.emp.EmployeeId = this.serverResponse.data : this.emp;
+                                this.$emit('showToastSaveSuccess', this.emp);
+                                this.emp = {};
+                                this.getNewEmployeeCode();
+                            }                         
                             
                             break;
                         case 400:
                             this.errMsg = [];
-                            this.errMsg.push(this.serverResponse.data.userMsg);
-                            this.showDialogNotice = true;
+                            if (this.serverResponse.data.userMsg != null) {
+                                var arrayError = this.serverResponse.data.userMsg;
+                                arrayError.map(err => this.errMsg.push(err));
+                                this.showDialogNotice = true;
+                            }
                             break;
                         case 500:
                             this.errMsg.push(this.serverResponse.data.userMsg);
                             this.showDialogNotice = true;
                             break;
-
-                            // Return old employee code if can't change to new employee code
-                            //if(this.serverResponse.data.data.SqlState == "23000") {this.emp.EmployeeCode = this.employeeEdit.EmployeeCode; console.log(this.employeeEdit)}
                         default:
                             this.errMsg.push(this.dialogEmployee.serverErrorDefault);
                             this.showDialogNotice = true;
@@ -666,8 +1018,8 @@
              */
              closeDialogEmployee: function() {
                 try {
-                    if(this.typeModal == "Thêm" && this.emp != {}) {this.$emit('closeCheck', this.emp); return;}
-                    if(this.typeModal == "Sửa" && this.emp != this.tempEmployeeModeModify) {this.$emit('closeCheck', this.emp); return;} 
+                    if(this.mode == "AddNew" && this.emp != {}) {this.$emit('closeCheck', 'AddNew' , this.emp); return;}
+                    if(this.mode == "Modify" && this.emp != this.tempEmployeeModeModify) {this.$emit('closeCheck', 'Modify' ,this.emp); return;} 
                         else {this.$emit('closeUnCheck'); return;}
                 } catch (error) {
                     console.log(error)

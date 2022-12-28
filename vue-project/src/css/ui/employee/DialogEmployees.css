@@ -14,10 +14,9 @@
 }
 
 .model-content {
-    width: 775px;
-    height: 540px;
+    width: 834px;
+    min-height: 566px;
     background-color: #fff;
-    padding: 24px;
     border-radius: 4px;
 }
 
@@ -25,7 +24,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    padding: 24px;
 }
 
 .model-content-header-left {
@@ -56,7 +55,7 @@
 }
 
 .title {
-    font-size: 20px;
+    font-size: 24px;
     font-family: Notosans-bold;
     font-weight: 700;
     color: #1F1F1F;
@@ -65,6 +64,7 @@
 .model-content-main {
     display: grid;
     grid-column: 50% 50%;
+    padding: 0 24px 16px 24px;
 }
 
 .job-infomation {
@@ -96,7 +96,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 36px;
+    height: 60px;
+    background-color: #F5F5F5;
+    padding: 0 24px;
+    border-radius: 0 0px 4px 4px;
 }
 
 .dialog-notice {
@@ -157,6 +160,13 @@
     color: #111;
 }
 
+.alert-error {
+    color: #E61D1D;
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 8px;
+}
+
 #id-employee {
     width: 130px;
     margin-right: 8px;
@@ -188,15 +198,15 @@
 }
 
 #issue-date {
-    width: 145px;
+    width: 156px;
 }
 
 #issued-by {
-    width: 363px;
+    width: 374px;
 }
 
 #address {
-    width: 766px;
+    width: 770px;
 }
 
 #mobile-phone-number {
@@ -273,7 +283,6 @@
 }
 
 .btn-save {
-    margin-top: 24px;
     width: 113px;
     height: 36px;
     font-size: 14px;
@@ -300,7 +309,6 @@
 }
 
 .btn-cancel {
-    margin-top: 24px;
     width: 73px;
     height: 36px;
     font-size: 14px;
@@ -314,7 +322,6 @@
 }
 
 .btn-store {
-    margin-top: 24px;
     width: 73px;
     height: 36px;
     font-size: 14px;
@@ -324,6 +331,6 @@
     background-color: #fff;
     border: 1px solid #E6E6E6;
     border-radius: 3px;
-    margin-right: 10px;
+    margin-right: 8px;
     cursor: pointer;
 }

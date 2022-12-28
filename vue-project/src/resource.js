@@ -26,7 +26,13 @@ export const TheMainContent = {
         btnAddNewEmployee: "Thêm mới nhân viên",
         title: "Nhân viên",
         placeholderSearch: "Tìm theo mã, tên nhân viên",
-        titleButtonReload: "Lấy lại dữ liệu"
+        titleButtonReload: "Lấy lại dữ liệu",
+        titleButtonExportExcel: "Xuất ra excel",
+        selected: "Đã chọn ",
+        unselect: "Bỏ chọn",
+        delete: "Xóa ",
+        record: " bản ghi",
+        deleteError: "Xóa các bản ghi không thành công."
     },
     mainContentTable: {
         //th column name on table
@@ -35,7 +41,7 @@ export const TheMainContent = {
         gender: "GIỚI TÍNH",
         dateOfBirth: "NGÀY SINH",
         identityNumber: "SỐ CMND",
-        positionName: "CHỨC DANH",
+        jobPositionName: "CHỨC DANH",
         departmentName: "TÊN ĐƠN VỊ",
         bankAccountNumber: "SỐ TÀI KHOẢN",
         bankName: "TÊN NGÂN HÀNG",
@@ -47,6 +53,8 @@ export const TheMainContent = {
         titleBankBranchName: "CHI NHÁNH TÀI KHOẢN NGÂN HÀNG",
         titleBankAccountNumber: "SỐ TÀI KHOẢN NGÂN HÀNG",
 
+        notFoundRecord: "Không có bản ghi nào được tìm thấy",
+
         //function on table
         functionOnTable: {
             typeFunction: "Sửa",
@@ -57,15 +65,16 @@ export const TheMainContent = {
     },
     mainContentPaging: {
         recordPerPage: "Số bản ghi/ trang",
-        total: "Tổng số: ",
+        total: "Tổng",
         record: "bản ghi",
-        numberPerPage: ["10", "20", "30", "50", "100"]
+        numberPerPage: [10, 20, 30, 50, 100]
     }
     
 };
 
 export const ToastContent = {
     contentToastDeleteSuccess: "Nhân viên đã được xóa",
+    contentToastMassDeleteSuccess: "Các nhân viên đã được xóa",
     contentToastModifySuccess: "Thông tin nhân viên đã được sửa.",
     contentToastSaveSuccess: "Thông tin nhân viên đã được thêm."
 };
@@ -79,7 +88,7 @@ export const DialogEmployee = {
     employeeId: "Mã",
     employeeName: "Tên",
     departmentName: "Đơn vị",
-    positionName: "Chức danh",
+    jobPositionName: "Chức danh",
     dateOfBirth: "Ngày sinh",
     gender: "Giới tính",
     genderMale: "Nam",
@@ -114,7 +123,8 @@ export const DialogEmployee = {
     buttonStore: "Cất",
     buttonSave: "Cất và",
 
-    titleButtonSave: "Bấm Ctrl + S để lưu",
+    titleButtonSave: "Bấm Ctrl + Enter để lưu",
+    titleButtonClose: "Bấm Esc để đóng",
 
     // title input invalid
     titleDepartmentInvalid: "Đơn vị không được để trống.",
@@ -169,3 +179,35 @@ export const DialogConfirm = {
     buttonDelete: "Xóa",
     titleButtonDelete: "Xóa",
 };
+
+export const ErrorMessage = {
+    employeeCodeInvalid: "Mã không được để trống",
+    employeeNameInvalid: "Tên không được để trống",
+    departmentInvalid: "Đơn vị không được để trống",
+    dateOfBirthInvalid: "Ngày sinh không hợp lệ",
+    identityDateInvalid: "Ngày cấp không hợp lệ",
+    identityNumberInvalid: "Số CMND không hợp lệ",
+    phoneNumberInvalid: "ĐT di động không hợp lệ",
+    telephoneNumberInvalid: "ĐT cố định không hợp lệ",
+    emailInvalid: "Email không hợp lệ",
+    bankAccountNumberInvalid: "Số tài khoản không hợp lệ",
+};
+
+export const GenderName = {
+    male: "Nam",
+    female: "Nữ",
+    other: "Khác"
+};
+
+export const ModeDialogName = {
+    addNew: "Thêm",
+    modify: "Sửa",
+    clone: "Nhân bản",
+    delete: "Xóa"
+}
+
+export const ConfirmMessage = {
+    massDelete: `Bạn có thực sự muốn xóa các nhân viên đã chọn không?`,
+    msgConfirmDelete1: `Bạn có thực sự muốn xóa nhân viên <`, 
+    msgConfirmDelete2: `> không?`
+}

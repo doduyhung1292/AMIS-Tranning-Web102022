@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/doduyhung1292/AMIS-Tranning-Web102022#readme",
   "dependencies": {
+    "export-excel-sheet-vue-js": "^1.0.2",
+    "vue-3-export-excel": "^1.0.8",
+    "vue-json-excel": "^0.3.0",
+    "vue-json-excel3": "^0.0.3",
+    "vue3-xlsx": "^1.1.2",
     "vuex": "^4.0.2"
   }
 }

@@ -7,7 +7,7 @@
             </div>
             <div class="content-main">
                 <div class="content-warning">
-                    <div  v-for="err in this.errMsg">{{err}}</div>
+                    <div  v-for="err in this.errMsg">- {{err}}.</div>
                 </div>
             </div>
             <div class="content-footer">

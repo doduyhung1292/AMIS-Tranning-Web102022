@@ -5,12 +5,25 @@
                 <div class="main-header__name">{{this.theMainContent.mainContentHeader.title}}</div>
             </div>
             <div class="main-header__right">
-                <button class="btn__add-new" v-on:click="showModalEdit(this.tempEmp)">{{this.theMainContent.mainContentHeader.btnAddNewEmployee}}</button>
+                <button class="btn__add-new" v-on:click="showModalEdit(this.tempEmployeeModeAddNew, 'AddNew')">{{this.theMainContent.mainContentHeader.btnAddNewEmployee}}</button>
             </div>
         </div>
         <div class="main-content-toolbar">
-                <div class="display-inline toolbar-right">
-                    <input type="text" class="input-search" :placeholder="this.theMainContent.mainContentHeader.placeholderSearch"  
+            <div class="execute-delete">
+                <div class="number-selected"  v-if="this.employeeToDelete">{{this.theMainContent.mainContentHeader.selected}} <span>{{this.employeeToDelete}}</span></div>
+                <div  v-if="this.employeeToDelete != 0">
+                    <button class="btn-unselect" v-on:click="unselectAll">
+                        {{this.theMainContent.mainContentHeader.unselect}}
+                    </button>
+                </div>
+                <div  v-if="this.employeeToDelete">
+                    <button class="btn-mass-delete" v-on:click="executeDelete">
+                        {{this.theMainContent.mainContentHeader.delete}} {{this.employeeToDelete}} {{this.theMainContent.mainContentHeader.record}}
+                    </button>
+                </div>
+            </div>
+            <div class="display-inline toolbar-right">
+                <input type="text" class="input-search" :placeholder="this.theMainContent.mainContentHeader.placeholderSearch"  
                             v-on:focusin="inputSearchFocus"
                             v-on:select="inputSearchFocus" 
                             v-on:focusout="inputSearchFocusOut"
@@ -18,24 +31,33 @@
                             v-on:mouseleave="inputSearchUnhover"
                             v-model="this.inputSearchEmployee"
                             v-on:keydown.enter="this.searchEmployee">
-                    <div class="icon-search" 
+                <div class="icon-search" 
                             :class="isSearchButtonFocus, isSearchButtonHover" 
                             v-on:click="this.searchEmployee"></div>
-                    <div class="icon-reload" :title="this.theMainContent.mainContentHeader.titleButtonReload" v-on:click="reloadPage"></div>
-                </div>
+                <div class="icon-reload" :title="this.theMainContent.mainContentHeader.titleButtonReload" v-on:click="reloadPage"></div>
+                <div class="icon-excel" :title="this.theMainContent.mainContentHeader.titleButtonExportExcel" v-on:click="exportExcel"></div>
+            </div>
         </div>
         <div class="main-content">
             <TableEmployees v-on:showModal="showModalEdit" 
                             v-on:showToastDeleteSuccess="showToastDeleteSuccess"
+                            v-on:showToastMassDeleteSuccess = "showToastMassDeleteSuccess"
                             v-on:getEmployeeLength="getEmployeeLength"
                             v-on:updateTotalRowOnTable="updateTotalRowOnTable"
+                            v-on:changeStateEmployeeDelete="this.changeStateEmployeeDelete"
                             :numberPerPage = "this.numberPerPage"
-                            :pageSelected = "this.pageSelected"
+                            :rowStart = "this.rowStart"
                             :newEmployee = "this.newEmployee"
                             :modifyEmployee = "this.modifyEmployee"                            
-                            :informationSearchEmployee = "this.informationSearchEmployee"/>
+                            :informationSearchEmployee = "this.informationSearchEmployee"
+                            :isExecuteDelete = "this.isExecuteDelete"
+                            :isUnselectAll = "this.isUnselectAll"
+                            :tempEmployeeModeModify = "this.tempEmployeeModeModify"
+                            :employeeSaved="this.employeeSaved"
+                            v-on:setExecuteDeleteToFalse = "this.setExecuteDeleteToFalse"
+                            v-on:unselectAllToFalse = "this.unselectAllToFalse"/>
             <div class="container-footer">
-                <div class="main-paging-left content-footer--right">{{this.theMainContent.mainContentPaging.total}} {{this.numberEmployee}} {{this.theMainContent.mainContentPaging.record}}</div>
+                <div class="main-paging-left content-footer--right">{{this.theMainContent.mainContentPaging.total}}&nbsp : &nbsp<span class="footer__number-employee">{{this.numberEmployee}}</span></div>
                     <div class="main-paging-right">
                         <div class="select-paging">
                             <div class="content-footer--right">{{this.theMainContent.mainContentPaging.recordPerPage}}</div>
@@ -45,8 +67,8 @@
                         </div>
                         <div class="number-paging">
                             <div class="content-footer--right numberRecords">{{this.rowStart}} - {{this.rowEnd}} {{this.theMainContent.mainContentPaging.record}}</div>
-                            <button class="icon-next" v-on:click="changePage(pageSelected - 1)"></button>
-                            <button class="icon-previous" v-on:click="changePage(pageSelected + 1)"></button>
+                            <button class="icon-next" v-on:click="changePage(this.rowStart - Number(this.numberPerPage))"></button>
+                            <button class="icon-previous" v-on:click="changePage(this.rowStart + Number(this.numberPerPage))"></button>
                         </div>
                     </div>
             </div>
@@ -62,6 +84,7 @@
                     v-on:clickStore="this.clickStore"
                     v-on:updateTotalRowWhenAddNewSuccess="updateTotalRowWhenAddNewSuccess"
                     :employeeEdit="this.employeeEdit"
+                    :mode="this.mode"
                 />
         <ToastNotice v-if="isToastSuccessVisible" 
                     v-on:closeToast="this.closeToast"
@@ -73,6 +96,7 @@
 </template>
 
 <script>
+    import axios from "axios"
     import TableEmployees from "../../ui/employee/TableEmployees.vue"
     import ToastNotice from "../../ui/toast/ToastNotice.vue"
     import DialogEmployees from "../../ui/employee/DialogEmployees.vue"
@@ -85,20 +109,50 @@
         methods: {
 //Region function
             /**
+             * unselected all when click button 
+             * Author: doduyhung1292 (10/12/2022)
+             */
+            unselectAll: function() {
+                try {
+                    this.isUnselectAll = true
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+            /**
+             * Change number on delete state
+             * @param {number on delete state} state 
+             */
+            changeStateEmployeeDelete: function(employeeToDelete) {
+                try {
+                    this.employeeToDelete = employeeToDelete;
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+            /**
              * 
              * Update total row when add new success
              * Author: doduyhung1292 (27/11/2022)
              */
              updateTotalRowWhenAddNewSuccess: function() {
-                this.numberEmployee = this.numberEmployee + 1
+                try {
+                    this.numberEmployee = this.numberEmployee + 1
+                } catch (error) {
+                    console.log(error)
+                }
              },
             /**
              * Update total row
              * Author: doduyhung1292 (27/11/2022)
              */
-             updateTotalRowOnTable: function (total) {
-                this.numberEmployee = total;
-                console.log(this.numberEmployee)
+             updateTotalRowOnTable: function (numberRowDeleteSuccess) {
+                try {
+                    this.numberEmployee = this.numberEmployee - numberRowDeleteSuccess;
+                } catch (error) {
+                    console.log(error)
+                }
             },
             /**
              * Search employee
@@ -107,6 +161,7 @@
             searchEmployee: function() {
                 try {
                     this.informationSearchEmployee = this.inputSearchEmployee;
+                    this.rowStart = 0;
                 } catch (error) {
                     console.log(error)
                 }
@@ -117,11 +172,12 @@
              * Author: doduyhung1292 (22/11/2022)
              * @param {num} Số trang 
              */
-            changePage: function(num) {
+            changePage: function(number) {
                 try {
-                    if (num < 1) {this.pageSelected = 1; return};
-                    if (num > this.numberPage) {this.pageSelected = this.numberPage; return};
-                    this.pageSelected = num; 
+                    var num = Number(number);
+                    if (num < 0) {this.rowStart = 0; return};
+                    if (num > this.numberEmployee) {this.rowStart = this.numberEmployee; return};
+                    this.rowStart = num; 
                 } catch (error) {
                     console.log(error)
                 }
@@ -132,12 +188,11 @@
              * Get total employee from component TableEmployee
              * Author: doduyhung1292 (22/11/2022) 
              */
-             getEmployeeLength: function(numberEmp, numberPage, currentPage, currentPageRecords) {
+             getEmployeeLength: function(totalEmployee, limit, offset) {
                 try {
-                    this.numberEmployee = numberEmp;
-                    this.numberPage = numberPage;
-                    this.rowStart = (currentPage-1)*this.recordPerPage + 1;
-                    this.rowEnd = currentPage*this.recordPerPage;
+                    this.numberEmployee = totalEmployee;
+                    this.rowStart = offset;
+                    this.rowEnd = offset + limit;
                 } catch (error) {
                     console.log(error)
                 }
@@ -156,36 +211,6 @@
                 }
              },
 
-            //  /**
-            //  * Convert select paging to number employee/page
-            //  * Author: doduyhung1292 (22/11/2022)
-            //  */
-            // convertType: function() {
-            //     try {
-            //         switch (this.selectPaging) {
-            //         case '10 bản ghi trên 1 trang':
-            //             this.numberPerPage = 10
-            //             break;
-            //         case '20 bản ghi trên 1 trang':
-            //             this.numberPerPage = 20
-            //             break;
-            //         case '30 bản ghi trên 1 trang':
-            //             this.numberPerPage = 30
-            //             break;
-            //         case '50 bản ghi trên 1 trang':
-            //             this.numberPerPage = 50
-            //             break;
-            //         case '100 bản ghi trên 1 trang':
-            //             this.numberPerPage = 100
-            //             break;
-            //         default:
-            //             break;
-            //         };
-            //     } catch (error) {
-            //         console.log(error)
-            //     }
-            // },
-
             /**
              * close modal confirm store and modal employee
              * Author: doduyhung1292 (20/11/2022)
@@ -195,7 +220,8 @@
                 try {
                     this.isShowModalConfirmStore = false;
                     this.isModalVisible = false;
-                    this.tempEmp = {};
+                    this.tempEmployeeModeAddNew = {};
+                    this.tempEmployeeModeModify = {}
                 } catch (error) {
                     console.log(error)
                 }
@@ -213,8 +239,82 @@
                     console.log(error)
                 }
              },
+
+             /**
+              * Export data employee to excel
+              * Author: doduyhung1292 (20/11/2022)
+              */
+              exportExcel: function() {
+                try {
+                    axios({
+                        url: 'http://localhost:5210/api/v1/Employees/export-excel',
+                        method: 'GET',
+                        responseType: 'blob',
+                    }).then((response) => {
+                        var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                        var fileLink = document.createElement('a');
+                    
+                        fileLink.href = fileURL;
+                        fileLink.setAttribute('download', 'Danh_sach_nhan_vien.xlsx');
+                        document.body.appendChild(fileLink);
+                    
+                        fileLink.click();
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+              },
+
+              /**
+               * delete employees
+               * Author: doduyhung1292 (08/12/2022)
+               */
+              executeDelete: function() {
+                try {
+                    this.isExecuteDelete = true
+                } catch (error) {
+                    console.log(error)
+                }
+              },
+
+              /**
+               * set isexecute to false
+               * Author: doduyhung1292 (08/12/2022)
+               */
+               setExecuteDeleteToFalse: function() {
+                try {
+                    this.isExecuteDelete = false
+                } catch (error) {
+                    console.log(error)
+                }
+              },
+
+              /**
+               * set isUnselectedAll to false
+               * Author: doduyhung1292 (08/12/2022)
+               */
+               unselectAllToFalse: function() {
+                try {
+                    this.isUnselectAll = false
+                } catch (error) {
+                    console.log(error)
+                }
+              },
+              
 //End Region function
 //Region UI
+            /**
+             * Display button delete
+             * Author: doduyhung1292 (08/12/2022)
+             */
+            displayButtonDelete: function(state) {
+                try {
+                    this.isShowButtonDelete = !this.isShowButtonDelete;
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+            
              /**
               * Catch event hover input search
               * Author: doduyhung1292 (24/11/2022)
@@ -255,9 +355,14 @@
              * Close modal when click button close and uncheck data change
              * Author: doduyhung1292 (13/11/2022)
              */
-             closeModalUnCheck: function() {
+             closeModalUnCheck: function(e) {
                 try {
-                    this.isModalVisible = false;
+                    if (e == 'saveAndShowDialog')
+                        {
+                            this.isModalVisible = true;
+                        } else {
+                            this.isModalVisible = false;
+                        }
                 } catch (error) {
                     console.log(error)
                 }
@@ -267,9 +372,17 @@
              * Close modal when click button close and check data change
              * Author: doduyhung1292 (13/11/2022)
              */
-            closeModalCheck: function(e) {
+            closeModalCheck: function(mode, item) {
                 try {
-                    this.tempEmp = e;
+                    this.typeTempEmp = mode;
+                    if (this.typeTempEmp == 'AddNew' || this.typeTempEmp == 'Clone') {
+                        this.tempEmployeeModeAddNew = item;
+                    } else {}
+
+                    if (this.typeTempEmp == 'Modify') {
+                        this.tempEmployeeModeModify = item;
+                    }
+
                     this.isShowModalConfirmStore = !this.isShowModalConfirmStore;
                 } catch (error) {
                     console.log(error)
@@ -281,10 +394,22 @@
               * Show modal edit employee
               * Author: doduyhung1292 (13/11/2022)
               */
-             showModalEdit: function(item) {
+             showModalEdit: function(item, mode) {
                 try {
-                    this.isModalVisible = true;
-                    this.employeeEdit = item
+                    if (mode == "Modify") {
+                        this.isModalVisible = true;
+                        this.employeeEdit = item;
+                        this.mode = mode
+                    }
+                    if (mode == "Clone") {
+                        this.isModalVisible = true;
+                        this.employeeEdit = item;
+                        this.mode = mode
+                    } else {
+                        this.isModalVisible = true;
+                        this.employeeEdit = item;
+                        this.mode = mode
+                    }
                 } catch (error) {
                     console.log(error);
                 }
@@ -294,10 +419,10 @@
              * Show toast save success
              * Author: doduyhung1292 (13/11/2022)
              */
-            showToastSaveSuccess: function(e) {
+            showToastSaveSuccess: function(employeeSaved) {
                 try {
-                    this.newEmployee = e;
-                    this.tempEmp = e;
+                    this.employeeSaved = employeeSaved;
+                    this.tempEmployeeModeModify = employeeSaved;
                     this.contentToastSuccess = this.toastContent.contentToastSaveSuccess;
                     this.isToastSuccessVisible = !this.isToastSuccessVisible;
                     setTimeout(() => {this.isToastSuccessVisible = false}, 2500)
@@ -361,6 +486,20 @@
             },
 
             /**
+             * Show toast success delete 
+             * Author: doduyhung1292 (15/11/2022)
+             */
+             showToastMassDeleteSuccess: function() {
+                try {
+                    this.contentToastSuccess = this.toastContent.contentToastMassDeleteSuccess;
+                    this.isToastSuccessVisible = !this.isToastSuccessVisible;
+                    setTimeout(() => {this.isToastSuccessVisible = false}, 2500)
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+            /**
              * Bắt sự kiện ô input search in focus
              * Author: doduyhung1292 (13/11/2022)
              */
@@ -396,10 +535,12 @@
                 isSearchButtonHover: null,
                 contentToastSuccess: null,
                 isShowModalConfirmStore: false,
+                isShowButtonDelete: false,
                 tempEmp: {},
-                selectPaging: '10',
+                tempEmployeeModeAddNew: {},
+                tempEmployeeModeModify: {},
+                employeeSaved: {},
                 numberPerPage: 10,
-                numberPage: 0, 
                 pageSelected: 1,
                 inputSearchEmployee: null,
                 informationSearchEmployee: null,
@@ -408,7 +549,11 @@
                 newEmployee: {},
                 modifyEmployee: {},
                 rowEnd: 0, 
-                rowStart: 0
+                rowStart: 0,
+                isExecuteDelete: false,
+                isUnselectAll: false,
+                employeeToDelete: 0,
+                mode: null
             }
         },
     }
@@ -442,10 +587,9 @@
 }
 
 .numberRecords {
-    margin-bottom: 2px;
     margin-left: 16px;
 }
 .input__search--hover {
-    background-color: #E7F5EC;
+    background-color: #F6F6F6;
 }
 </style>

@@ -98,6 +98,20 @@
                     <td class="loading td__BankBranchName"><div class="bar"></div></td>
                     <td class="loading td__function" ><div class="bar"></div></td>
                 </tr>
+                <tr>
+                    <td class="loading td__checkbox"><div class="bar"></div></td>
+                    <td class="loading td__employee-id"><div class="bar"></div></td>
+                    <td class="loading td__EmployeeName"><div class="bar"></div></td>
+                    <td class="loading td__GenderName"><div class="bar"></div></td>
+                    <td class="loading td__date-of-birth"><div class="bar"></div></td>
+                    <td class="loading td__identity-number"><div class="bar"></div></td>
+                    <td class="loading td__EmployeePosition"><div class="bar"></div></td>
+                    <td class="loading td__DepartmentName"><div class="bar"></div></td>
+                    <td class="loading td__bank-account-number"><div class="bar"></div></td>
+                    <td class="loading td__BankName"><div class="bar"></div></td>
+                    <td class="loading td__BankBranchName"><div class="bar"></div></td>
+                    <td class="loading td__function" ><div class="bar"></div></td>
+                </tr>
                 </tbody>
 </template>
 

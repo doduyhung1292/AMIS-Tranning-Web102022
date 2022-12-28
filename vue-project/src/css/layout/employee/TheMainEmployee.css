@@ -37,7 +37,7 @@
     box-sizing: border-box;
     height: 52px;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
     background-color: #fff;
@@ -53,7 +53,7 @@
     line-height: 0;
     font-weight: 400;
     font-family: Notosans;
-    color: #212121;
+    color: #1F1F1F;
     padding: 20px 0 19px 16px;
 }
 
@@ -65,23 +65,34 @@
     justify-content: space-between;
     background-color: #F5F5F5;
     box-sizing: border-box;
-    padding: 0;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
-    margin-bottom: 16px;
 }
 
 .main-paging-right {
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
-    padding: 20px 16px 12px 0;
-    height: 17px;
+    align-items: center;
+}
+
+.footer__number-employee {
+    font-weight: 700;
+    font-family: Notosans-bold;
+}
+.content-footer--right {
+    margin-right: 63px;
 }
 
 .select-paging>select {
-    margin: 0;
+    margin:10px 0!important;
+    padding-right: 8px;
     cursor: pointer;
+    margin-left: 63px;
+    min-height: 36px;
+    border: 1px solid #E0E0E0!important;
+    background-color: #fff!important;
+    min-width: 76px;
+    border-radius: 4px;
 }
 
 .select-paging {
@@ -92,8 +103,7 @@
 .number-paging {
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
-    margin-bottom: 4px;
+    align-items: center;
     box-sizing: border-box;
 }
 
@@ -126,6 +136,26 @@
     margin-bottom: 1px;
 }
 
+.execute-delete {
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 12px 0 0 16px;
+    height: 36px;
+    align-items: center;
+
+}
+.number-selected>span {
+    font-weight: 700;
+    font-family: Notosans-bold;
+}
+
+.number-selected {
+ margin-right: 16px;
+ color: #171B2A;
+}
+
 .main-header__name {
     font-size: 24px;
     font-weight: 700;
@@ -143,13 +173,30 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    margin-right: 20px;
     margin-top: 18px;
     margin-left: 12px;
 }
 
 .icon-reload:hover {
-    background-position: -1098px -90px;
+    background-position: -1098px -88px;
+}
+
+.icon-excel {
+    background-image: url(../../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position: -705px -199px;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-top: 18px;
+    margin-left: 12px;
+}
+
+.icon-excel:hover {
+    background-position: -1265px -87px;
 }
 
 .input-search {
@@ -178,6 +225,48 @@
     cursor: pointer;
 }
 
+.btn-unselect {
+    color: #E61D1D;
+    background-color: rgba(255, 255, 255, 0);
+    border: unset;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    margin-right: 25px;
+}
+.btn-toolbar {
+    font-size: 14px;
+    font-family: Notosans-semibold;
+    font-weight: 500;
+    height: 36px;
+    min-width: 80px;
+    color: #111;
+    background-color: #fff;
+    padding: 0 16px;
+    cursor: pointer;
+    margin: 16px 0 0 16px;
+    border: 1px solid #E7F5EC;
+}
+
+.btn-mass-delete {
+    height: 36px;
+    padding: 0 16px;
+    color: #fff;
+    border: unset;
+    background-color: #E81E1E;
+    font-weight: 500;
+    font-family: Notosans-semibold;
+    cursor: pointer;
+}
+
+.btn-mass-delete:hover, .btn-mass-delete:focus {
+    background-color: #EB3333;
+}
+
+.btn-delete:hover {
+    background-color: #F5F5F5;
+}
+
 .btn__add-new {
     font-size: 14px;
     font-family: Notosans-semibold;
@@ -198,7 +287,7 @@
     height: 24px;
     border: none;
     cursor: pointer;
-    margin-left: 16px;
+    margin-left: 22px;
 }
 
 .icon-previous {
@@ -207,7 +296,8 @@
     height: 24px;
     border: none;
     cursor: pointer;
-    margin-left: 16px;
+    margin-left: 8px;
+    margin-right: 16px;
 }
 
 .icon-search {

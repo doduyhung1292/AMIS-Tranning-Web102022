@@ -1,7 +1,6 @@
 table, th, td {
-    border: 1px black;
     border-collapse: collapse; 
-    color: #1F1F1F;
+    color: #000;
     width: 100%;
 }
 
@@ -11,6 +10,7 @@ table {
 
 th {
     border-top: none;
+    border-bottom: 1px solid #E0E0E0;;
     position: sticky;
     top: 0;
     background-color: #F5F5F5;
@@ -18,10 +18,12 @@ th {
     line-height: 18px;
     font-weight: 700;
     font-family: Notosans-bold;
-    height: 40px;
+    height: 48px;
+    max-height: 48px!important;
     cursor: pointer;
     text-align: left;
-    padding-left: 10px;
+    padding:0 16px;
+
 }
 td {
 
@@ -29,20 +31,20 @@ td {
     line-height: 18px;
     font-weight: 400;
     font-family: Notosans;
-    height: 40px;
+    height: 47px;
+    max-height: 47px;
     border-top: 1px solid #E0E0E0;
     cursor: pointer;
     text-align: left;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding:0 16px;
 }
 
 tr:hover {
-    background-color: #E7F5EC;
+    background-color: #F8F8F8;
 }
 
 tr:hover>td:first-child {
-    background-color: #E7F5EC;
+    background-color: #F8F8F8;
 }
 
 /*fix column function*/
@@ -69,7 +71,7 @@ tr>td:last-child {
 }
 
 tr:hover>td:last-child {
-    background-color: #E7F5EC;
+    background-color: #F8F8F8;
 }
 
 /*define width column*/
@@ -80,7 +82,7 @@ tr:hover>td:last-child {
 .th__checkbox {
     width: 40px;
     min-width: 40px;
-    height: 37px;
+    height: 48px;
     text-align: center;
     padding: 0;
     left: 20px;
@@ -130,10 +132,10 @@ tr:hover>td:last-child {
 .th__bank-account {
     width: 140px;
     min-width: 140px;
-    padding-right: 10px;
+    padding-right: 16px;
 }
 .td__bank-account-number {
-    padding-right: 10px;
+    padding-right: 16px;
 }
 
 .th__bank-name {
@@ -147,8 +149,8 @@ tr:hover>td:last-child {
 }
 
 .th__function {
-    width: 120px;
-    min-width: 120px;
+    width: 121px;
+    min-width: 121px;
     background-color: #F5F5F5;
     text-align: center;
 }
